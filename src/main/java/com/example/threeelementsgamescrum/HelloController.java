@@ -214,6 +214,8 @@ public class HelloController implements Initializable {
         this.userScore = 0;
         generatePcCards();
         generateOnMouseClick();
+        scoreLabel.setText("Player - %d : %d - Computer".formatted(this.userScore,this.pcScore));
+
     }
 
     public void generateOnMouseClick() {
