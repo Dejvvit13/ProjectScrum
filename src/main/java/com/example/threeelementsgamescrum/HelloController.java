@@ -31,6 +31,18 @@ public class HelloController implements Initializable {
     private String currentPlayerCard;
     private ImageView currentImageView;
     int index = 1;
+    @FXML
+    private ImageView imageUser1;
+    @FXML
+    private ImageView imageUser2;  // user images
+    @FXML
+    private ImageView imageUser3;
+    @FXML
+    private ImageView imagePC1;
+    @FXML
+    private ImageView imagePC2;  // pc images
+    @FXML
+    private ImageView imagePC3;
 
 
     @Override
@@ -87,6 +99,18 @@ public class HelloController implements Initializable {
             Image image = new Image(String.valueOf(this.getClass().getResource("Images/WindElement.jpg")));
             currentImageView.setImage(image);
         }
+    }
+
+    @FXML
+    public void onFirstFightButtonClick() {
+
+        if (imageUser1.getId().equals(imagePC1)){
+
+
+
+        }
+
+
     }
 
 }
