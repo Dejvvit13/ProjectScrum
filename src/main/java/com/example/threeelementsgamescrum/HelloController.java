@@ -111,17 +111,36 @@ public class HelloController implements Initializable {
         String userImageUrl = String.valueOf(imageUser1.getImage().getUrl().substring(139));
         String pcImageUrl = String.valueOf(imagePC1.getImage().getUrl().substring(139));
 
-
-        if (userImageUrl.equals(pcImageUrl)) { // draw
+// draw
+        if (userImageUrl.equals(pcImageUrl)) {
             Image imageDraw = new Image(String.valueOf(this.getClass().getResource("Images/draw.png")));
             fightResultPC1.setImage(imageDraw);
             fightResultUser1.setImage(imageDraw);
-        } else if (userImageUrl.equals("WaterElement.png") && pcImageUrl.equals("FireElement.png")) {
+        }
+//Check water and fire
+        if (userImageUrl.equals("WaterElement.png") && pcImageUrl.equals("FireElement.png")) {
             Image imageWin = new Image(String.valueOf(this.getClass().getResource("Images/win.png")));
             Image imageLose = new Image(String.valueOf(this.getClass().getResource("Images/lose.png")));
             fightResultPC1.setImage(imageLose);
             fightResultUser1.setImage(imageWin);
+        } else if (userImageUrl.equals("FireElement.png") && pcImageUrl.equals("WaterElement.png")){
+            Image imageWin = new Image(String.valueOf(this.getClass().getResource("Images/win.png")));
+            Image imageLose = new Image(String.valueOf(this.getClass().getResource("Images/lose.png")));
+            fightResultPC1.setImage(imageWin);
+            fightResultUser1.setImage(imageLose);
+        }
 
+        // Check fire and wind
+        if (userImageUrl.equals("FireElement.png") && pcImageUrl.equals("WindElement.jpg")) {
+            Image imageWin = new Image(String.valueOf(this.getClass().getResource("Images/win.png")));
+            Image imageLose = new Image(String.valueOf(this.getClass().getResource("Images/lose.png")));
+            fightResultPC1.setImage(imageLose);
+            fightResultUser1.setImage(imageWin);
+        } else if (userImageUrl.equals("WindElement.jpg") && pcImageUrl.equals("FireElement.png")){
+            Image imageWin = new Image(String.valueOf(this.getClass().getResource("Images/win.png")));
+            Image imageLose = new Image(String.valueOf(this.getClass().getResource("Images/lose.png")));
+            fightResultPC1.setImage(imageWin);
+            fightResultUser1.setImage(imageLose);
         }
 
     }
