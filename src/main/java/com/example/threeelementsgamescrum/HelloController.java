@@ -28,10 +28,21 @@ public class HelloController implements Initializable {
     private GridPane gridPaneUser;
     @FXML
     private TextField roundDisplay;
+    private Integer currentPlayerCard = 0;
+        int index =1 ;
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        generatePcCards();
+        for(Node node: gridPaneUser.getChildren()){
+            if(index == 4){ index = 1;}
+            if(node instanceof ImageView imageView){
+                imageView.setOnMouseClicked(e-> currentPlayerCard =index++);
+            }
+        }
+    }
+    public void generatePcCards(){
         int index = 0;
         for(Node node: gridPanePC.getChildren()){
             if(node instanceof ImageView imageView){
@@ -40,8 +51,11 @@ public class HelloController implements Initializable {
                 imageView.setImage(image);
             }
         }
-        roundDisplay.setText("ROUND  " + roundCounter);
+    }
+
+    public void onButtonClick(){
 
     }
+
 }
 
