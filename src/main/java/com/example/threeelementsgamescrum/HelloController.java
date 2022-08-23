@@ -129,6 +129,18 @@ public class HelloController implements Initializable {
             usrImage.setImage(imageLose);
         }
 
+        //check water and wind
+        if (userImageUrl.equals("WaterElement.png") && pcImageUrl.equals("WindElement.jpg")) {
+            Image imageWin = new Image(String.valueOf(this.getClass().getResource("Images/win.png")));
+            Image imageLose = new Image(String.valueOf(this.getClass().getResource("Images/lose.png")));
+            pcImage.setImage(imageWin);
+            usrImage.setImage(imageLose);
+        } else if (userImageUrl.equals("WindElement.jpg") && pcImageUrl.equals("WaterElement.png")){
+            Image imageWin = new Image(String.valueOf(this.getClass().getResource("Images/win.png")));
+            Image imageLose = new Image(String.valueOf(this.getClass().getResource("Images/lose.png")));
+            pcImage.setImage(imageLose);
+            usrImage.setImage(imageWin);
+        }
         // Check fire and wind
         if (userImageUrl.equals("FireElement.png") && pcImageUrl.equals("WindElement.jpg")) {
             Image imageWin = new Image(String.valueOf(this.getClass().getResource("Images/win.png")));
@@ -141,6 +153,7 @@ public class HelloController implements Initializable {
             pcImage.setImage(imageWin);
             usrImage.setImage(imageLose);
         }
+
     }
     @FXML
     public void onFirstFightButtonClick() {
