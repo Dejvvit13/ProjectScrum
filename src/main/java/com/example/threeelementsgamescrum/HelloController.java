@@ -36,6 +36,7 @@ public class HelloController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         generatePcCards();
+
         for (Node node : gridPaneUser.getChildren()) {
             if (index == 4) {
                 index = 1;
@@ -47,7 +48,6 @@ public class HelloController implements Initializable {
                     System.out.println(currentPlayerCard);
 
                 });
-
             }
         }
     }
