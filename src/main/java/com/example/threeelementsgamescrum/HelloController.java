@@ -1,5 +1,6 @@
 package com.example.threeelementsgamescrum;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -180,5 +181,22 @@ public class HelloController implements Initializable {
         imagePC3.setOpacity(1);
     }
 
+
+    public void resetGame(ActionEvent actionEvent) {
+        imageUser1.setImage(null);
+        imageUser2.setImage(null);
+        imageUser3.setImage(null);
+        imagePC1.setImage(null);
+        imagePC2.setImage(null);
+        imagePC3.setImage(null);
+        fightResultPC1.setImage(null);
+        fightResultPC2.setImage(null);
+        fightResultPC3.setImage(null);
+        fightResultUser1.setImage(null);
+        fightResultUser2.setImage(null);
+        fightResultUser3.setImage(null);
+        generatePcCards();
+
+    }
 }
 
