@@ -68,7 +68,7 @@ public class HelloController implements Initializable {
     @FXML
     public void onFireButtonClick() {
         if (currentImageView != null) {
-            Image image = new Image(paths.get(0));
+            Image image = new Image(String.valueOf(this.getClass().getResource("Images/FireElement.png")));
             currentImageView.setImage(image);
         }
     }
@@ -76,7 +76,7 @@ public class HelloController implements Initializable {
     @FXML
     public void onWaterButtonClick() {
         if (currentImageView != null) {
-            Image image = new Image(paths.get(1));
+            Image image = new Image(String.valueOf(this.getClass().getResource("Images/WaterElement.png")));
             currentImageView.setImage(image);
         }
     }
@@ -84,7 +84,7 @@ public class HelloController implements Initializable {
     @FXML
     public void onWindButtonClick() {
         if (currentImageView != null) {
-            Image image = new Image(paths.get(2));
+            Image image = new Image(String.valueOf(this.getClass().getResource("Images/WindElement.jpg")));
             currentImageView.setImage(image);
         }
     }
