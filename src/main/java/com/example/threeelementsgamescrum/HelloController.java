@@ -23,7 +23,7 @@ public class HelloController implements Initializable {
     private List<String> paths = new ArrayList<>(List.of(
             String.valueOf(this.getClass().getResource("Images/FireElement.png")),
             String.valueOf(this.getClass().getResource("Images/WaterElement.png")),
-            String.valueOf(this.getClass().getResource("Images/WindElement.jpg"))
+            String.valueOf(this.getClass().getResource("Images/WindElement.png"))
     ));
     private int roundCounter;
     @FXML
@@ -104,7 +104,7 @@ public class HelloController implements Initializable {
     @FXML
     public void onWindButtonClick() {
         if (currentImageView != null) {
-            Image image = new Image(String.valueOf(this.getClass().getResource("Images/WindElement.jpg")));
+            Image image = new Image(String.valueOf(this.getClass().getResource("Images/WindElement.png")));
             currentImageView.setImage(image);
         }
     }
@@ -130,24 +130,24 @@ public class HelloController implements Initializable {
         }
 
         //check water and wind
-        if (userImageUrl.equals("WaterElement.png") && pcImageUrl.equals("WindElement.jpg")) {
+        if (userImageUrl.equals("WaterElement.png") && pcImageUrl.equals("WindElement.png")) {
             Image imageWin = new Image(String.valueOf(this.getClass().getResource("Images/win.png")));
             Image imageLose = new Image(String.valueOf(this.getClass().getResource("Images/lose.png")));
             pcImage.setImage(imageWin);
             usrImage.setImage(imageLose);
-        } else if (userImageUrl.equals("WindElement.jpg") && pcImageUrl.equals("WaterElement.png")){
+        } else if (userImageUrl.equals("WindElement.png") && pcImageUrl.equals("WaterElement.png")){
             Image imageWin = new Image(String.valueOf(this.getClass().getResource("Images/win.png")));
             Image imageLose = new Image(String.valueOf(this.getClass().getResource("Images/lose.png")));
             pcImage.setImage(imageLose);
             usrImage.setImage(imageWin);
         }
         // Check fire and wind
-        if (userImageUrl.equals("FireElement.png") && pcImageUrl.equals("WindElement.jpg")) {
+        if (userImageUrl.equals("FireElement.png") && pcImageUrl.equals("WindElement.png")) {
             Image imageWin = new Image(String.valueOf(this.getClass().getResource("Images/win.png")));
             Image imageLose = new Image(String.valueOf(this.getClass().getResource("Images/lose.png")));
             pcImage.setImage(imageLose);
             usrImage.setImage(imageWin);
-        } else if (userImageUrl.equals("WindElement.jpg") && pcImageUrl.equals("FireElement.png")){
+        } else if (userImageUrl.equals("WindElement.png") && pcImageUrl.equals("FireElement.png")){
             Image imageWin = new Image(String.valueOf(this.getClass().getResource("Images/win.png")));
             Image imageLose = new Image(String.valueOf(this.getClass().getResource("Images/lose.png")));
             pcImage.setImage(imageWin);
