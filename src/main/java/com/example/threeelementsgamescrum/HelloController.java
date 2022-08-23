@@ -43,6 +43,10 @@ public class HelloController implements Initializable {
     private ImageView imagePC2;  // pc images
     @FXML
     private ImageView imagePC3;
+    @FXML
+    private ImageView fightResultUser1;
+    @FXML
+    private ImageView fightResultPC1;
 
 
     @Override
@@ -104,12 +108,21 @@ public class HelloController implements Initializable {
     @FXML
     public void onFirstFightButtonClick() {
 
-        if (imageUser1.getId().equals(imagePC1)){
+        String userImageUrl = String.valueOf(imageUser1.getImage().getUrl().substring(139));
+        String pcImageUrl = String.valueOf(imagePC1.getImage().getUrl().substring(139));
 
 
+        if (userImageUrl.equals(pcImageUrl)) { // draw
+            Image imageDraw = new Image(String.valueOf(this.getClass().getResource("Images/draw.png")));
+            fightResultPC1.setImage(imageDraw);
+            fightResultUser1.setImage(imageDraw);
+        } else if (userImageUrl.equals("WaterElement.png") && pcImageUrl.equals("FireElement.png")) {
+            Image imageWin = new Image(String.valueOf(this.getClass().getResource("Images/win.png")));
+            Image imageLose = new Image(String.valueOf(this.getClass().getResource("Images/lose.png")));
+            fightResultPC1.setImage(imageLose);
+            fightResultUser1.setImage(imageWin);
 
         }
-
 
     }
 

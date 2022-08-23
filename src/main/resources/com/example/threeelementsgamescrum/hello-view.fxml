@@ -31,15 +31,15 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <ImageView fitHeight="220.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="imagePC1" fitHeight="220.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                <GridPane.margin>
                   <Insets />
                </GridPane.margin></ImageView>
-            <ImageView fitHeight="220.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
+            <ImageView fx:id="imagePC2" fitHeight="220.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
                <GridPane.margin>
                   <Insets />
                </GridPane.margin></ImageView>
-            <ImageView fitHeight="220.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2">
+            <ImageView fx:id="imagePC3" fitHeight="220.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2">
                <GridPane.margin>
                   <Insets />
                </GridPane.margin></ImageView>
@@ -68,7 +68,7 @@
                      <VBox.margin>
                         <Insets left="90.0" top="2.0" />
                      </VBox.margin></ImageView>
-                  <ImageView fx:id="vsIcon" fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="vsIcon" fitHeight="32.0" fitWidth="32.0" onMouseClicked="#onFirstFightButtonClick" pickOnBounds="true" preserveRatio="true">
                      <VBox.margin>
                         <Insets left="90.0" />
                      </VBox.margin>
