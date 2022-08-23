@@ -29,6 +29,7 @@ public class HelloController implements Initializable {
     @FXML
     private TextField roundDisplay;
     private String currentPlayerCard;
+    private  ImageView currentImageView;
     int index = 1;
 
 
@@ -42,6 +43,7 @@ public class HelloController implements Initializable {
             if (node instanceof ImageView imageView) {
                 imageView.setOnMouseClicked(e -> {
                     this.currentPlayerCard = imageView.getId();
+                    this.currentImageView = imageView;
                     System.out.println(currentPlayerCard);
 
                 });
@@ -63,8 +65,20 @@ public class HelloController implements Initializable {
         }
     }
 
-    public void onButtonClick() {
-
+    @FXML
+    public void onFireButtonClick() {
+        Image image = new Image(paths.get(0));
+        currentImageView.setImage(image);
+    }
+    @FXML
+    public void onWaterButtonClick() {
+        Image image = new Image(paths.get(1));
+        currentImageView.setImage(image);
+    }
+    @FXML
+    public void onWindButtonClick() {
+        Image image = new Image(paths.get(2));
+        currentImageView.setImage(image);
     }
 
 }
