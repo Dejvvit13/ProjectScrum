@@ -21,7 +21,7 @@
           </Menu>
         </menus>
       </MenuBar>
-      <TextField fx:id="roundDisplay" alignment="CENTER" layoutX="-8.0" layoutY="320.0" prefHeight="47.0" prefWidth="653.0" text="ROUND ">
+      <TextField fx:id="roundDisplay" alignment="CENTER" layoutX="-8.0" layoutY="320.0" prefHeight="47.0" prefWidth="653.0">
          <font>
             <Font size="29.0" />
          </font>
