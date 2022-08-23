@@ -57,6 +57,12 @@ public class HelloController implements Initializable {
     private ImageView fightResultPC1;
     @FXML
     private Label scoreLabel;
+//    @FXML
+//    private ImageView vsIcon1;
+//    @FXML
+//    private ImageView vsIcon2;
+//    @FXML
+//    private ImageView vsIcon3;
 
 
     @Override
@@ -168,6 +174,7 @@ public class HelloController implements Initializable {
         imagePC1.setOpacity(1);
         imageUser1.setOnMouseClicked(null);
 
+
         scoreLabel.setText("Player - %d : %d - Computer".formatted(this.userScore,this.pcScore));
 
     }
@@ -212,6 +219,7 @@ public class HelloController implements Initializable {
         fightResultUser3.setImage(null);
         this.pcScore = 0;
         this.userScore = 0;
+        scoreLabel.setText("Player - %d : %d - Computer".formatted(this.userScore,this.pcScore));
         generatePcCards();
         generateOnMouseClick();
         scoreLabel.setText("Player - %d : %d - Computer".formatted(this.userScore,this.pcScore));

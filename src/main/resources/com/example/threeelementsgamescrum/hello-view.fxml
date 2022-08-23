@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="729.0" prefWidth="644.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.threeelementsgamescrum.HelloController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="729.0" prefWidth="644.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.threeelementsgamescrum.HelloController">
    <children>
       <GridPane fx:id="gridPanePC" gridLinesVisible="true" layoutX="24.0" layoutY="63.0" prefHeight="220.0" prefWidth="600.0">
         <columnConstraints>
@@ -55,7 +55,7 @@
                      <VBox.margin>
                         <Insets left="90.0" top="2.0" />
                      </VBox.margin></ImageView>
-                  <ImageView fx:id="vsIcon" fitHeight="32.0" fitWidth="32.0" onMouseClicked="#onFirstFightButtonClick" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="vsIcon1" fitHeight="32.0" fitWidth="32.0" onMouseClicked="#onFirstFightButtonClick" pickOnBounds="true" preserveRatio="true">
                      <VBox.margin>
                         <Insets left="90.0" />
                      </VBox.margin>
@@ -74,7 +74,7 @@
                      <VBox.margin>
                         <Insets left="90.0" top="2.0" />
                      </VBox.margin></ImageView>
-                  <ImageView fx:id="vsIcon" fitHeight="32.0" fitWidth="32.0" onMouseClicked="#onSecondFightButtonClick" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="vsIcon2" fitHeight="32.0" fitWidth="32.0" onMouseClicked="#onSecondFightButtonClick" pickOnBounds="true" preserveRatio="true">
                      <VBox.margin>
                         <Insets left="90.0" />
                      </VBox.margin>
