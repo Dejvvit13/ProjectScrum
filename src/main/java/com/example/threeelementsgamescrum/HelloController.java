@@ -57,20 +57,7 @@ public class HelloController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         generatePcCards();
-
-        for (Node node : gridPaneUser.getChildren()) {
-            if (index == 4) {
-                index = 1;
-            }
-            if (node instanceof ImageView imageView) {
-                imageView.setOnMouseClicked(e -> {
-                    this.currentPlayerCard = imageView.getId();
-                    this.currentImageView = imageView;
-                    System.out.println(currentPlayerCard);
-
-                });
-            }
-        }
+        generateOnMouseClick();
     }
 
     public void generatePcCards() {
@@ -206,6 +193,9 @@ public class HelloController implements Initializable {
         fightResultUser2.setImage(null);
         fightResultUser3.setImage(null);
         generatePcCards();
+        generateOnMouseClick();
+    }
+    public void generateOnMouseClick(){
         for (Node node : gridPaneUser.getChildren()) {
             if (index == 4) {
                 index = 1;
