@@ -10,16 +10,15 @@ import javafx.scene.layout.GridPane;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 
 public class HelloController implements Initializable {
 
     private List<String> paths = new ArrayList<>(List.of(
-        String.valueOf(this.getClass().getResource("Images/FireElement.png")),
-        String.valueOf(this.getClass().getResource("Images/WaterElement.png")),
-        String.valueOf(this.getClass().getResource("Images/WindElement.jpg"))
+            String.valueOf(this.getClass().getResource("Images/FireElement.png")),
+            String.valueOf(this.getClass().getResource("Images/WaterElement.png")),
+            String.valueOf(this.getClass().getResource("Images/WindElement.jpg"))
     ));
     private int roundCounter;
     @FXML
@@ -29,23 +28,30 @@ public class HelloController implements Initializable {
     @FXML
     private TextField roundDisplay;
     private Integer currentPlayerCard = 0;
-        int index =1 ;
+    int index = 1;
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         generatePcCards();
-        for(Node node: gridPaneUser.getChildren()){
-            if(index == 4){ index = 1;}
-            if(node instanceof ImageView imageView){
-                imageView.setOnMouseClicked(e-> currentPlayerCard =index++);
+        for (Node node : gridPaneUser.getChildren()) {
+            if (index == 4) {
+                index = 1;
+            }
+            if (node instanceof ImageView imageView) {
+                imageView.setOnMouseClicked(e -> {
+                    String currentPlayerCard = imageView.getId();
+                    System.out.println(currentPlayerCard);
+                });
+
             }
         }
     }
-    public void generatePcCards(){
+
+    public void generatePcCards() {
         int index = 0;
-        for(Node node: gridPanePC.getChildren()){
-            if(node instanceof ImageView imageView){
+        for (Node node : gridPanePC.getChildren()) {
+            if (node instanceof ImageView imageView) {
                 Image image = new Image(paths.get(index++));
                 imageView.setOpacity(0.2);
                 imageView.setImage(image);
@@ -53,7 +59,7 @@ public class HelloController implements Initializable {
         }
     }
 
-    public void onButtonClick(){
+    public void onButtonClick() {
 
     }
 
