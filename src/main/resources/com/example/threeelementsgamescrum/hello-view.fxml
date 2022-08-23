@@ -53,43 +53,52 @@
       </GridPane>
       <HBox layoutX="1.0" layoutY="295.0" prefHeight="100.0" prefWidth="650.0">
          <children>
-            <VBox prefHeight="100.0" prefWidth="221.0">
+            <VBox prefHeight="83.0" prefWidth="230.0">
                <children>
-                  <ImageView fitHeight="33.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                      <VBox.margin>
-                        <Insets left="95.0" />
+                        <Insets left="90.0" />
                      </VBox.margin></ImageView>
-                  <ImageView fitHeight="33.0" fitWidth="220.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fitHeight="33.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                      <VBox.margin>
-                        <Insets left="95.0" />
+                        <Insets left="90.0" />
+                     </VBox.margin></ImageView>
+                  <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                     <VBox.margin>
+                        <Insets left="90.0" />
                      </VBox.margin></ImageView>
                </children>
             </VBox>
-            <VBox layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="0.0">
+            <VBox layoutX="10.0" layoutY="10.0" prefHeight="96.0" prefWidth="230.0">
                <children>
-                  <ImageView fitHeight="33.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                      <VBox.margin>
-                        <Insets left="95.0" />
+                        <Insets left="90.0" />
                      </VBox.margin></ImageView>
-                  <ImageView fitHeight="33.0" fitWidth="220.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fitHeight="33.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                      <VBox.margin>
-                        <Insets left="95.0" />
+                        <Insets left="90.0" />
+                     </VBox.margin></ImageView>
+                  <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                     <VBox.margin>
+                        <Insets left="90.0" />
                      </VBox.margin></ImageView>
                </children>
             </VBox>
-            <VBox layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="221.0">
+            <VBox layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="230.0">
                <children>
-                  <ImageView fitHeight="33.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                      <VBox.margin>
-                        <Insets left="95.0" />
+                        <Insets left="90.0" />
                      </VBox.margin>
                   </ImageView>
-                  <ImageView fitHeight="33.0" fitWidth="220.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fitHeight="33.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                      <VBox.margin>
-                        <Insets left="95.0" />
+                        <Insets left="90.0" />
+                     </VBox.margin></ImageView>
+                  <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                     <VBox.margin>
+                        <Insets left="90.0" />
                      </VBox.margin>
                   </ImageView>
                </children>
