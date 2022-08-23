@@ -27,7 +27,7 @@ public class HelloController implements Initializable {
     private GridPane gridPaneUser;
     @FXML
     private TextField roundDisplay;
-    private Integer currentPlayerCard = 0;
+    private String currentPlayerCard;
     int index = 1;
 
 
@@ -40,8 +40,9 @@ public class HelloController implements Initializable {
             }
             if (node instanceof ImageView imageView) {
                 imageView.setOnMouseClicked(e -> {
-                    String currentPlayerCard = imageView.getId();
+                    this.currentPlayerCard = imageView.getId();
                     System.out.println(currentPlayerCard);
+
                 });
 
             }
