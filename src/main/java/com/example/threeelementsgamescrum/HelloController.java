@@ -10,6 +10,7 @@ import javafx.scene.layout.GridPane;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -50,6 +51,8 @@ public class HelloController implements Initializable {
     }
 
     public void generatePcCards() {
+
+        Collections.shuffle(this.paths);
         int index = 0;
         for (Node node : gridPanePC.getChildren()) {
             if (node instanceof ImageView imageView) {
