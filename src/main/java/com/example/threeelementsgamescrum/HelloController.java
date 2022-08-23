@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -35,6 +36,8 @@ public class HelloController implements Initializable {
     private TextField roundDisplay;
     private String currentPlayerCard;
     private ImageView currentImageView;
+    private int userScore;
+    private int pcScore;
     int index = 1;
     @FXML
     private ImageView imageUser1;
@@ -52,12 +55,17 @@ public class HelloController implements Initializable {
     private ImageView fightResultUser1;
     @FXML
     private ImageView fightResultPC1;
+    @FXML
+    private Label scoreLabel;
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         generatePcCards();
         generateOnMouseClick();
+
+        scoreLabel.setText("Player - %d : %d - Computer".formatted(this.userScore,this.pcScore));
+
     }
 
     public void generatePcCards() {
@@ -110,11 +118,13 @@ public class HelloController implements Initializable {
             Image imageLose = new Image(String.valueOf(this.getClass().getResource("Images/lose.png")));
             pcImage.setImage(imageLose);
             usrImage.setImage(imageWin);
+            this.userScore++;
         } else if (userImageUrl.equals("FireElement.png") && pcImageUrl.equals("WaterElement.png")) {
             Image imageWin = new Image(String.valueOf(this.getClass().getResource("Images/win.png")));
             Image imageLose = new Image(String.valueOf(this.getClass().getResource("Images/lose.png")));
             pcImage.setImage(imageWin);
             usrImage.setImage(imageLose);
+            this.pcScore++;
         }
 
         //check water and wind
@@ -123,11 +133,13 @@ public class HelloController implements Initializable {
             Image imageLose = new Image(String.valueOf(this.getClass().getResource("Images/lose.png")));
             pcImage.setImage(imageWin);
             usrImage.setImage(imageLose);
+            this.pcScore++;
         } else if (userImageUrl.equals("WindElement.png") && pcImageUrl.equals("WaterElement.png")) {
             Image imageWin = new Image(String.valueOf(this.getClass().getResource("Images/win.png")));
             Image imageLose = new Image(String.valueOf(this.getClass().getResource("Images/lose.png")));
             pcImage.setImage(imageLose);
             usrImage.setImage(imageWin);
+            this.userScore++;
         }
         // Check fire and wind
         if (userImageUrl.equals("FireElement.png") && pcImageUrl.equals("WindElement.png")) {
@@ -135,11 +147,13 @@ public class HelloController implements Initializable {
             Image imageLose = new Image(String.valueOf(this.getClass().getResource("Images/lose.png")));
             pcImage.setImage(imageLose);
             usrImage.setImage(imageWin);
+            this.userScore++;
         } else if (userImageUrl.equals("WindElement.png") && pcImageUrl.equals("FireElement.png")) {
             Image imageWin = new Image(String.valueOf(this.getClass().getResource("Images/win.png")));
             Image imageLose = new Image(String.valueOf(this.getClass().getResource("Images/lose.png")));
             pcImage.setImage(imageWin);
             usrImage.setImage(imageLose);
+            this.pcScore++;
         }
 
     }
@@ -154,6 +168,8 @@ public class HelloController implements Initializable {
         imagePC1.setOpacity(1);
         imageUser1.setOnMouseClicked(null);
 
+        scoreLabel.setText("Player - %d : %d - Computer".formatted(this.userScore,this.pcScore));
+
     }
 
     @FXML
@@ -165,6 +181,7 @@ public class HelloController implements Initializable {
         imagePC2.setOpacity(1);
         imageUser2.setOnMouseClicked(null);
 
+        scoreLabel.setText("Player - %d : %d - Computer".formatted(this.userScore,this.pcScore));
     }
 
     @FXML
@@ -176,6 +193,7 @@ public class HelloController implements Initializable {
         imagePC3.setOpacity(1);
         imageUser3.setOnMouseClicked(null);
 
+        scoreLabel.setText("Player - %d : %d - Computer".formatted(this.userScore,this.pcScore));
     }
 
 
@@ -192,10 +210,13 @@ public class HelloController implements Initializable {
         fightResultUser1.setImage(null);
         fightResultUser2.setImage(null);
         fightResultUser3.setImage(null);
+        this.pcScore = 0;
+        this.userScore = 0;
         generatePcCards();
         generateOnMouseClick();
     }
-    public void generateOnMouseClick(){
+
+    public void generateOnMouseClick() {
         for (Node node : gridPaneUser.getChildren()) {
             if (index == 4) {
                 index = 1;
