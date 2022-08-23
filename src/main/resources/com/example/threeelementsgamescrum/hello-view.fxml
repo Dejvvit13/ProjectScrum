@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="690.0" prefWidth="644.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.threeelementsgamescrum.HelloController">
    <children>
@@ -21,11 +21,6 @@
           </Menu>
         </menus>
       </MenuBar>
-      <TextField fx:id="roundDisplay" alignment="CENTER" layoutX="-8.0" layoutY="320.0" prefHeight="47.0" prefWidth="653.0">
-         <font>
-            <Font size="29.0" />
-         </font>
-      </TextField>
       <GridPane fx:id="gridPanePC" layoutX="24.0" layoutY="63.0" prefHeight="220.0" prefWidth="600.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -56,5 +51,50 @@
             <ImageView fitHeight="220.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" />
          </children>
       </GridPane>
+      <HBox layoutX="1.0" layoutY="295.0" prefHeight="100.0" prefWidth="650.0">
+         <children>
+            <VBox prefHeight="100.0" prefWidth="221.0">
+               <children>
+                  <ImageView fitHeight="33.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                     <VBox.margin>
+                        <Insets left="95.0" />
+                     </VBox.margin></ImageView>
+                  <ImageView fitHeight="33.0" fitWidth="220.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="33.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                     <VBox.margin>
+                        <Insets left="95.0" />
+                     </VBox.margin></ImageView>
+               </children>
+            </VBox>
+            <VBox layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="0.0">
+               <children>
+                  <ImageView fitHeight="33.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                     <VBox.margin>
+                        <Insets left="95.0" />
+                     </VBox.margin></ImageView>
+                  <ImageView fitHeight="33.0" fitWidth="220.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="33.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                     <VBox.margin>
+                        <Insets left="95.0" />
+                     </VBox.margin></ImageView>
+               </children>
+            </VBox>
+            <VBox layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="221.0">
+               <children>
+                  <ImageView fitHeight="33.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                     <VBox.margin>
+                        <Insets left="95.0" />
+                     </VBox.margin>
+                  </ImageView>
+                  <ImageView fitHeight="33.0" fitWidth="220.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="33.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                     <VBox.margin>
+                        <Insets left="95.0" />
+                     </VBox.margin>
+                  </ImageView>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
    </children>
 </AnchorPane>
