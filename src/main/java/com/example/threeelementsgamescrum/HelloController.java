@@ -88,7 +88,7 @@ public class HelloController implements Initializable {
 
     @FXML
     public void onFireButtonClick() {
-        if (currentImageView != null) {
+        if (currentImageView != null && currentImageView.getOnMouseClicked() != null) {
             Image image = new Image(String.valueOf(this.getClass().getResource("Images/FireElement.png")));
             currentImageView.setImage(image);
         }
@@ -96,7 +96,7 @@ public class HelloController implements Initializable {
 
     @FXML
     public void onWaterButtonClick() {
-        if (currentImageView != null) {
+        if (currentImageView != null && currentImageView.getOnMouseClicked() != null) {
             Image image = new Image(String.valueOf(this.getClass().getResource("Images/WaterElement.png")));
             currentImageView.setImage(image);
         }
@@ -104,13 +104,13 @@ public class HelloController implements Initializable {
 
     @FXML
     public void onWindButtonClick() {
-        if (currentImageView != null) {
+        if (currentImageView != null && currentImageView.getOnMouseClicked() != null) {
             Image image = new Image(String.valueOf(this.getClass().getResource("Images/WindElement.png")));
             currentImageView.setImage(image);
         }
     }
 
-    public void checkScore(String userImageUrl, String pcImageUrl, ImageView pcImage, ImageView usrImage){
+    public void checkScore(String userImageUrl, String pcImageUrl, ImageView pcImage, ImageView usrImage) {
         // draw
         if (userImageUrl.equals(pcImageUrl)) {
             Image imageDraw = new Image(String.valueOf(this.getClass().getResource("Images/draw.png")));
@@ -123,7 +123,7 @@ public class HelloController implements Initializable {
             Image imageLose = new Image(String.valueOf(this.getClass().getResource("Images/lose.png")));
             pcImage.setImage(imageLose);
             usrImage.setImage(imageWin);
-        } else if (userImageUrl.equals("FireElement.png") && pcImageUrl.equals("WaterElement.png")){
+        } else if (userImageUrl.equals("FireElement.png") && pcImageUrl.equals("WaterElement.png")) {
             Image imageWin = new Image(String.valueOf(this.getClass().getResource("Images/win.png")));
             Image imageLose = new Image(String.valueOf(this.getClass().getResource("Images/lose.png")));
             pcImage.setImage(imageWin);
@@ -136,7 +136,7 @@ public class HelloController implements Initializable {
             Image imageLose = new Image(String.valueOf(this.getClass().getResource("Images/lose.png")));
             pcImage.setImage(imageWin);
             usrImage.setImage(imageLose);
-        } else if (userImageUrl.equals("WindElement.png") && pcImageUrl.equals("WaterElement.png")){
+        } else if (userImageUrl.equals("WindElement.png") && pcImageUrl.equals("WaterElement.png")) {
             Image imageWin = new Image(String.valueOf(this.getClass().getResource("Images/win.png")));
             Image imageLose = new Image(String.valueOf(this.getClass().getResource("Images/lose.png")));
             pcImage.setImage(imageLose);
@@ -148,7 +148,7 @@ public class HelloController implements Initializable {
             Image imageLose = new Image(String.valueOf(this.getClass().getResource("Images/lose.png")));
             pcImage.setImage(imageLose);
             usrImage.setImage(imageWin);
-        } else if (userImageUrl.equals("WindElement.png") && pcImageUrl.equals("FireElement.png")){
+        } else if (userImageUrl.equals("WindElement.png") && pcImageUrl.equals("FireElement.png")) {
             Image imageWin = new Image(String.valueOf(this.getClass().getResource("Images/win.png")));
             Image imageLose = new Image(String.valueOf(this.getClass().getResource("Images/lose.png")));
             pcImage.setImage(imageWin);
@@ -156,29 +156,39 @@ public class HelloController implements Initializable {
         }
 
     }
+
     @FXML
     public void onFirstFightButtonClick() {
 
-        String userImageUrl = String.valueOf(imageUser1.getImage().getUrl().substring(imageUser1.getImage().getUrl().lastIndexOf('/')+1));
-        String pcImageUrl = String.valueOf(imagePC1.getImage().getUrl().substring(imageUser1.getImage().getUrl().lastIndexOf('/')+1));
+        String userImageUrl = String.valueOf(imageUser1.getImage().getUrl().substring(imageUser1.getImage().getUrl().lastIndexOf('/') + 1));
+        String pcImageUrl = String.valueOf(imagePC1.getImage().getUrl().substring(imageUser1.getImage().getUrl().lastIndexOf('/') + 1));
         checkScore(userImageUrl, pcImageUrl, fightResultPC1, fightResultUser1);
+
         imagePC1.setOpacity(1);
+        imageUser1.setOnMouseClicked(null);
+
     }
+
     @FXML
     public void onSecondFightButtonClick() {
 
-        String userImageUrl = String.valueOf(imageUser2.getImage().getUrl().substring(imageUser2.getImage().getUrl().lastIndexOf('/')+1));
-        String pcImageUrl = String.valueOf(imagePC2.getImage().getUrl().substring(imageUser2.getImage().getUrl().lastIndexOf('/')+1));
+        String userImageUrl = String.valueOf(imageUser2.getImage().getUrl().substring(imageUser2.getImage().getUrl().lastIndexOf('/') + 1));
+        String pcImageUrl = String.valueOf(imagePC2.getImage().getUrl().substring(imageUser2.getImage().getUrl().lastIndexOf('/') + 1));
         checkScore(userImageUrl, pcImageUrl, fightResultPC2, fightResultUser2);
         imagePC2.setOpacity(1);
+        imageUser2.setOnMouseClicked(null);
+
     }
+
     @FXML
     public void onThirdFightButtonClick() {
 
-        String userImageUrl = String.valueOf(imageUser3.getImage().getUrl().substring(imageUser3.getImage().getUrl().lastIndexOf('/')+1));
-        String pcImageUrl = String.valueOf(imagePC3.getImage().getUrl().substring(imageUser3.getImage().getUrl().lastIndexOf('/')+1));
+        String userImageUrl = String.valueOf(imageUser3.getImage().getUrl().substring(imageUser3.getImage().getUrl().lastIndexOf('/') + 1));
+        String pcImageUrl = String.valueOf(imagePC3.getImage().getUrl().substring(imageUser3.getImage().getUrl().lastIndexOf('/') + 1));
         checkScore(userImageUrl, pcImageUrl, fightResultPC3, fightResultUser3);
         imagePC3.setOpacity(1);
+        imageUser3.setOnMouseClicked(null);
+
     }
 
 
@@ -196,7 +206,19 @@ public class HelloController implements Initializable {
         fightResultUser2.setImage(null);
         fightResultUser3.setImage(null);
         generatePcCards();
+        for (Node node : gridPaneUser.getChildren()) {
+            if (index == 4) {
+                index = 1;
+            }
+            if (node instanceof ImageView imageView) {
+                imageView.setOnMouseClicked(e -> {
+                    this.currentPlayerCard = imageView.getId();
+                    this.currentImageView = imageView;
+                    System.out.println(currentPlayerCard);
 
+                });
+            }
+        }
     }
 }
 
