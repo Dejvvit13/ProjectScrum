@@ -79,7 +79,7 @@ public class HelloController implements Initializable {
         for (Node node : gridPanePC.getChildren()) {
             if (node instanceof ImageView imageView) {
                 Image image = new Image(paths.get(index++));
-                imageView.setOpacity(0.2);
+                imageView.setOpacity(0);
                 imageView.setImage(image);
             }
         }
@@ -161,6 +161,7 @@ public class HelloController implements Initializable {
         String userImageUrl = String.valueOf(imageUser1.getImage().getUrl().substring(imageUser1.getImage().getUrl().lastIndexOf('/')+1));
         String pcImageUrl = String.valueOf(imagePC1.getImage().getUrl().substring(imageUser1.getImage().getUrl().lastIndexOf('/')+1));
         checkScore(userImageUrl, pcImageUrl, fightResultPC1, fightResultUser1);
+        imagePC1.setOpacity(1);
     }
     @FXML
     public void onSecondFightButtonClick() {
@@ -168,6 +169,7 @@ public class HelloController implements Initializable {
         String userImageUrl = String.valueOf(imageUser2.getImage().getUrl().substring(imageUser2.getImage().getUrl().lastIndexOf('/')+1));
         String pcImageUrl = String.valueOf(imagePC2.getImage().getUrl().substring(imageUser2.getImage().getUrl().lastIndexOf('/')+1));
         checkScore(userImageUrl, pcImageUrl, fightResultPC2, fightResultUser2);
+        imagePC2.setOpacity(1);
     }
     @FXML
     public void onThirdFightButtonClick() {
@@ -175,6 +177,7 @@ public class HelloController implements Initializable {
         String userImageUrl = String.valueOf(imageUser3.getImage().getUrl().substring(imageUser3.getImage().getUrl().lastIndexOf('/')+1));
         String pcImageUrl = String.valueOf(imagePC3.getImage().getUrl().substring(imageUser3.getImage().getUrl().lastIndexOf('/')+1));
         checkScore(userImageUrl, pcImageUrl, fightResultPC3, fightResultUser3);
+        imagePC3.setOpacity(1);
     }
 
 }
