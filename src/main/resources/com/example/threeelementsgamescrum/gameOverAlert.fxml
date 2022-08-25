@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.threeelementsgamescrum.EndGameController">
+    <children>
+        <Label fx:id="winnerLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="55.0" layoutY="58.0" prefHeight="50.0" prefWidth="189.0" textAlignment="CENTER">
+            <font>
+                <Font name="Lucida Bright" size="24.0" />
+            </font>
+         <textFill>
+            <LinearGradient cycleMethod="REFLECT" endX="0.9391891842361608" endY="0.8378378291269598" startX="0.49324322907667023">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="0.758998453617096" green="0.7320885062217712" blue="0.2207995504140854" />
+                     </color>
+                  </Stop>
+                  <Stop offset="0.7763509279254125">
+                     <color>
+                        <Color red="0.75" green="0.706250011920929" blue="0.22499999403953552" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="1.0" green="1.0" blue="1.0" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </textFill>
+        </Label>
+        <Button fx:id="playAgainButton" layoutX="30.0" layoutY="125.0" mnemonicParsing="false" onAction="#playAgain" prefHeight="45.0" prefWidth="85.0" text="Play Again">
+         <font>
+            <Font name="Lucida Bright" size="12.0" />
+         </font></Button>
+        <Button fx:id="exitButton" layoutX="197.0" layoutY="125.0" mnemonicParsing="false" onAction="#exitGame" prefHeight="45.0" prefWidth="85.0" text="Exit">
+         <font>
+            <Font name="Lucida Bright" size="11.0" />
+         </font></Button>
+        <ImageView fitHeight="39.0" fitWidth="41.0" layoutX="131.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@Images/crown.png" />
+            </image>
+        </ImageView>
+      <Line endX="289.63214111328125" endY="-1.000024676322937" fill="#bfa840" layoutX="3.0" layoutY="3.0" startX="-2.7074238460045308E-5" startY="-1.0000213384628296" stroke="#bfa840" strokeWidth="15.0" />
+      <Line endX="296.0" endY="-4.9999847412109375" fill="#bfa840" layoutY="203.0" startX="-3.9999990463256836" startY="-4.9999847412109375" stroke="#bfa840" strokeWidth="10.0" />
+      <Line endX="-1.1815449397545308E-5" endY="189.00001525878906" fill="#bfa840" layoutX="4.0" layoutY="11.0" startX="-2.7074238460045308E-5" startY="-10.999988555908203" stroke="#bfa840" strokeWidth="10.0" />
+      <Line endX="14.0" endY="-10.999988555908203" fill="#bfa840" layoutX="283.0" layoutY="11.0" startX="14.999969482421875" startY="189.00001525878906" stroke="#bfa840" strokeWidth="10.0" />
+    </children>
+</AnchorPane>

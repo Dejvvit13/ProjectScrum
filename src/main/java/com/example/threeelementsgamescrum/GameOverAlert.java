@@ -1,28 +1,24 @@
 package com.example.threeelementsgamescrum;
 
-import javafx.geometry.Pos;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class GameOverAlert {
+public class GameOverAlert extends Application {
 
-    public static void display(String text) {
 
-        Stage stage = new Stage();
-        stage.initModality(Modality.APPLICATION_MODAL);
+    @Override
+    public void start(Stage primaryStage) throws Exception {
 
-        Label label = new Label(text);
+        FXMLLoader fxmlLoader = new FXMLLoader(GameOverAlert.class.getResource("gameOverAlert.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
 
-        VBox layout = new VBox(label);
-        layout.setAlignment(Pos.CENTER);
+        primaryStage.setTitle("Game Over");
+        primaryStage.setResizable(false);
+        primaryStage.setScene(scene);
+        primaryStage.show();
 
-        Scene scene = new Scene(layout, 250, 100);
 
-        stage.setTitle("GAME OVER");
-        stage.setScene(scene);
-        stage.show();
     }
 }
