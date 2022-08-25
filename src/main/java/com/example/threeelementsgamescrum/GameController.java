@@ -1,8 +1,8 @@
 package com.example.threeelementsgamescrum;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.ScaleTransition;
-import javafx.animation.Timeline;
+
+import animatefx.animation.*;
+import javafx.animation.*;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
@@ -14,7 +14,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -35,7 +34,6 @@ public class GameController implements Initializable {
     public ImageView computerResultImage3;
     @FXML
     public ImageView computerResultImage2;
-    public ColumnConstraints column1;
     @FXML
     private ImageView computerResultImage1;
 
@@ -113,7 +111,7 @@ public class GameController implements Initializable {
                 roundDisplayLabel.setText("Round 1");
                 computerScore = 0;
                 playerScore = 0;
-                countRounds.setValue(0);
+                countRounds.setValue(1);
             }
             resetGameSettings();
         });
@@ -147,11 +145,7 @@ public class GameController implements Initializable {
     public void onFireButtonClick() {
         if (currentPickedImageViews != null) {
             Image image = new Image(String.valueOf(this.getClass().getResource("Images/FireElement.png")));
-            currentPickedImageViews.forEach(e-> {
-                e.setImage(image);
-                e.getParent().setStyle("-fx-background-color: white");
-            });
-            currentPickedImageViews = new ArrayList<>();
+            setUserImage(image);
         }
     }
 
@@ -159,12 +153,7 @@ public class GameController implements Initializable {
     public void onWaterButtonClick() {
         if (currentImageView != null) {
             Image image = new Image(String.valueOf(this.getClass().getResource("Images/WaterElement.png")));
-            currentPickedImageViews.forEach(e-> {
-                e.setImage(image);
-                e.getParent().setStyle("-fx-background-color: white");
-            });
-            currentPickedImageViews = new ArrayList<>();
-
+            setUserImage(image);
         }
     }
 
@@ -172,14 +161,15 @@ public class GameController implements Initializable {
     public void onWindButtonClick() {
         if (currentImageView != null) {
             Image image = new Image(String.valueOf(this.getClass().getResource("Images/WindElement.png")));
-            currentPickedImageViews.forEach(e-> {
-                e.setImage(image);
-                e.getParent().setStyle("-fx-background-color: white");
-            });
-            currentPickedImageViews = new ArrayList<>();
-
-
+            setUserImage(image);
         }
+    }
+    public void setUserImage(Image image){
+        currentPickedImageViews.forEach(e-> {
+            e.setImage(image);
+            e.getParent().setStyle("-fx-background-color: transparent");
+        });
+        currentPickedImageViews = new ArrayList<>();
     }
 
     public void checkScore(String playerImageUrl, String computerImageUrl, ImageView computerImage, ImageView playerImage) {
@@ -217,25 +207,37 @@ public class GameController implements Initializable {
     public void onFirstFightButtonClick() {
 
         if (fightValidate(this.playerImage1)) {
-            fightAciton(this.playerImage1, this.computerImage1, this.computerResultImage1, this.playerResultImage1, this.vsButton1);
+            fightAction(this.playerImage1, this.computerImage1, this.computerResultImage1, this.playerResultImage1, this.vsButton1);
         }
+        fightAnimation(this.computerImage1);
 
+    }
+    public void fightAnimation(ImageView computerImage){
+        FlipInY flip = new FlipInY(computerImage);
+        flip.setCycleCount(1);
+        flip.setSpeed(0.7);
+
+        flip.play();
     }
 
     @FXML
     public void onSecondFightButtonClick() {
 
         if (fightValidate(this.playerImage2)) {
-            fightAciton(this.playerImage2, this.computerImage2, this.computerResultImage2, this.fightResultUser2, this.vsButton2);
+            fightAction(this.playerImage2, this.computerImage2, this.computerResultImage2, this.fightResultUser2, this.vsButton2);
         }
+        fightAnimation(this.computerImage2);
+
     }
 
     @FXML
     public void onThirdFightButtonClick() {
 
         if (fightValidate(this.playerImage3)) {
-            fightAciton(this.playerImage3, this.computerImage3, this.computerResultImage3, this.playerResultImage3, this.vsButton3);
+            fightAction(this.playerImage3, this.computerImage3, this.computerResultImage3, this.playerResultImage3, this.vsButton3);
         }
+        fightAnimation(this.computerImage3);
+
     }
 
     public boolean fightValidate(ImageView imageView) {
@@ -243,7 +245,7 @@ public class GameController implements Initializable {
         return imageView != null;
     }
 
-    private void fightAciton(ImageView imageUser, ImageView imagePC, ImageView fightResultPC, ImageView fightResultUser, Button vsButton) {
+    private void fightAction(ImageView imageUser, ImageView imagePC, ImageView fightResultPC, ImageView fightResultUser, Button vsButton) {
         String userImageUrl = imageUser.getImage().getUrl().substring(imageUser.getImage().getUrl().lastIndexOf('/') + 1);
         String pcImageUrl = imagePC.getImage().getUrl().substring(imageUser.getImage().getUrl().lastIndexOf('/') + 1);
         checkScore(userImageUrl, pcImageUrl, fightResultPC, fightResultUser);
@@ -279,6 +281,7 @@ public class GameController implements Initializable {
         vsButton1.setDisable(false);
         vsButton2.setDisable(false);
         vsButton3.setDisable(false);
+        gridPaneUser.getChildren().forEach(e-> e.setStyle("-fx-background-color: transparent"));
         generatePcCards();
         setCurrentImageViewOnClick();
         scoreLabel.setText("Player - %d : %d - Computer".formatted(playerScore, computerScore));
@@ -293,27 +296,20 @@ public class GameController implements Initializable {
                 pane.setOnMouseClicked(e -> {
                     currentImageView = (ImageView) pane.getChildren().get(0);
                     currentPickedImageViews.add(currentImageView);
-                    System.out.println(currentPickedImageViews);
-                    pane.setStyle("-fx-background-color: lightblue");
-                    if (currentImageView.getImage() == null) {
-                    }
                     if (currentImageView.getImage() != null) {
-                        makeScaleTransition();
+                        makeScaleTransition(currentImageView);
                     }
+                        pane.setStyle("-fx-background-color: lightblue");
                 });
             }
         }
     }
 
-    private void makeScaleTransition() {
-        ScaleTransition scaleTransition = new ScaleTransition();
-        scaleTransition.setNode(currentImageView);
-        scaleTransition.durationProperty().setValue(Duration.millis(1000));
-        scaleTransition.setFromX(1);
-        scaleTransition.setToX(1.5);
-        scaleTransition.setCycleCount(2);
-        scaleTransition.setAutoReverse(true);
-        scaleTransition.play();
+    private void makeScaleTransition(ImageView img) {
+        Pulse pulse = new Pulse(img);
+        pulse.setCycleCount(2);
+        pulse.play();
+
     }
 
     public void openAlertStage(String text) {
@@ -332,5 +328,6 @@ public class GameController implements Initializable {
             throw new RuntimeException("Error while opening new Window");
         }
     }
+
 }
 
