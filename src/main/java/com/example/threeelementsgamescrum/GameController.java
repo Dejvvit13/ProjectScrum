@@ -14,7 +14,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -33,6 +35,7 @@ public class GameController implements Initializable {
     public ImageView computerResultImage3;
     @FXML
     public ImageView computerResultImage2;
+    public ColumnConstraints column1;
     @FXML
     private ImageView computerResultImage1;
 
@@ -56,8 +59,8 @@ public class GameController implements Initializable {
     @FXML
     private GridPane gridPaneUser; // user cards container
 
-    @FXML
     private ImageView currentImageView; //currently picked card slot
+    private List<ImageView> currentPickedImageViews = new ArrayList<>();
 
     // user images
     @FXML
@@ -142,25 +145,40 @@ public class GameController implements Initializable {
 
     @FXML
     public void onFireButtonClick() {
-        if (currentImageView != null && currentImageView.getOnMouseClicked() != null) {
+        if (currentPickedImageViews != null) {
             Image image = new Image(String.valueOf(this.getClass().getResource("Images/FireElement.png")));
-            currentImageView.setImage(image);
+            currentPickedImageViews.forEach(e-> {
+                e.setImage(image);
+                e.getParent().setStyle("-fx-background-color: white");
+            });
+            currentPickedImageViews = new ArrayList<>();
         }
     }
 
     @FXML
     public void onWaterButtonClick() {
-        if (currentImageView != null && currentImageView.getOnMouseClicked() != null) {
+        if (currentImageView != null) {
             Image image = new Image(String.valueOf(this.getClass().getResource("Images/WaterElement.png")));
-            currentImageView.setImage(image);
+            currentPickedImageViews.forEach(e-> {
+                e.setImage(image);
+                e.getParent().setStyle("-fx-background-color: white");
+            });
+            currentPickedImageViews = new ArrayList<>();
+
         }
     }
 
     @FXML
     public void onWindButtonClick() {
-        if (currentImageView != null && currentImageView.getOnMouseClicked() != null) {
+        if (currentImageView != null) {
             Image image = new Image(String.valueOf(this.getClass().getResource("Images/WindElement.png")));
-            currentImageView.setImage(image);
+            currentPickedImageViews.forEach(e-> {
+                e.setImage(image);
+                e.getParent().setStyle("-fx-background-color: white");
+            });
+            currentPickedImageViews = new ArrayList<>();
+
+
         }
     }
 
@@ -230,7 +248,7 @@ public class GameController implements Initializable {
         String pcImageUrl = imagePC.getImage().getUrl().substring(imageUser.getImage().getUrl().lastIndexOf('/') + 1);
         checkScore(userImageUrl, pcImageUrl, fightResultPC, fightResultUser);
         imagePC.setOpacity(1);
-        imageUser.setOnMouseClicked(null);
+        imageUser.getParent().setOnMouseClicked(null);
         vsButton.setDisable(true);
         scoreLabel.setText("Player - %d : %d - Computer".formatted(playerScore, computerScore));
         countFights.setValue(countFights.getValue() + 1);
@@ -268,29 +286,17 @@ public class GameController implements Initializable {
 
     }
 
-    private void clearBorder() {
-        if (playerImage1.getImage() != null && playerImage1.getImage().getUrl().endsWith("vs.png")) {
-            playerImage1.setImage(null);
-        }
-        if (playerImage2.getImage() != null && playerImage2.getImage().getUrl().endsWith("vs.png")) {
-            playerImage2.setImage(null);
-        }
-        if (playerImage3.getImage() != null && playerImage3.getImage().getUrl().endsWith("vs.png")) {
-            playerImage3.setImage(null);
-        }
-    }
-
 
     public void setCurrentImageViewOnClick() {
         for (Node node : gridPaneUser.getChildren()) {
-            if (node instanceof ImageView imageView) {
-                imageView.setOnMouseClicked(e -> {
-                    currentImageView = imageView;
-                    clearBorder();
+            if (node instanceof Pane pane) {
+                pane.setOnMouseClicked(e -> {
+                    currentImageView = (ImageView) pane.getChildren().get(0);
+                    currentPickedImageViews.add(currentImageView);
                     if (currentImageView.getImage() == null) {
-                        currentImageView.setImage(new Image(GameController.class.getResource("Images/vs.png").toString()));
+                    pane.setStyle("-fx-background-color: lightblue");
                     }
-                    else {
+                    if (currentImageView.getImage() != null) {
                         makeScaleTransition();
                     }
                 });
@@ -301,7 +307,7 @@ public class GameController implements Initializable {
     private void makeScaleTransition() {
         ScaleTransition scaleTransition = new ScaleTransition();
         scaleTransition.setNode(currentImageView);
-        scaleTransition.durationProperty().setValue(Duration.millis(2000));
+        scaleTransition.durationProperty().setValue(Duration.millis(1000));
         scaleTransition.setFromX(1);
         scaleTransition.setToX(1.5);
         scaleTransition.setCycleCount(2);

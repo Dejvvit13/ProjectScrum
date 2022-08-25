@@ -9,6 +9,7 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -41,16 +42,28 @@
     </GridPane>
     <GridPane fx:id="gridPaneUser" gridLinesVisible="true" layoutX="22.0" layoutY="418.0" prefHeight="220.0" prefWidth="600.0">
         <columnConstraints>
-            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints fx:id="column1" halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints fx:id="column2" halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints fx:id="column3" halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
         <rowConstraints>
             <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
         </rowConstraints>
-        <ImageView id="imageWindow" fx:id="playerImage1" fitHeight="220.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" styleClass="imageWindow" />
-        <ImageView id="imageWindow" fx:id="playerImage2" fitHeight="220.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" styleClass="imageWindow" GridPane.columnIndex="1" />
-        <ImageView id="imageWindow" fx:id="playerImage3" fitHeight="220.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" styleClass="imageWindow" GridPane.columnIndex="2" />
+      <Pane prefHeight="200.0" prefWidth="200.0">
+         <children>
+              <ImageView id="imageWindow" fx:id="playerImage1" fitHeight="220.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" styleClass="imageWindow" />
+         </children>
+      </Pane>
+      <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
+         <children>
+              <ImageView id="imageWindow" fx:id="playerImage2" fitHeight="220.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" styleClass="imageWindow" />
+         </children>
+      </Pane>
+      <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
+         <children>
+              <ImageView id="imageWindow" fx:id="playerImage3" fitHeight="220.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" styleClass="imageWindow" />
+         </children>
+      </Pane>
     </GridPane>
     <HBox layoutX="1.0" layoutY="295.0" prefHeight="100.0" prefWidth="650.0">
         <VBox alignment="CENTER" prefHeight="83.0" prefWidth="215.0">
