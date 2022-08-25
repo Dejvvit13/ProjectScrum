@@ -1,6 +1,7 @@
 package com.example.threeelementsgamescrum;
 
 import javafx.animation.KeyFrame;
+import javafx.animation.ScaleTransition;
 import javafx.animation.Timeline;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -193,10 +194,11 @@ public class GameController implements Initializable {
         }
 
     }
+
     @FXML
     public void onFirstFightButtonClick() {
 
-        if (fightValidate(this.playerImage1)){
+        if (fightValidate(this.playerImage1)) {
             fightAciton(this.playerImage1, this.computerImage1, this.computerResultImage1, this.playerResultImage1, this.vsButton1);
         }
 
@@ -266,12 +268,45 @@ public class GameController implements Initializable {
 
     }
 
+    private void clearBorder() {
+        if (playerImage1.getImage() != null && playerImage1.getImage().getUrl().endsWith("vs.png")) {
+            playerImage1.setImage(null);
+        }
+        if (playerImage2.getImage() != null && playerImage2.getImage().getUrl().endsWith("vs.png")) {
+            playerImage2.setImage(null);
+        }
+        if (playerImage3.getImage() != null && playerImage3.getImage().getUrl().endsWith("vs.png")) {
+            playerImage3.setImage(null);
+        }
+    }
+
+
     public void setCurrentImageViewOnClick() {
         for (Node node : gridPaneUser.getChildren()) {
             if (node instanceof ImageView imageView) {
-                imageView.setOnMouseClicked(e -> currentImageView = imageView);
+                imageView.setOnMouseClicked(e -> {
+                    currentImageView = imageView;
+                    clearBorder();
+                    if (currentImageView.getImage() == null) {
+                        currentImageView.setImage(new Image(GameController.class.getResource("Images/vs.png").toString()));
+                    }
+                    else {
+                        makeScaleTransition();
+                    }
+                });
             }
         }
+    }
+
+    private void makeScaleTransition() {
+        ScaleTransition scaleTransition = new ScaleTransition();
+        scaleTransition.setNode(currentImageView);
+        scaleTransition.durationProperty().setValue(Duration.millis(2000));
+        scaleTransition.setFromX(1);
+        scaleTransition.setToX(1.5);
+        scaleTransition.setCycleCount(2);
+        scaleTransition.setAutoReverse(true);
+        scaleTransition.play();
     }
 
     public void openAlertStage(String text) {
