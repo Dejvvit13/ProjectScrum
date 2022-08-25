@@ -95,7 +95,6 @@ public class GameController implements Initializable {
         generatePcCards();
         setCurrentImageViewOnClick();
 
-
         countRounds.addListener(event -> {
             roundDisplayLabel.setText("Round " + countRounds.getValue());
             if (countRounds.getValue() > 3) {
