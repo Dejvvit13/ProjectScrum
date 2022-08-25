@@ -293,8 +293,9 @@ public class GameController implements Initializable {
                 pane.setOnMouseClicked(e -> {
                     currentImageView = (ImageView) pane.getChildren().get(0);
                     currentPickedImageViews.add(currentImageView);
-                    if (currentImageView.getImage() == null) {
+                    System.out.println(currentPickedImageViews);
                     pane.setStyle("-fx-background-color: lightblue");
+                    if (currentImageView.getImage() == null) {
                     }
                     if (currentImageView.getImage() != null) {
                         makeScaleTransition();
