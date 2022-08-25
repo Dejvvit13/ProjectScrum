@@ -241,7 +241,7 @@ public class GameController implements Initializable {
         computerScore = 0;
         playerScore = 0;
         countFights.set(0);
-        countRounds.set(0);
+        countRounds.set(1);
     }
 
     public void resetGameSettings() {
