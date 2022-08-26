@@ -1,7 +1,7 @@
 package com.example.threeelementsgamescrum;
 
 
-import animatefx.animation.*;
+import animatefx.animation.Pulse;
 import javafx.animation.*;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -14,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.transform.Rotate;
@@ -22,12 +23,17 @@ import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.ResourceBundle;
 
 public class GameController implements Initializable {
 
     //1- left image 2 - middle image 3 -  right image
     // Result image for PC
+    @FXML
+    private AnchorPane anchorPane;
     @FXML
     public ImageView computerResultImage3;
     @FXML
@@ -94,6 +100,9 @@ public class GameController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        anchorPane.setStyle("-fx-background-color: #F5E8C7");
+
         generatePcCards();
         setCurrentImageViewOnClick();
 
@@ -137,7 +146,7 @@ public class GameController implements Initializable {
         });
     }
 
-    public void setPlayerBackCard(){
+    public void setPlayerBackCard() {
         this.playerImage1.setImage(this.backOfCard);
         this.playerImage2.setImage(this.backOfCard);
         this.playerImage3.setImage(this.backOfCard);
@@ -168,6 +177,7 @@ public class GameController implements Initializable {
             setUserImage(image);
         }
     }
+
     @FXML
     public void onWaterButtonClick() {
         if (currentImageView != null) {
@@ -180,6 +190,7 @@ public class GameController implements Initializable {
             setUserImage(image);
         }
     }
+
     @FXML
     public void onWindButtonClick() {
         if (currentImageView != null) {
@@ -245,7 +256,7 @@ public class GameController implements Initializable {
         Timeline imageSwitcher = new Timeline(
                 new KeyFrame(Duration.ZERO,
                         new KeyValue(card.imageProperty(), this.backOfCard, Interpolator.DISCRETE)),
-                new KeyFrame(Duration.millis(500),
+                new KeyFrame(Duration.millis(300),
                         new KeyValue(card.imageProperty(), front, Interpolator.DISCRETE))
         );
         imageSwitcher.setCycleCount(1);
@@ -254,7 +265,7 @@ public class GameController implements Initializable {
 
     @FXML
     public void onFirstFightButtonClick() {
-        if (!this.playerImage1.getImage().getUrl().equals(this.backOfCard.getUrl())){
+        if (!this.playerImage1.getImage().getUrl().equals(this.backOfCard.getUrl())) {
             Animation flip = createRotator(this.computerImage1, this.pcGeneratedCards.get(0));
             flip.setAutoReverse(true);
             flip.setCycleCount(1);
@@ -266,17 +277,18 @@ public class GameController implements Initializable {
 
     @FXML
     public void onSecondFightButtonClick() {
-        if (!this.playerImage1.getImage().getUrl().equals(this.backOfCard.getUrl())){
+        if (!this.playerImage1.getImage().getUrl().equals(this.backOfCard.getUrl())) {
             Animation rotator = createRotator(this.computerImage2, this.pcGeneratedCards.get(1));
             rotator.setCycleCount(1);
             rotator.play();
             fightAction(this.playerImage2, pcGeneratedCards.get(1), this.computerResultImage2, this.fightResultUser2, this.vsButton2);
         }
     }
+
     @FXML
     public void onThirdFightButtonClick() {
 
-        if (!this.playerImage1.getImage().getUrl().equals(this.backOfCard.getUrl())){
+        if (!this.playerImage1.getImage().getUrl().equals(this.backOfCard.getUrl())) {
             Animation rotator = createRotator(this.computerImage3, this.pcGeneratedCards.get(2));
             rotator.setCycleCount(1);
             rotator.play();
@@ -331,13 +343,13 @@ public class GameController implements Initializable {
         for (Node node : gridPaneUser.getChildren()) {
             if (node instanceof Pane pane) {
                 pane.setOnMouseClicked(e -> {
-                    pane.setStyle("-fx-background-color: white");
+                    pane.setStyle("-fx-background-color: #FFFF");
                     currentImageView = (ImageView) pane.getChildren().get(0);
                     currentPickedImageViews.add(currentImageView);
                     if (currentImageView.getImage() != null) {
                         makeScaleTransition(currentImageView);
                     }
-                    pane.setStyle("-fx-background-color: white");
+                    pane.setStyle("-fx-background-color: #ECCCB2");
                 });
             }
         }
@@ -345,7 +357,7 @@ public class GameController implements Initializable {
 
     private void makeScaleTransition(ImageView img) {
         Pulse pulse = new Pulse(img);
-        pulse.setCycleCount(2);
+        pulse.setCycleCount(3);
         pulse.play();
     }
 
