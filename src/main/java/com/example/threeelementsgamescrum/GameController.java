@@ -21,10 +21,7 @@ import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class GameController implements Initializable {
 
@@ -58,7 +55,7 @@ public class GameController implements Initializable {
     private GridPane gridPaneUser; // user cards container
 
     private ImageView currentImageView; //currently picked card slot
-    private List<ImageView> currentPickedImageViews = new ArrayList<>();
+    private Set<ImageView> currentPickedImageViews = new HashSet<>();
 
     // user images
     @FXML
@@ -169,7 +166,7 @@ public class GameController implements Initializable {
             e.setImage(image);
             e.getParent().setStyle("-fx-background-color: transparent");
         });
-        currentPickedImageViews = new ArrayList<>();
+        currentPickedImageViews = new HashSet<>();
     }
 
     public void checkScore(String playerImageUrl, String computerImageUrl, ImageView computerImage, ImageView playerImage) {
@@ -296,6 +293,7 @@ public class GameController implements Initializable {
                 pane.setOnMouseClicked(e -> {
                     currentImageView = (ImageView) pane.getChildren().get(0);
                     currentPickedImageViews.add(currentImageView);
+                    System.out.println(currentPickedImageViews);
                     if (currentImageView.getImage() != null) {
                         makeScaleTransition(currentImageView);
                     }
