@@ -16,6 +16,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -56,6 +57,7 @@ public class GameController implements Initializable {
 
     private ImageView currentImageView; //currently picked card slot
     private Set<ImageView> currentPickedImageViews = new HashSet<>();
+    private List<Image> pcGeneratedCards = new ArrayList<>();
 
     // user images
     @FXML
@@ -132,8 +134,10 @@ public class GameController implements Initializable {
         for (Node node : gridPanePC.getChildren()) {
             if (node instanceof ImageView imageView) {
                 Image image = new Image(pathsToGameImages.get(random.nextInt(0, 3)));
-                imageView.setOpacity(0);
-                imageView.setImage(image);
+                imageView.setRotate(0);
+                this.pcGeneratedCards.add(image);
+                Image back = new Image("https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Card_back_05a.svg/329px-Card_back_05a.svg.png");
+                imageView.setImage(back);
             }
         }
     }
@@ -161,8 +165,9 @@ public class GameController implements Initializable {
             setUserImage(image);
         }
     }
-    public void setUserImage(Image image){
-        currentPickedImageViews.forEach(e-> {
+
+    public void setUserImage(Image image) {
+        currentPickedImageViews.forEach(e -> {
             e.setImage(image);
             e.getParent().setStyle("-fx-background-color: transparent");
         });
@@ -200,59 +205,82 @@ public class GameController implements Initializable {
 
     }
 
+    public Animation createRotator(ImageView card, Image imageToSet) {
+
+        card.setImage(imageToSet);
+        RotateTransition rotator = new RotateTransition(Duration.millis(1000), card);
+        rotator.setAxis(Rotate.Y_AXIS);
+        rotator.setFromAngle(360);
+        rotator.setToAngle(180);
+        rotator.setInterpolator(Interpolator.LINEAR);
+        rotator.setCycleCount(1);
+        Image front = new Image(
+                card.getImage().getUrl(),
+                false);
+        Image back = new Image(
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Card_back_05a.svg/329px-Card_back_05a.svg.png",
+                front.getWidth(), front.getHeight(), true, true);
+
+        Timeline imageSwitcher = new Timeline(
+                new KeyFrame(Duration.ZERO,
+                        new KeyValue(card.imageProperty(), back, Interpolator.DISCRETE)),
+                new KeyFrame(Duration.millis(500),
+                        new KeyValue(card.imageProperty(), front, Interpolator.DISCRETE))
+
+        );
+        imageSwitcher.setCycleCount(1);
+        return new ParallelTransition(card, rotator, imageSwitcher);
+    }
     @FXML
     public void onFirstFightButtonClick() {
 
         if (fightValidate(this.playerImage1)) {
-            fightAction(this.playerImage1, this.computerImage1, this.computerResultImage1, this.playerResultImage1, this.vsButton1);
+            fightAction(this.playerImage1, pcGeneratedCards.get(0), this.computerResultImage1, this.playerResultImage1, this.vsButton1);
         }
-        fightAnimation(this.computerImage1);
-
-    }
-    public void fightAnimation(ImageView computerImage){
-        FlipInY flip = new FlipInY(computerImage);
+        Animation flip = createRotator(this.computerImage1, this.pcGeneratedCards.get(0));
+        flip.setAutoReverse(true);
         flip.setCycleCount(1);
-        flip.setSpeed(0.7);
-
         flip.play();
+
     }
 
     @FXML
     public void onSecondFightButtonClick() {
 
         if (fightValidate(this.playerImage2)) {
-            fightAction(this.playerImage2, this.computerImage2, this.computerResultImage2, this.fightResultUser2, this.vsButton2);
+            fightAction(this.playerImage2, pcGeneratedCards.get(1), this.computerResultImage2, this.fightResultUser2, this.vsButton2);
         }
-        fightAnimation(this.computerImage2);
 
+        Animation rotator = createRotator(this.computerImage2, this.pcGeneratedCards.get(1));
+        rotator.setCycleCount(1);
+        rotator.play();
     }
-
     @FXML
     public void onThirdFightButtonClick() {
 
         if (fightValidate(this.playerImage3)) {
-            fightAction(this.playerImage3, this.computerImage3, this.computerResultImage3, this.playerResultImage3, this.vsButton3);
+            fightAction(this.playerImage3, pcGeneratedCards.get(2), this.computerResultImage3, this.playerResultImage3, this.vsButton3);
         }
-        fightAnimation(this.computerImage3);
+
+        Animation rotator = createRotator(this.computerImage3, this.pcGeneratedCards.get(2));
+        rotator.setCycleCount(1);
+        rotator.play();
 
     }
 
     public boolean fightValidate(ImageView imageView) {
-
         return imageView != null;
     }
 
-    private void fightAction(ImageView imageUser, ImageView imagePC, ImageView fightResultPC, ImageView fightResultUser, Button vsButton) {
+    private void fightAction(ImageView imageUser, Image imagePC, ImageView fightResultPC, ImageView fightResultUser, Button vsButton) {
         String userImageUrl = imageUser.getImage().getUrl().substring(imageUser.getImage().getUrl().lastIndexOf('/') + 1);
-        String pcImageUrl = imagePC.getImage().getUrl().substring(imageUser.getImage().getUrl().lastIndexOf('/') + 1);
+        String pcImageUrl = imagePC.getUrl().substring(imageUser.getImage().getUrl().lastIndexOf('/') + 1);
         checkScore(userImageUrl, pcImageUrl, fightResultPC, fightResultUser);
-        imagePC.setOpacity(1);
         imageUser.getParent().setOnMouseClicked(null);
         vsButton.setDisable(true);
         scoreLabel.setText("Player - %d : %d - Computer".formatted(playerScore, computerScore));
         countFights.setValue(countFights.getValue() + 1);
     }
-
 
     public void playAgain() {
         resetGameSettings();
@@ -278,26 +306,24 @@ public class GameController implements Initializable {
         vsButton1.setDisable(false);
         vsButton2.setDisable(false);
         vsButton3.setDisable(false);
-        gridPaneUser.getChildren().forEach(e-> e.setStyle("-fx-background-color: transparent"));
+        pcGeneratedCards = new ArrayList<>();
+        gridPaneUser.getChildren().forEach(e -> e.setStyle("-fx-background-color: transparent"));
         generatePcCards();
         setCurrentImageViewOnClick();
         scoreLabel.setText("Player - %d : %d - Computer".formatted(playerScore, computerScore));
-
-
     }
-
 
     public void setCurrentImageViewOnClick() {
         for (Node node : gridPaneUser.getChildren()) {
             if (node instanceof Pane pane) {
                 pane.setOnMouseClicked(e -> {
+                    pane.setStyle("-fx-background-color: white");
                     currentImageView = (ImageView) pane.getChildren().get(0);
                     currentPickedImageViews.add(currentImageView);
-                    System.out.println(currentPickedImageViews);
                     if (currentImageView.getImage() != null) {
                         makeScaleTransition(currentImageView);
                     }
-                        pane.setStyle("-fx-background-color: lightblue");
+                    pane.setStyle("-fx-background-color: lightblue");
                 });
             }
         }
@@ -307,7 +333,6 @@ public class GameController implements Initializable {
         Pulse pulse = new Pulse(img);
         pulse.setCycleCount(2);
         pulse.play();
-
     }
 
     public void openAlertStage(String text) {
@@ -317,10 +342,8 @@ public class GameController implements Initializable {
             Scene scene = new Scene(fxmlLoader.load());
             Stage stage = new Stage();
             stage.setScene(scene);
-
             EndGameController endGameController = fxmlLoader.getController();
             endGameController.displayWinner(text);
-
             stage.show();
         } catch (IOException e) {
             throw new RuntimeException("Error while opening new Window");
