@@ -96,21 +96,15 @@ public class GameController implements Initializable {
     private final Random random = new Random();
     private final IntegerProperty countFights = new SimpleIntegerProperty(0);
     private final IntegerProperty countRounds = new SimpleIntegerProperty(1);
-    private final Image backOfCard = new Image("https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Card_back_05a.svg/329px-Card_back_05a.svg.png");
+    private final Image backOfCard = new Image(String.valueOf(this.getClass().getResource("Images/BackOfCard.png")));
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         anchorPane.setStyle("-fx-background-color: #F5E8C7");
-
         generatePcCards();
         setCurrentImageViewOnClick();
-
         setPlayerBackCard();
-
-        this.playerImage1.setImage(this.backOfCard);
-        this.playerImage2.setImage(this.backOfCard);
-        this.playerImage3.setImage(this.backOfCard);
 
         countRounds.addListener(event -> {
             roundDisplayLabel.setText("Round " + countRounds.getValue());
@@ -150,6 +144,10 @@ public class GameController implements Initializable {
         this.playerImage1.setImage(this.backOfCard);
         this.playerImage2.setImage(this.backOfCard);
         this.playerImage3.setImage(this.backOfCard);
+        playerImage1.setRotate(0);
+        playerImage2.setRotate(0);
+        playerImage3.setRotate(0);
+
     }
 
     public void generatePcCards() {
@@ -158,8 +156,7 @@ public class GameController implements Initializable {
                 Image image = new Image(pathsToGameImages.get(random.nextInt(0, 3)));
                 imageView.setRotate(0);
                 this.pcGeneratedCards.add(image);
-                Image back = new Image("https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Card_back_05a.svg/329px-Card_back_05a.svg.png");
-                imageView.setImage(back);
+                imageView.setImage(backOfCard);
             }
         }
     }
@@ -175,6 +172,7 @@ public class GameController implements Initializable {
                 rotator.play();
             }
             setUserImage(image);
+
         }
     }
 
@@ -277,7 +275,7 @@ public class GameController implements Initializable {
 
     @FXML
     public void onSecondFightButtonClick() {
-        if (!this.playerImage1.getImage().getUrl().equals(this.backOfCard.getUrl())) {
+        if (!this.playerImage2.getImage().getUrl().equals(this.backOfCard.getUrl())) {
             Animation rotator = createRotator(this.computerImage2, this.pcGeneratedCards.get(1));
             rotator.setCycleCount(1);
             rotator.play();
@@ -288,7 +286,7 @@ public class GameController implements Initializable {
     @FXML
     public void onThirdFightButtonClick() {
 
-        if (!this.playerImage1.getImage().getUrl().equals(this.backOfCard.getUrl())) {
+        if (!this.playerImage3.getImage().getUrl().equals(this.backOfCard.getUrl())) {
             Animation rotator = createRotator(this.computerImage3, this.pcGeneratedCards.get(2));
             rotator.setCycleCount(1);
             rotator.play();
@@ -347,7 +345,7 @@ public class GameController implements Initializable {
                     currentImageView = (ImageView) pane.getChildren().get(0);
                     currentPickedImageViews.add(currentImageView);
                     if (currentImageView.getImage() != null) {
-                        makeScaleTransition(currentImageView);
+                        pushAnimation(currentImageView);
                     }
                     pane.setStyle("-fx-background-color: #ECCCB2");
                 });
@@ -355,7 +353,7 @@ public class GameController implements Initializable {
         }
     }
 
-    private void makeScaleTransition(ImageView img) {
+    private void pushAnimation(ImageView img) {
         Pulse pulse = new Pulse(img);
         pulse.setCycleCount(3);
         pulse.play();
@@ -363,7 +361,6 @@ public class GameController implements Initializable {
 
     public void openAlertStage(String text) {
         FXMLLoader fxmlLoader = new FXMLLoader(GameOverAlert.class.getResource("gameOverAlert.fxml"));
-
         try {
             Scene scene = new Scene(fxmlLoader.load());
             Stage stage = new Stage();
