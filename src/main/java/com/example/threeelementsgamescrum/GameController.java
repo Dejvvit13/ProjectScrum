@@ -141,28 +141,26 @@ public class GameController implements Initializable {
     @FXML
     public void onFireButtonClick() {
         if (currentPickedImageViews != null) {
-            Image image = new Image(String.valueOf(this.getClass().getResource("Images/FireElement.png")));
-            setUserImage(image);
+            setUserImage(new Image(String.valueOf(this.getClass().getResource("Images/FireElement.png"))));
         }
     }
 
     @FXML
     public void onWaterButtonClick() {
         if (currentImageView != null) {
-            Image image = new Image(String.valueOf(this.getClass().getResource("Images/WaterElement.png")));
-            setUserImage(image);
+            setUserImage(new Image(String.valueOf(this.getClass().getResource("Images/WaterElement.png"))));
         }
     }
 
     @FXML
     public void onWindButtonClick() {
         if (currentImageView != null) {
-            Image image = new Image(String.valueOf(this.getClass().getResource("Images/WindElement.png")));
-            setUserImage(image);
+            setUserImage(new Image(String.valueOf(this.getClass().getResource("Images/WindElement.png"))));
         }
     }
-    public void setUserImage(Image image){
-        currentPickedImageViews.forEach(e-> {
+
+    public void setUserImage(Image image) {
+        currentPickedImageViews.forEach(e -> {
             e.setImage(image);
             e.getParent().setStyle("-fx-background-color: transparent");
         });
@@ -203,44 +201,32 @@ public class GameController implements Initializable {
     @FXML
     public void onFirstFightButtonClick() {
 
-        if (fightValidate(this.playerImage1)) {
-            fightAction(this.playerImage1, this.computerImage1, this.computerResultImage1, this.playerResultImage1, this.vsButton1);
-        }
+        fightAction(this.playerImage1, this.computerImage1, this.computerResultImage1, this.playerResultImage1, this.vsButton1);
         fightAnimation(this.computerImage1);
 
     }
-    public void fightAnimation(ImageView computerImage){
+
+    public void fightAnimation(ImageView computerImage) {
         FlipInY flip = new FlipInY(computerImage);
         flip.setCycleCount(1);
         flip.setSpeed(0.7);
-
         flip.play();
     }
 
     @FXML
     public void onSecondFightButtonClick() {
-
-        if (fightValidate(this.playerImage2)) {
-            fightAction(this.playerImage2, this.computerImage2, this.computerResultImage2, this.fightResultUser2, this.vsButton2);
-        }
+        fightAction(this.playerImage2, this.computerImage2, this.computerResultImage2, this.fightResultUser2, this.vsButton2);
         fightAnimation(this.computerImage2);
-
     }
 
     @FXML
     public void onThirdFightButtonClick() {
 
-        if (fightValidate(this.playerImage3)) {
-            fightAction(this.playerImage3, this.computerImage3, this.computerResultImage3, this.playerResultImage3, this.vsButton3);
-        }
+        fightAction(this.playerImage3, this.computerImage3, this.computerResultImage3, this.playerResultImage3, this.vsButton3);
         fightAnimation(this.computerImage3);
 
     }
 
-    public boolean fightValidate(ImageView imageView) {
-
-        return imageView != null;
-    }
 
     private void fightAction(ImageView imageUser, ImageView imagePC, ImageView fightResultPC, ImageView fightResultUser, Button vsButton) {
         String userImageUrl = imageUser.getImage().getUrl().substring(imageUser.getImage().getUrl().lastIndexOf('/') + 1);
@@ -278,7 +264,7 @@ public class GameController implements Initializable {
         vsButton1.setDisable(false);
         vsButton2.setDisable(false);
         vsButton3.setDisable(false);
-        gridPaneUser.getChildren().forEach(e-> e.setStyle("-fx-background-color: transparent"));
+        gridPaneUser.getChildren().forEach(e -> e.setStyle("-fx-background-color: transparent"));
         generatePcCards();
         setCurrentImageViewOnClick();
         scoreLabel.setText("Player - %d : %d - Computer".formatted(playerScore, computerScore));
@@ -297,7 +283,7 @@ public class GameController implements Initializable {
                     if (currentImageView.getImage() != null) {
                         makeScaleTransition(currentImageView);
                     }
-                        pane.setStyle("-fx-background-color: lightblue");
+                    pane.setStyle("-fx-background-color: lightblue");
                 });
             }
         }
