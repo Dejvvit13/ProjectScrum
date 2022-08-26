@@ -87,9 +87,9 @@ public class GameController implements Initializable {
     private Label roundDisplayLabel; // round text
 
     private final List<String> pathsToGameImages = new ArrayList<>(List.of(
-            String.valueOf(this.getClass().getResource("Images/FireElement.png")),
-            String.valueOf(this.getClass().getResource("Images/WaterElement.png")),
-            String.valueOf(this.getClass().getResource("Images/WindElement.png"))
+            String.valueOf(this.getClass().getResource("Images/FireCard.png")),
+            String.valueOf(this.getClass().getResource("Images/WaterCard.png")),
+            String.valueOf(this.getClass().getResource("Images/WindCard.png"))
     ));
     private int playerScore;
     private int computerScore;
@@ -164,7 +164,7 @@ public class GameController implements Initializable {
     @FXML
     public void onFireButtonClick() {
         if (currentPickedImageViews != null) {
-            Image image = new Image(String.valueOf(this.getClass().getResource("Images/FireElement.png")));
+            Image image = new Image(String.valueOf(this.getClass().getResource("Images/FireCard.png")));
 
             for (ImageView currentPickedImageView : this.currentPickedImageViews) {
                 if(currentPickedImageView.getImage() == backOfCard){
@@ -185,7 +185,7 @@ public class GameController implements Initializable {
     @FXML
     public void onWaterButtonClick() {
         if (currentImageView != null) {
-            Image image = new Image(String.valueOf(this.getClass().getResource("Images/WaterElement.png")));
+            Image image = new Image(String.valueOf(this.getClass().getResource("Images/WaterCard.png")));
             for (ImageView currentPickedImageView : this.currentPickedImageViews) {
                 if(currentPickedImageView.getImage() == backOfCard){
                     Animation rotator = createRotator(currentPickedImageView, image);
@@ -204,7 +204,7 @@ public class GameController implements Initializable {
     @FXML
     public void onWindButtonClick() {
         if (currentImageView != null) {
-            Image image = new Image(String.valueOf(this.getClass().getResource("Images/WindElement.png")));
+            Image image = new Image(String.valueOf(this.getClass().getResource("Images/WindCard.png")));
 
             for (ImageView currentPickedImageView : this.currentPickedImageViews) {
                 if(currentPickedImageView.getImage() == backOfCard){
@@ -230,9 +230,9 @@ public class GameController implements Initializable {
     }
 
     public void checkScore(String playerImageUrl, String computerImageUrl, ImageView computerImage, ImageView playerImage) {
-        String waterElement = "WaterElement.png";
-        String fireElement = "FireElement.png";
-        String windElement = "WindElement.png";
+        String waterElement = "WaterCard.png";
+        String fireElement = "FireCard.png";
+        String windElement = "WindCard.png";
 
         checkWhoWon(playerImage, computerImage, playerImageUrl, computerImageUrl, waterElement, fireElement);
         checkWhoWon(playerImage, computerImage, playerImageUrl, computerImageUrl, windElement, waterElement);
