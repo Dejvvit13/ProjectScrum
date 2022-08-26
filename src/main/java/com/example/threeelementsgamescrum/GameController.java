@@ -203,6 +203,7 @@ public class GameController implements Initializable {
             this.computerScore++;
         }
 
+
     }
 
     public Animation createRotator(ImageView card, Image imageToSet) {
