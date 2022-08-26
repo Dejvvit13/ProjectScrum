@@ -92,7 +92,7 @@
                     </ImageView>
                 </graphic>
             </Button>
-            <ImageView fx:id="fightResultUser2" fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="playerResultImage2" fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                 <VBox.margin>
                     <Insets />
                 </VBox.margin>

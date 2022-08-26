@@ -45,7 +45,7 @@ public class GameController implements Initializable {
     @FXML
     public ImageView playerResultImage3;
     @FXML
-    public ImageView fightResultUser2;
+    public ImageView playerResultImage2;
     @FXML
     private ImageView playerResultImage1;
 
@@ -167,9 +167,15 @@ public class GameController implements Initializable {
             Image image = new Image(String.valueOf(this.getClass().getResource("Images/FireElement.png")));
 
             for (ImageView currentPickedImageView : this.currentPickedImageViews) {
-                Animation rotator = createRotator(currentPickedImageView, image);
-                rotator.setCycleCount(1);
-                rotator.play();
+                if(currentPickedImageView.getImage() == backOfCard){
+                    Animation rotator = createRotator(currentPickedImageView, image);
+                    rotator.setCycleCount(1);
+                    rotator.play();
+                } else{
+                    Animation rotator = createRotator360(currentPickedImageView, image,currentPickedImageView.getImage());
+                    rotator.setCycleCount(1);
+                    rotator.play();
+                }
             }
             setUserImage(image);
 
@@ -181,9 +187,15 @@ public class GameController implements Initializable {
         if (currentImageView != null) {
             Image image = new Image(String.valueOf(this.getClass().getResource("Images/WaterElement.png")));
             for (ImageView currentPickedImageView : this.currentPickedImageViews) {
-                Animation rotator = createRotator(currentPickedImageView, image);
-                rotator.setCycleCount(1);
-                rotator.play();
+                if(currentPickedImageView.getImage() == backOfCard){
+                    Animation rotator = createRotator(currentPickedImageView, image);
+                    rotator.setCycleCount(1);
+                    rotator.play();
+                } else{
+                    Animation rotator = createRotator360(currentPickedImageView, image,currentPickedImageView.getImage());
+                    rotator.setCycleCount(1);
+                    rotator.play();
+                }
             }
             setUserImage(image);
         }
@@ -193,10 +205,17 @@ public class GameController implements Initializable {
     public void onWindButtonClick() {
         if (currentImageView != null) {
             Image image = new Image(String.valueOf(this.getClass().getResource("Images/WindElement.png")));
+
             for (ImageView currentPickedImageView : this.currentPickedImageViews) {
-                Animation rotator = createRotator(currentPickedImageView, image);
-                rotator.setCycleCount(1);
-                rotator.play();
+                if(currentPickedImageView.getImage() == backOfCard){
+                    Animation rotator = createRotator(currentPickedImageView, image);
+                    rotator.setCycleCount(1);
+                    rotator.play();
+                } else{
+                    Animation rotator = createRotator360(currentPickedImageView, image,currentPickedImageView.getImage());
+                    rotator.setCycleCount(1);
+                    rotator.play();
+                }
             }
             setUserImage(image);
         }
@@ -226,17 +245,29 @@ public class GameController implements Initializable {
         Image lose = new Image(String.valueOf(this.getClass().getResource("Images/lose.png")));
 
         if (playerImageUrl.equals(computerImageUrl)) {
-            playerImage.setImage(draw);
-            computerImage.setImage(draw);
+            setIcons(playerImage, computerImage, draw,draw);
+
         } else if (playerImageUrl.equals(firstElement) && computerImageUrl.equals(secondElement)) {
-            playerImage.setImage(win);
-            computerImage.setImage(lose);
+            setIcons(playerImage, computerImage, win,lose);
             this.playerScore++;
+
         } else if (playerImageUrl.equals(secondElement) && computerImageUrl.equals(firstElement)) {
-            playerImage.setImage(lose);
-            computerImage.setImage(win);
+            setIcons(playerImage, computerImage, lose,draw);
             this.computerScore++;
         }
+    }
+    private void setIcons(ImageView playerImage, ImageView computerImage, Image computerIcon, Image playerIcon){
+        Timeline timeline = new Timeline(
+                new KeyFrame(
+                        Duration.millis(300),
+                        e->{
+                            playerImage.setImage(playerIcon);
+                            computerImage.setImage(computerIcon);
+                        }
+                )
+        );
+        timeline.setCycleCount(1);
+        timeline.play();
     }
 
     public Animation createRotator(ImageView card, Image imageToSet) {
@@ -261,6 +292,31 @@ public class GameController implements Initializable {
         return new ParallelTransition(card, rotator, imageSwitcher);
     }
 
+    public Animation createRotator360(ImageView card, Image imageToSet, Image currentImage) {
+
+        card.setImage(imageToSet);
+        RotateTransition rotator = new RotateTransition(Duration.millis(900), card);
+        rotator.setAxis(Rotate.Y_AXIS);
+        rotator.setFromAngle(180);
+        rotator.setToAngle(540);
+        rotator.setInterpolator(Interpolator.LINEAR);
+        rotator.setCycleCount(1);
+        Image front = new Image(
+                card.getImage().getUrl(),
+                false);
+        Timeline imageSwitcher = new Timeline(
+                new KeyFrame(Duration.ZERO,
+                        new KeyValue(card.imageProperty(), currentImage, Interpolator.DISCRETE)),
+                new KeyFrame(Duration.millis(300),
+                        new KeyValue(card.imageProperty(), backOfCard, Interpolator.DISCRETE)),
+                new KeyFrame(Duration.millis(600),
+                        new KeyValue(card.imageProperty(), front, Interpolator.DISCRETE))
+        );
+        imageSwitcher.setCycleCount(1);
+        return new ParallelTransition(card, rotator, imageSwitcher);
+    }
+
+
     @FXML
     public void onFirstFightButtonClick() {
         if (!this.playerImage1.getImage().getUrl().equals(this.backOfCard.getUrl())) {
@@ -279,7 +335,7 @@ public class GameController implements Initializable {
             Animation rotator = createRotator(this.computerImage2, this.pcGeneratedCards.get(1));
             rotator.setCycleCount(1);
             rotator.play();
-            fightAction(this.playerImage2, pcGeneratedCards.get(1), this.computerResultImage2, this.fightResultUser2, this.vsButton2);
+            fightAction(this.playerImage2, pcGeneratedCards.get(1), this.computerResultImage2, this.playerResultImage2, this.vsButton2);
         }
     }
 
@@ -324,7 +380,7 @@ public class GameController implements Initializable {
         computerResultImage2.setImage(null);
         computerResultImage3.setImage(null);
         playerResultImage1.setImage(null);
-        fightResultUser2.setImage(null);
+        playerResultImage2.setImage(null);
         playerResultImage3.setImage(null);
         vsButton1.setDisable(false);
         vsButton2.setDisable(false);
