@@ -125,6 +125,8 @@
             <Font size="24.0" />
         </font>
     </Label>
+   <Label fx:id="computerWonRoundsLabel" layoutX="52.0" layoutY="24.0" text="Computer won rounds: 0" />
+   <Label fx:id="playerWonRoundsLabel" layoutX="500.0" layoutY="24.0" text="Player won rounds: 0" />
    <opaqueInsets>
       <Insets />
    </opaqueInsets>

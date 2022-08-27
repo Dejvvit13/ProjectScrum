@@ -25,6 +25,8 @@ import java.util.*;
 
 public class GameController implements Initializable {
 
+    private Label computerWonRoundsLabel;
+    private Label playerWonRoundsLabel;
     //1- left image 2 - middle image 3 -  right image
     // Result image for PC
     @FXML
@@ -88,6 +90,8 @@ public class GameController implements Initializable {
     private final Random random = new Random();
     private final IntegerProperty countFights = new SimpleIntegerProperty(0);
     private final IntegerProperty countRounds = new SimpleIntegerProperty(1);
+    private  int countPlayerWonRounds = 0;
+    private  int countComputerWonRounds = 0;
     private final Image backOfCard = new Image(String.valueOf(this.getClass().getResource("Images/BackOfCard.png")));
     private final Image windCard = new Image(String.valueOf(this.getClass().getResource("Images/WindCard.png")));
     private final Image fireCard = new Image(String.valueOf(this.getClass().getResource("Images/FireCard.png")));
@@ -109,15 +113,46 @@ public class GameController implements Initializable {
     private void setCountingSystem(){
         countRounds.addListener(event -> {
             roundDisplayLabel.setText("Round " + countRounds.getValue());
-            if (countRounds.getValue() > 3) {
-                if (playerScore == computerScore) {
-                    openAlertStage("It's DRAW");
-                } else if (playerScore > computerScore) {
-                    openAlertStage("Player Won");
 
-                } else {
-                    openAlertStage("Computer Won");
+            if(this.computerScore > this.playerScore){
+                this.countComputerWonRounds++;
+            }
+            if(this.computerScore < this.playerScore){
+                this.countPlayerWonRounds++;
+            }
+
+            this.computerWonRoundsLabel.setText("Computer won rounds: " + this.countComputerWonRounds);
+            this.playerWonRoundsLabel.setText("Player won rounds: " + this.countPlayerWonRounds);
+
+
+            if(countPlayerWonRounds == 2){
+                openAlertStage("Player Won1");
+                playAgain();
+                return;
+            }
+            else if(countComputerWonRounds ==2){
+                openAlertStage("Computer Won1");
+                playAgain();
+                return;
+            }
+            if (countRounds.getValue() > 3) {
+                if (countPlayerWonRounds < countComputerWonRounds) {
+                    openAlertStage("Computer Won2");
+                    playAgain();
+                    return;
+                }else if(countPlayerWonRounds > countComputerWonRounds){
+                    openAlertStage("Player Won2");
+                    playAgain();
+                    return;
+
+                } else if(countPlayerWonRounds == countComputerWonRounds){
+                    openAlertStage("It's DRAW");
+                    playAgain();
+                    return;
+
                 }
+
+
                 roundDisplayLabel.setText("Round 1");
                 computerScore = 0;
                 playerScore = 0;
@@ -133,6 +168,10 @@ public class GameController implements Initializable {
                                 e -> {
                                     countRounds.setValue(countRounds.getValue() + 1);
                                     countFights.set(0);
+                                    this.playerScore = 0;
+                                    this.computerScore =0;
+                                    scoreLabel.setText("Player - %d : %d - Computer".formatted(playerScore, computerScore));
+
                                 }
                         ));
                 roundChange.setCycleCount(1);
@@ -373,12 +412,17 @@ public class GameController implements Initializable {
         countFights.setValue(countFights.getValue() + 1);
     }
 
+    @FXML
     public void playAgain() {
         resetGameSettings();
+        countComputerWonRounds =0;
+        countPlayerWonRounds = 0;
         computerScore = 0;
         playerScore = 0;
         countFights.set(0);
         countRounds.set(1);
+        this.computerWonRoundsLabel.setText("Computer won rounds: " + 0);
+        this.playerWonRoundsLabel.setText("Player won rounds: " + 0);
     }
 
     private void resetGameSettings() {
@@ -399,6 +443,7 @@ public class GameController implements Initializable {
         vsButton3.setDisable(false);
         pcGeneratedCards = new ArrayList<>();
         currentPickedImageViews = new ArrayList<>();
+
         generatePcCards();
         setPlayerBackCard();
         setCurrentImageViewOnClick();
