@@ -1,7 +1,6 @@
 package com.example.threeelementsgamescrum;
 
 
-import animatefx.animation.AnimationFX;
 import animatefx.animation.Pulse;
 import javafx.animation.*;
 import javafx.beans.property.IntegerProperty;
@@ -162,12 +161,12 @@ public class GameController implements Initializable {
     public void onFireButtonClick() {
         if (currentPickedImageViews != null) {
             Image image = new Image(String.valueOf(this.getClass().getResource("Images/FireCard.png")));
-            currentPulsingImages.forEach(e -> {
+            currentPulsingAnimations.forEach(e -> {
                 e.stop();
                 e.setCycleCount(1);
                 e.play();
             });
-            currentPulsingImages = new HashSet<>();
+            currentPulsingAnimations = new HashSet<>();
             for (ImageView currentPickedImageView : this.currentPickedImageViews) {
                 if (currentPickedImageView.getImage() == backOfCard) {
                     Animation rotator = createRotator(currentPickedImageView, image);
@@ -187,12 +186,12 @@ public class GameController implements Initializable {
     @FXML
     public void onWaterButtonClick() {
         if (currentPickedImageViews != null) {
-            currentPulsingImages.forEach(e -> {
+            currentPulsingAnimations.forEach(e -> {
                 e.stop();
                 e.setCycleCount(1);
                 e.play();
             });
-            currentPulsingImages = new HashSet<>();
+            currentPulsingAnimations = new HashSet<>();
 
             Image image = new Image(String.valueOf(this.getClass().getResource("Images/WaterCard.png")));
             for (ImageView currentPickedImageView : this.currentPickedImageViews) {
@@ -214,12 +213,12 @@ public class GameController implements Initializable {
     public void onWindButtonClick() {
         if (currentPickedImageViews != null) {
             Image image = new Image(String.valueOf(this.getClass().getResource("Images/WindCard.png")));
-            currentPulsingImages.forEach(e -> {
+            currentPulsingAnimations.forEach(e -> {
                 e.stop();
                 e.setCycleCount(1);
                 e.play();
             });
-            currentPulsingImages = new HashSet<>();
+            currentPulsingAnimations = new HashSet<>();
             for (ImageView currentPickedImageView : this.currentPickedImageViews) {
 
                 if (currentPickedImageView.getImage() == backOfCard) {
@@ -411,20 +410,21 @@ public class GameController implements Initializable {
 
     public void setCurrentImageViewOnClick() {
         for (Node node : gridPaneUser.getChildren()) {
-            if (node instanceof Pane pane) {
-                pane.setOnMouseClicked(e -> {
-                    currentImageView = (ImageView) pane.getChildren().get(0);
+            if (node instanceof ImageView imageView) {
+                imageView.setOnMouseClicked(e -> {
+                    currentImageView = imageView;
+
                     if (!currentPickedImageViews.contains(currentImageView)) {
                         currentPickedImageViews.add(currentImageView);
                     }
 
-                    currentPulsingImages.forEach(i -> {
+                    currentPulsingAnimations.forEach(i -> {
                         if (i.getNode().equals(currentImageView)) {
                             currentPickedImageViews.remove(currentImageView);
                             i.stop();
                             i.setCycleCount(1);
                             i.play();
-                            currentPulsingImages.remove(i);
+                            currentPulsingAnimations.remove(i);
 
                             currentImageView = null;
                         }
@@ -439,12 +439,11 @@ public class GameController implements Initializable {
         }
     }
 
-    Pulse pulse;
-    Set<Pulse> currentPulsingImages = new HashSet<>();
+    private Set<Pulse> currentPulsingAnimations = new HashSet<>();
 
     private void pulseAnimation(ImageView img) {
-        pulse = new Pulse(img);
-        currentPulsingImages.add(pulse);
+        Pulse pulse = new Pulse(img);
+        currentPulsingAnimations.add(pulse);
         pulse.setCycleCount(-1);
         pulse.play();
     }
