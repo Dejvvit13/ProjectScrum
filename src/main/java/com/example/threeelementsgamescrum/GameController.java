@@ -410,6 +410,8 @@ public class GameController implements Initializable {
                         if (i.getNode().equals(currentImageView)) {
                             currentPickedImageViews.remove(currentImageView);
                             i.stop();
+                            i.setCycleCount(1);
+                            i.play();
                             currentPulsingImages.remove(i);
 
                             currentImageView = null;
