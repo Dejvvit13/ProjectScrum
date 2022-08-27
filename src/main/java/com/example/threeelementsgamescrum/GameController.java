@@ -16,7 +16,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -94,6 +93,15 @@ public class GameController implements Initializable {
     private final IntegerProperty countFights = new SimpleIntegerProperty(0);
     private final IntegerProperty countRounds = new SimpleIntegerProperty(1);
     private final Image backOfCard = new Image(String.valueOf(this.getClass().getResource("Images/BackOfCard.png")));
+    private final Image windCard = new Image(String.valueOf(this.getClass().getResource("Images/WindCard.png")));
+    private final Image fireCard = new Image(String.valueOf(this.getClass().getResource("Images/FireCard.png")));
+    private final Image waterCard = new Image(String.valueOf(this.getClass().getResource("Images/WaterCard.png")));
+    private final Image draw = new Image(String.valueOf(this.getClass().getResource("Images/draw.png")));
+    private final Image win = new Image(String.valueOf(this.getClass().getResource("Images/win.png")));
+    private final Image lose = new Image(String.valueOf(this.getClass().getResource("Images/lose.png")));
+
+    private Set<Pulse> currentPulsingAnimations = new HashSet<>();
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -147,100 +155,94 @@ public class GameController implements Initializable {
     }
 
     public void generatePcCards() {
-        for (Node node : gridPanePC.getChildren()) {
+        for (Node node : this.gridPanePC.getChildren()) {
             if (node instanceof ImageView imageView) {
-                Image image = new Image(pathsToGameImages.get(random.nextInt(0, 3)));
+                Image image = new Image(this.pathsToGameImages.get(random.nextInt(0, 3)));
                 imageView.setRotate(0);
                 this.pcGeneratedCards.add(image);
-                imageView.setImage(backOfCard);
+                imageView.setImage(this.backOfCard);
             }
         }
     }
 
     @FXML
     public void onFireButtonClick() {
-        if (currentPickedImageViews != null) {
-            Image image = new Image(String.valueOf(this.getClass().getResource("Images/FireCard.png")));
-            currentPulsingAnimations.forEach(e -> {
+        if (this.currentPickedImageViews != null) {
+            this.currentPulsingAnimations.forEach(e -> {
                 e.stop();
                 e.setCycleCount(1);
                 e.play();
             });
-            currentPulsingAnimations = new HashSet<>();
+            this.currentPulsingAnimations = new HashSet<>();
             for (ImageView currentPickedImageView : this.currentPickedImageViews) {
-                if (currentPickedImageView.getImage() == backOfCard) {
-                    Animation rotator = createRotator(currentPickedImageView, image);
+                if (currentPickedImageView.getImage() == this.backOfCard) {
+                    Animation rotator = createRotator(currentPickedImageView, this.fireCard);
                     rotator.setCycleCount(1);
                     rotator.play();
                 } else {
-                    Animation rotator = createRotator360(currentPickedImageView, image, currentPickedImageView.getImage());
+                    Animation rotator = createRotator360(currentPickedImageView, this.fireCard, currentPickedImageView.getImage());
                     rotator.setCycleCount(1);
                     rotator.play();
                 }
             }
-            setUserImage(image);
+            setUserImage(fireCard);
 
         }
     }
 
     @FXML
     public void onWaterButtonClick() {
-        if (currentPickedImageViews != null) {
-            currentPulsingAnimations.forEach(e -> {
+        if (this.currentPickedImageViews != null) {
+            this.currentPulsingAnimations.forEach(e -> {
                 e.stop();
                 e.setCycleCount(1);
                 e.play();
             });
-            currentPulsingAnimations = new HashSet<>();
+            this.currentPulsingAnimations = new HashSet<>();
 
-            Image image = new Image(String.valueOf(this.getClass().getResource("Images/WaterCard.png")));
             for (ImageView currentPickedImageView : this.currentPickedImageViews) {
-                if (currentPickedImageView.getImage() == backOfCard) {
-                    Animation rotator = createRotator(currentPickedImageView, image);
+                if (currentPickedImageView.getImage() == this.backOfCard) {
+                    Animation rotator = createRotator(currentPickedImageView, this.waterCard);
                     rotator.setCycleCount(1);
                     rotator.play();
                 } else {
-                    Animation rotator = createRotator360(currentPickedImageView, image, currentPickedImageView.getImage());
+                    Animation rotator = createRotator360(currentPickedImageView, this.waterCard, currentPickedImageView.getImage());
                     rotator.setCycleCount(1);
                     rotator.play();
                 }
             }
-            setUserImage(image);
+            setUserImage(this.waterCard);
         }
     }
 
     @FXML
     public void onWindButtonClick() {
-        if (currentPickedImageViews != null) {
-            Image image = new Image(String.valueOf(this.getClass().getResource("Images/WindCard.png")));
-            currentPulsingAnimations.forEach(e -> {
+        if (this.currentPickedImageViews != null) {
+            this.currentPulsingAnimations.forEach(e -> {
                 e.stop();
                 e.setCycleCount(1);
                 e.play();
             });
-            currentPulsingAnimations = new HashSet<>();
+            this.currentPulsingAnimations = new HashSet<>();
             for (ImageView currentPickedImageView : this.currentPickedImageViews) {
 
-                if (currentPickedImageView.getImage() == backOfCard) {
-                    Animation rotator = createRotator(currentPickedImageView, image);
+                if (currentPickedImageView.getImage() == this.backOfCard) {
+                    Animation rotator = createRotator(currentPickedImageView, this.windCard);
                     rotator.setCycleCount(1);
                     rotator.play();
                 } else {
-                    Animation rotator = createRotator360(currentPickedImageView, image, currentPickedImageView.getImage());
+                    Animation rotator = createRotator360(currentPickedImageView, this.windCard, currentPickedImageView.getImage());
                     rotator.setCycleCount(1);
                     rotator.play();
                 }
             }
-            setUserImage(image);
+            setUserImage(this.windCard);
         }
     }
 
     public void setUserImage(Image image) {
-        currentPickedImageViews.forEach(e -> {
-            e.setImage(image);
-            e.getParent().setStyle("-fx-background-color: transparent");
-        });
-        currentPickedImageViews = new ArrayList<>();
+        this.currentPickedImageViews.forEach(e -> e.setImage(image));
+        this.currentPickedImageViews = new ArrayList<>();
     }
 
     public void checkScore(String playerImageUrl, String computerImageUrl, ImageView computerImage, ImageView playerImage) {
@@ -254,19 +256,17 @@ public class GameController implements Initializable {
     }
 
     public void checkWhoWon(ImageView playerImage, ImageView computerImage, String playerImageUrl, String computerImageUrl, String firstElement, String secondElement) {
-        Image draw = new Image(String.valueOf(this.getClass().getResource("Images/draw.png")));
-        Image win = new Image(String.valueOf(this.getClass().getResource("Images/win.png")));
-        Image lose = new Image(String.valueOf(this.getClass().getResource("Images/lose.png")));
+
 
         if (playerImageUrl.equals(computerImageUrl)) {
-            setIcons(playerImage, computerImage, draw, draw);
+            setIcons(playerImage, computerImage, this.draw, this.draw);
 
         } else if (playerImageUrl.equals(firstElement) && computerImageUrl.equals(secondElement)) {
-            setIcons(playerImage, computerImage, win, lose);
+            setIcons(playerImage, computerImage, this.win, this.lose);
             this.playerScore++;
 
         } else if (playerImageUrl.equals(secondElement) && computerImageUrl.equals(firstElement)) {
-            setIcons(playerImage, computerImage, lose, draw);
+            setIcons(playerImage, computerImage, this.lose, this.draw);
             this.computerScore++;
         }
     }
@@ -323,7 +323,7 @@ public class GameController implements Initializable {
                 new KeyFrame(Duration.ZERO,
                         new KeyValue(card.imageProperty(), currentImage, Interpolator.DISCRETE)),
                 new KeyFrame(Duration.millis(300),
-                        new KeyValue(card.imageProperty(), backOfCard, Interpolator.DISCRETE)),
+                        new KeyValue(card.imageProperty(), this.backOfCard, Interpolator.DISCRETE)),
                 new KeyFrame(Duration.millis(600),
                         new KeyValue(card.imageProperty(), front, Interpolator.DISCRETE))
         );
@@ -340,7 +340,7 @@ public class GameController implements Initializable {
             flip.setCycleCount(1);
             flip.play();
 
-            fightAction(this.playerImage1, pcGeneratedCards.get(0), this.computerResultImage1, this.playerResultImage1, this.vsButton1);
+            fightAction(this.playerImage1, this.pcGeneratedCards.get(0), this.computerResultImage1, this.playerResultImage1, this.vsButton1);
         }
     }
 
@@ -350,7 +350,7 @@ public class GameController implements Initializable {
             Animation rotator = createRotator(this.computerImage2, this.pcGeneratedCards.get(1));
             rotator.setCycleCount(1);
             rotator.play();
-            fightAction(this.playerImage2, pcGeneratedCards.get(1), this.computerResultImage2, this.playerResultImage2, this.vsButton2);
+            fightAction(this.playerImage2, this.pcGeneratedCards.get(1), this.computerResultImage2, this.playerResultImage2, this.vsButton2);
         }
     }
 
@@ -362,7 +362,7 @@ public class GameController implements Initializable {
             rotator.setCycleCount(1);
             rotator.play();
 
-            fightAction(this.playerImage3, pcGeneratedCards.get(2), this.computerResultImage3, this.playerResultImage3, this.vsButton3);
+            fightAction(this.playerImage3, this.pcGeneratedCards.get(2), this.computerResultImage3, this.playerResultImage3, this.vsButton3);
         }
     }
 
@@ -409,43 +409,43 @@ public class GameController implements Initializable {
     }
 
     public void setCurrentImageViewOnClick() {
-        for (Node node : gridPaneUser.getChildren()) {
+        for (Node node : this.gridPaneUser.getChildren()) {
             if (node instanceof ImageView imageView) {
                 imageView.setOnMouseClicked(e -> {
-                    currentImageView = imageView;
-
-                    if (!currentPickedImageViews.contains(currentImageView)) {
-                        currentPickedImageViews.add(currentImageView);
+                    this.currentImageView = imageView;
+                    if (!this.currentPickedImageViews.contains(this.currentImageView)) {
+                        this.currentPickedImageViews.add(this.currentImageView);
                     }
-
-                    currentPulsingAnimations.forEach(i -> {
-                        if (i.getNode().equals(currentImageView)) {
-                            currentPickedImageViews.remove(currentImageView);
-                            i.stop();
-                            i.setCycleCount(1);
-                            i.play();
-                            currentPulsingAnimations.remove(i);
-
-                            currentImageView = null;
-                        }
-                    });
-
-                    if (currentImageView != null) {
-                        pulseAnimation(currentImageView);
-                    }
+                    setPuleAnimation();
 
                 });
             }
         }
     }
 
-    private Set<Pulse> currentPulsingAnimations = new HashSet<>();
 
     private void pulseAnimation(ImageView img) {
         Pulse pulse = new Pulse(img);
-        currentPulsingAnimations.add(pulse);
+        this.currentPulsingAnimations.add(pulse);
         pulse.setCycleCount(-1);
         pulse.play();
+    }
+    private void setPuleAnimation(){
+        this.currentPulsingAnimations.forEach(i -> {
+            if (i.getNode().equals(this.currentImageView)) {
+                this.currentPickedImageViews.remove(this.currentImageView);
+                i.stop();
+                i.setCycleCount(1);
+                i.play();
+                this.currentPulsingAnimations.remove(i);
+                this.currentImageView = null;
+            }
+        });
+
+        if (this.currentImageView != null) {
+            pulseAnimation(this.currentImageView);
+        }
+
     }
 
     public void openAlertStage(String text) {
