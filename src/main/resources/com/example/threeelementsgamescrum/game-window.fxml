@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="733.0" prefWidth="644.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.threeelementsgamescrum.GameController">
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="733.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.threeelementsgamescrum.GameController">
     <GridPane fx:id="gridPaneComputer" layoutX="24.0" layoutY="63.0" prefHeight="220.0" prefWidth="600.0">
         <columnConstraints>
             <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -52,7 +52,7 @@
          <ImageView id="imageWindow" fx:id="playerImageView2" fitHeight="220.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
          <ImageView id="imageWindow" fx:id="playerImageView3" fitHeight="220.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" />
     </GridPane>
-    <HBox alignment="CENTER" layoutX="1.0" layoutY="295.0" prefHeight="100.0" prefWidth="650.0">
+    <HBox alignment="CENTER" layoutX="26.0" layoutY="296.0" prefHeight="100.0" prefWidth="600.0">
         <VBox alignment="CENTER" prefHeight="83.0" prefWidth="215.0">
             <ImageView fx:id="computerResultImage1" fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                 <VBox.margin>

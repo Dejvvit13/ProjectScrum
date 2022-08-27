@@ -152,7 +152,8 @@ public class GameController implements Initializable {
         });
 
     }
-    private void setScoreSystem(){
+
+    private void setScoreSystem() {
 
         this.countFights.addListener(event -> {
             if (this.countFights.getValue() == 3) {
@@ -370,7 +371,7 @@ public class GameController implements Initializable {
             flip.play();
             fightAction(this.playerImageView1, this.computerGeneratedCards.get(0), this.computerResultImage1, this.playerResultImage1, this.vsButton1);
             this.playerImageView1.setOnMouseClicked(null);
-            removePulseAnimation();
+            removePulseAnimation(this.playerImageView1);
         }
     }
 
@@ -382,7 +383,7 @@ public class GameController implements Initializable {
             rotator.play();
             fightAction(this.playerImageView2, this.computerGeneratedCards.get(1), this.computerResultImage2, this.playerResultImage2, this.vsButton2);
             this.playerImageView2.setOnMouseClicked(null);
-            removePulseAnimation();
+            removePulseAnimation(this.playerImageView2);
         }
 
     }
@@ -395,7 +396,7 @@ public class GameController implements Initializable {
             rotator.play();
             fightAction(this.playerImageView3, this.computerGeneratedCards.get(2), this.computerResultImage3, this.playerResultImage3, this.vsButton3);
             this.playerImageView3.setOnMouseClicked(null);
-            removePulseAnimation();
+            removePulseAnimation(this.playerImageView3);
         }
     }
 
@@ -438,8 +439,11 @@ public class GameController implements Initializable {
         vsButton1.setDisable(false);
         vsButton2.setDisable(false);
         vsButton3.setDisable(false);
+        removeAllPulseAnimation();
+
         computerGeneratedCards = new ArrayList<>();
         currentPickedImageViews = new ArrayList<>();
+        currentPulsingAnimations = new HashSet<>();
         generatePcCards();
         setPlayerBackCard();
         setCurrentImageViewOnClick();
@@ -469,25 +473,34 @@ public class GameController implements Initializable {
         pulse.play();
     }
 
-    public void removePulseAnimation(){
+    public void removeAllPulseAnimation() {
+        this.currentPulsingAnimations.forEach(e -> {
+            e.stop();
+            e.setCycleCount(1);
+            e.play();
+        });
+    }
+
+    public void removePulseAnimation(ImageView playerImageView) {
+
         this.currentPulsingAnimations.forEach(i -> {
-            if (i.getNode().equals(this.currentImageView)) {
-                this.currentPickedImageViews.remove(this.currentImageView);
+            if (i.getNode() == (playerImageView)) {
                 i.stop();
                 i.setCycleCount(1);
                 i.play();
-                this.currentPulsingAnimations.remove(i);
+                this.currentPickedImageViews.remove(i);
                 this.currentImageView = null;
             }
         });
+        this.currentPulsingAnimations.removeIf(e -> e.getNode() == playerImageView);
     }
+
+
     private void setPulseAnimation() {
+        removePulseAnimation(currentImageView);
         if (this.currentImageView != null) {
             pulseAnimation(this.currentImageView);
-        } else{
-            removePulseAnimation();
         }
-
     }
 
     private void openAlertStage(String text) {
