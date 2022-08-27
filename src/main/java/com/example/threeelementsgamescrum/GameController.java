@@ -14,7 +14,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
@@ -29,35 +28,31 @@ public class GameController implements Initializable {
     //1- left image 2 - middle image 3 -  right image
     // Result image for PC
     @FXML
-    public ImageView computerResultImage3;
+    private ImageView computerResultImage3;
     @FXML
-    public ImageView computerResultImage2;
+    private ImageView computerResultImage2;
     @FXML
     private ImageView computerResultImage1;
 
     // Result image for User
     @FXML
-    public ImageView playerResultImage3;
+    private ImageView playerResultImage3;
     @FXML
-    public ImageView playerResultImage2;
+    private ImageView playerResultImage2;
     @FXML
     private ImageView playerResultImage1;
 
     //versus buttons
     @FXML
-    public Button vsButton1;
+    private Button vsButton1;
     @FXML
-    public Button vsButton2;
+    private Button vsButton2;
     @FXML
-    public Button vsButton3;
+    private Button vsButton3;
     @FXML
     private GridPane gridPanePC; // pc cards container
     @FXML
     private GridPane gridPaneUser; // user cards container
-
-    private ImageView currentImageView; //currently picked card slot
-    private List<ImageView> currentPickedImageViews = new ArrayList<>();
-    private List<Image> pcGeneratedCards = new ArrayList<>();
 
     // user images
     @FXML
@@ -85,6 +80,9 @@ public class GameController implements Initializable {
             String.valueOf(this.getClass().getResource("Images/WaterCard.png")),
             String.valueOf(this.getClass().getResource("Images/WindCard.png"))
     ));
+    private ImageView currentImageView; //currently picked card slot
+    private List<ImageView> currentPickedImageViews = new ArrayList<>();
+    private List<Image> pcGeneratedCards = new ArrayList<>();
     private int playerScore;
     private int computerScore;
     private final Random random = new Random();
@@ -106,7 +104,9 @@ public class GameController implements Initializable {
         generatePcCards();
         setCurrentImageViewOnClick();
         setPlayerBackCard();
-
+        setCountingSystem();
+    }
+    private void setCountingSystem(){
         countRounds.addListener(event -> {
             roundDisplayLabel.setText("Round " + countRounds.getValue());
             if (countRounds.getValue() > 3) {
@@ -141,7 +141,7 @@ public class GameController implements Initializable {
         });
     }
 
-    public void setPlayerBackCard() {
+    private void setPlayerBackCard() {
         this.playerImage1.setImage(this.backOfCard);
         this.playerImage2.setImage(this.backOfCard);
         this.playerImage3.setImage(this.backOfCard);
@@ -151,7 +151,7 @@ public class GameController implements Initializable {
 
     }
 
-    public void generatePcCards() {
+    private void generatePcCards() {
         for (Node node : this.gridPanePC.getChildren()) {
             if (node instanceof ImageView imageView) {
                 Image image = new Image(this.pathsToGameImages.get(random.nextInt(0, 3)));
@@ -163,7 +163,7 @@ public class GameController implements Initializable {
     }
 
     @FXML
-    public void onFireButtonClick() {
+    private void onFireButtonClick() {
         if (this.currentPickedImageViews != null) {
             this.currentPulsingAnimations.forEach(e -> {
                 e.stop();
@@ -188,7 +188,7 @@ public class GameController implements Initializable {
     }
 
     @FXML
-    public void onWaterButtonClick() {
+    private void onWaterButtonClick() {
         if (this.currentPickedImageViews != null) {
             this.currentPulsingAnimations.forEach(e -> {
                 e.stop();
@@ -213,7 +213,7 @@ public class GameController implements Initializable {
     }
 
     @FXML
-    public void onWindButtonClick() {
+    private void onWindButtonClick() {
         if (this.currentPickedImageViews != null) {
             this.currentPulsingAnimations.forEach(e -> {
                 e.stop();
@@ -237,12 +237,12 @@ public class GameController implements Initializable {
         }
     }
 
-    public void setUserImage(Image image) {
+    private void setUserImage(Image image) {
         this.currentPickedImageViews.forEach(e -> e.setImage(image));
         this.currentPickedImageViews = new ArrayList<>();
     }
 
-    public void checkScore(String playerImageUrl, String computerImageUrl, ImageView computerImage, ImageView playerImage) {
+    private void checkScore(String playerImageUrl, String computerImageUrl, ImageView computerImage, ImageView playerImage) {
         String waterElement = "WaterCard.png";
         String fireElement = "FireCard.png";
         String windElement = "WindCard.png";
@@ -252,7 +252,7 @@ public class GameController implements Initializable {
         checkWhoWon(playerImage, computerImage, playerImageUrl, computerImageUrl, fireElement, windElement);
     }
 
-    public void checkWhoWon(ImageView playerImage, ImageView computerImage, String playerImageUrl, String computerImageUrl, String firstElement, String secondElement) {
+    private void checkWhoWon(ImageView playerImage, ImageView computerImage, String playerImageUrl, String computerImageUrl, String firstElement, String secondElement) {
 
 
         if (playerImageUrl.equals(computerImageUrl)) {
@@ -282,7 +282,7 @@ public class GameController implements Initializable {
         timeline.play();
     }
 
-    public Animation createRotator(ImageView card, Image imageToSet) {
+    private Animation createRotator(ImageView card, Image imageToSet) {
 
         card.setImage(imageToSet);
         RotateTransition rotator = new RotateTransition(Duration.millis(600), card);
@@ -304,7 +304,7 @@ public class GameController implements Initializable {
         return new ParallelTransition(card, rotator, imageSwitcher);
     }
 
-    public Animation createRotator360(ImageView card, Image imageToSet, Image currentImage) {
+    private Animation createRotator360(ImageView card, Image imageToSet, Image currentImage) {
 
         card.setImage(imageToSet);
         RotateTransition rotator = new RotateTransition(Duration.millis(900), card);
@@ -330,7 +330,7 @@ public class GameController implements Initializable {
 
 
     @FXML
-    public void onFirstFightButtonClick() {
+    private void onFirstFightButtonClick() {
         if (!this.playerImage1.getImage().getUrl().equals(this.backOfCard.getUrl())) {
             Animation flip = createRotator(this.computerImage1, this.pcGeneratedCards.get(0));
             flip.setAutoReverse(true);
@@ -342,7 +342,7 @@ public class GameController implements Initializable {
     }
 
     @FXML
-    public void onSecondFightButtonClick() {
+    private void onSecondFightButtonClick() {
         if (!this.playerImage2.getImage().getUrl().equals(this.backOfCard.getUrl())) {
             Animation rotator = createRotator(this.computerImage2, this.pcGeneratedCards.get(1));
             rotator.setCycleCount(1);
@@ -352,7 +352,7 @@ public class GameController implements Initializable {
     }
 
     @FXML
-    public void onThirdFightButtonClick() {
+    private void onThirdFightButtonClick() {
 
         if (!this.playerImage3.getImage().getUrl().equals(this.backOfCard.getUrl())) {
             Animation rotator = createRotator(this.computerImage3, this.pcGeneratedCards.get(2));
@@ -373,7 +373,7 @@ public class GameController implements Initializable {
         countFights.setValue(countFights.getValue() + 1);
     }
 
-    public void playAgain() {
+    private void playAgain() {
         resetGameSettings();
         computerScore = 0;
         playerScore = 0;
@@ -381,7 +381,7 @@ public class GameController implements Initializable {
         countRounds.set(1);
     }
 
-    public void resetGameSettings() {
+    private void resetGameSettings() {
         playerImage1.setImage(null);
         playerImage2.setImage(null);
         playerImage3.setImage(null);
@@ -405,7 +405,7 @@ public class GameController implements Initializable {
         scoreLabel.setText("Player - %d : %d - Computer".formatted(playerScore, computerScore));
     }
 
-    public void setCurrentImageViewOnClick() {
+    private void setCurrentImageViewOnClick() {
         for (Node node : this.gridPaneUser.getChildren()) {
             if (node instanceof ImageView imageView) {
                 imageView.setOnMouseClicked(e -> {
@@ -413,7 +413,7 @@ public class GameController implements Initializable {
                     if (!this.currentPickedImageViews.contains(this.currentImageView)) {
                         this.currentPickedImageViews.add(this.currentImageView);
                     }
-                    setPuleAnimation();
+                    setPulseAnimation();
 
                 });
             }
@@ -427,7 +427,7 @@ public class GameController implements Initializable {
         pulse.setCycleCount(-1);
         pulse.play();
     }
-    private void setPuleAnimation(){
+    private void setPulseAnimation(){
         this.currentPulsingAnimations.forEach(i -> {
             if (i.getNode().equals(this.currentImageView)) {
                 this.currentPickedImageViews.remove(this.currentImageView);
@@ -445,7 +445,7 @@ public class GameController implements Initializable {
 
     }
 
-    public void openAlertStage(String text) {
+    private void openAlertStage(String text) {
         FXMLLoader fxmlLoader = new FXMLLoader(GameOverAlert.class.getResource("gameOverAlert.fxml"));
         try {
             Scene scene = new Scene(fxmlLoader.load());
