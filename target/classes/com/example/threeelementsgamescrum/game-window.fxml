@@ -59,7 +59,7 @@
                     <Insets />
                 </VBox.margin>
             </ImageView>
-            <Button fx:id="vsButton1" mnemonicParsing="false" onAction="#onFirstFightButtonClick" style="-fx-background-color: transparent;">
+            <Button fx:id="vsButton1" mnemonicParsing="false" onAction="#onFightButtonClick" style="-fx-background-color: transparent;">
                 <graphic>
                     <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                         <Image url="@Images/vs.png" />
@@ -78,7 +78,7 @@
                     <Insets />
                 </VBox.margin>
             </ImageView>
-            <Button fx:id="vsButton2" mnemonicParsing="false" onAction="#onSecondFightButtonClick" style="-fx-background-color: transparent;">
+            <Button fx:id="vsButton2" mnemonicParsing="false" onAction="#onFightButtonClick" style="-fx-background-color: transparent;">
                 <graphic>
                     <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                         <Image url="@Images/vs.png" />
@@ -97,7 +97,7 @@
                     <Insets />
                 </VBox.margin>
             </ImageView>
-            <Button fx:id="vsButton3" mnemonicParsing="false" onAction="#onThirdFightButtonClick" style="-fx-background-color: transparent;">
+            <Button fx:id="vsButton3" mnemonicParsing="false" onAction="#onFightButtonClick" style="-fx-background-color: transparent;">
                 <graphic>
                     <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                         <Image url="@Images/vs.png" />
@@ -111,9 +111,9 @@
             </ImageView>
         </VBox>
     </HBox>
-    <Button layoutX="71.0" layoutY="648.0" mnemonicParsing="false" onAction="#onFireButtonClick" prefHeight="30.0" prefWidth="60.0" text="FIRE" />
-    <Button layoutX="296.0" layoutY="648.0" mnemonicParsing="false" onAction="#onWaterButtonClick" prefHeight="30.0" prefWidth="60.0" text="WATER" />
-    <Button layoutX="509.0" layoutY="648.0" mnemonicParsing="false" onAction="#onWindButtonClick" prefHeight="30.0" prefWidth="60.0" text="WIND" />
+    <Button layoutX="71.0" layoutY="648.0" mnemonicParsing="false" onAction="#onElementButtonClick" prefHeight="30.0" prefWidth="60.0" text="FIRE" />
+    <Button layoutX="296.0" layoutY="648.0" mnemonicParsing="false" onAction="#onElementButtonClick" prefHeight="30.0" prefWidth="60.0" text="WATER" />
+    <Button layoutX="509.0" layoutY="648.0" mnemonicParsing="false" onAction="#onElementButtonClick" prefHeight="30.0" prefWidth="60.0" text="WIND" />
     <Button layoutX="286.0" layoutY="693.0" mnemonicParsing="false" onAction="#playAgain" text="Reset Game" />
     <Label fx:id="scoreLabel" alignment="CENTER" layoutX="159.0" layoutY="18.0" prefHeight="32.0" prefWidth="358.0" text="Player - 0 : 0 - Computer">
         <font>

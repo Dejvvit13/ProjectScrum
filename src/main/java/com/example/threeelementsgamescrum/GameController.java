@@ -1,10 +1,10 @@
 package com.example.threeelementsgamescrum;
 
 
-import animatefx.animation.Pulse;
 import javafx.animation.*;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -15,10 +15,8 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
@@ -84,8 +82,8 @@ public class GameController implements Initializable {
             String.valueOf(this.getClass().getResource("Images/WaterCard.png")),
             String.valueOf(this.getClass().getResource("Images/WindCard.png"))
     ));
-    private ImageView currentImageView; //currently picked card slot
-    private List<ImageView> currentPickedImageViews = new ArrayList<>();
+    protected static ImageView currentImageView; //currently picked card slot
+    protected static List<ImageView> currentPickedImageViews = new ArrayList<>();
     private List<Image> computerGeneratedCards = new ArrayList<>();
     private final Random random = new Random();
     private int playerScore;
@@ -94,16 +92,13 @@ public class GameController implements Initializable {
     private final IntegerProperty countRounds = new SimpleIntegerProperty(1);
     private int playerWonRounds;
     private int domputerWonRounds;
-    private final Image backOfCard = new Image(String.valueOf(this.getClass().getResource("Images/BackOfCard.png")));
+    protected static final Image backOfCard = new Image(String.valueOf(GameController.class.getResource("Images/BackOfCard.png")));
     private final Image windCard = new Image(String.valueOf(this.getClass().getResource("Images/WindCard.png")));
     private final Image fireCard = new Image(String.valueOf(this.getClass().getResource("Images/FireCard.png")));
     private final Image waterCard = new Image(String.valueOf(this.getClass().getResource("Images/WaterCard.png")));
     private final Image draw = new Image(String.valueOf(this.getClass().getResource("Images/draw.png")));
     private final Image win = new Image(String.valueOf(this.getClass().getResource("Images/win.png")));
     private final Image lose = new Image(String.valueOf(this.getClass().getResource("Images/lose.png")));
-
-    private Set<Pulse> currentPulsingAnimations = new HashSet<>();
-
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -154,7 +149,6 @@ public class GameController implements Initializable {
     }
 
     private void setScoreSystem() {
-
         this.countFights.addListener(event -> {
             if (this.countFights.getValue() == 3) {
                 Timeline roundChange = new Timeline(
@@ -175,13 +169,12 @@ public class GameController implements Initializable {
     }
 
     private void setPlayerBackCard() {
-        this.playerImageView1.setImage(this.backOfCard);
-        this.playerImageView2.setImage(this.backOfCard);
-        this.playerImageView3.setImage(this.backOfCard);
+        this.playerImageView1.setImage(backOfCard);
+        this.playerImageView2.setImage(backOfCard);
+        this.playerImageView3.setImage(backOfCard);
         this.playerImageView1.setRotate(0);
         this.playerImageView2.setRotate(0);
         this.playerImageView3.setRotate(0);
-
     }
 
     private void generatePcCards() {
@@ -189,124 +182,44 @@ public class GameController implements Initializable {
             if (node instanceof ImageView imageView) {
                 Image image = new Image(this.pathsToGameImages.get(random.nextInt(0, 3)));
                 imageView.setRotate(0);
-                imageView.setImage(this.backOfCard);
+                imageView.setImage(backOfCard);
                 this.computerGeneratedCards.add(image);
             }
         }
     }
 
     @FXML
-    private void onFireButtonClick() {
-        if (this.currentPickedImageViews != null) {
-            this.currentPulsingAnimations.forEach(e -> {
-                e.stop();
-                e.setCycleCount(1);
-                e.play();
-            });
-            this.currentPulsingAnimations = new HashSet<>();
-            for (ImageView currentPickedImageView : this.currentPickedImageViews) {
-                if(currentPickedImageView.getImage().getUrl().equals(this.fireCard.getUrl())){
-                    continue;
-                }
-                if (currentPickedImageView.getImage() == this.backOfCard) {
-                    Animation rotator = createRotator(currentPickedImageView, this.fireCard);
-                    rotator.setCycleCount(1);
-                    rotator.play();
-                } else {
-                    Animation rotator = createRotator360(currentPickedImageView, this.fireCard, currentPickedImageView.getImage());
-                    rotator.setCycleCount(1);
-                    rotator.play();
-                }
+    private synchronized void onElementButtonClick(ActionEvent actionEvent) {
+        if (currentPickedImageViews != null) {
+            AnimationsUtility.removeAllPulseAnimation();
+            switch (((Button) actionEvent.getSource()).getText()) {
+                case "FIRE" -> playRotationAnimation(this.fireCard);
+                case "WATER" -> playRotationAnimation(this.waterCard);
+                case "WIND" -> playRotationAnimation(this.windCard);
+                default ->
+                        throw new IllegalStateException("Unexpected value: " + ((Button) actionEvent.getSource()).getText());
             }
-            setPlayerImage(this.fireCard);
-
+            currentPickedImageViews = new ArrayList<>();
         }
     }
 
-    @FXML
-    private void onWaterButtonClick() {
-        if (this.currentPickedImageViews != null) {
-            this.currentPulsingAnimations.forEach(e -> {
-                e.stop();
-                e.setCycleCount(1);
-                e.play();
-            });
-            this.currentPulsingAnimations = new HashSet<>();
-
-            for (ImageView currentPickedImageView : this.currentPickedImageViews) {
-                if(currentPickedImageView.getImage().getUrl().equals(this.waterCard.getUrl())){
-                    continue;
-                }
-                if (currentPickedImageView.getImage() == this.backOfCard) {
-                    Animation rotator = createRotator(currentPickedImageView, this.waterCard);
-                    rotator.setCycleCount(1);
-                    rotator.play();
-                } else {
-                    Animation rotator = createRotator360(currentPickedImageView, this.waterCard, currentPickedImageView.getImage());
-                    rotator.setCycleCount(1);
-                    rotator.play();
-                }
+    private void playRotationAnimation(Image imageToSet) {
+        for (ImageView currentPickedImageView : currentPickedImageViews) {
+            if (currentPickedImageView.getImage().getUrl().equals(imageToSet.getUrl())) {
+                continue;
             }
-            setPlayerImage(this.waterCard);
-        }
-    }
-
-    @FXML
-    private void onWindButtonClick() {
-        if (this.currentPickedImageViews != null) {
-            this.currentPulsingAnimations.forEach(e -> {
-                e.stop();
-                e.setCycleCount(1);
-                e.play();
-            });
-            this.currentPulsingAnimations = new HashSet<>();
-            for (ImageView currentPickedImageView : this.currentPickedImageViews) {
-                if(currentPickedImageView.getImage().getUrl().equals(this.windCard.getUrl())){
-                    continue;
-                }
-                if (currentPickedImageView.getImage() == this.backOfCard) {
-                    Animation rotator = createRotator(currentPickedImageView, this.windCard);
-                    rotator.setCycleCount(1);
-                    rotator.play();
-                } else {
-                    Animation rotator = createRotator360(currentPickedImageView, this.windCard, currentPickedImageView.getImage());
-                    rotator.setCycleCount(1);
-                    rotator.play();
-                }
+            if (currentPickedImageView.getImage() == backOfCard) {
+                Animation rotator = AnimationsUtility.createRotator(currentPickedImageView, imageToSet);
+                rotator.setCycleCount(1);
+                rotator.play();
+            } else {
+                Animation rotator = AnimationsUtility.createRotator360(currentPickedImageView, imageToSet, currentPickedImageView.getImage());
+                rotator.setCycleCount(1);
+                rotator.play();
             }
-            setPlayerImage(this.windCard);
         }
     }
 
-    private void setPlayerImage(Image image) {
-        this.currentPickedImageViews.forEach(e -> e.setImage(image));
-        this.currentPickedImageViews = new ArrayList<>();
-    }
-
-    private void checkScore(String playerImageUrl, String computerImageUrl, ImageView computerImage, ImageView playerImage) {
-        String waterElement = "WaterCard.png";
-        String fireElement = "FireCard.png";
-        String windElement = "WindCard.png";
-
-        checkWhoWon(playerImage, computerImage, playerImageUrl, computerImageUrl, waterElement, fireElement);
-        checkWhoWon(playerImage, computerImage, playerImageUrl, computerImageUrl, windElement, waterElement);
-        checkWhoWon(playerImage, computerImage, playerImageUrl, computerImageUrl, fireElement, windElement);
-    }
-
-    private void checkWhoWon(ImageView playerImage, ImageView computerImage, String playerImageUrl, String computerImageUrl, String firstElement, String secondElement) {
-
-        if (playerImageUrl.equals(computerImageUrl)) {
-            setIcons(playerImage, computerImage, this.draw, this.draw);
-
-        } else if (playerImageUrl.equals(firstElement) && computerImageUrl.equals(secondElement)) {
-            setIcons(playerImage, computerImage, this.lose, this.win);
-            this.playerScore++;
-
-        } else if (playerImageUrl.equals(secondElement) && computerImageUrl.equals(firstElement)) {
-            setIcons(playerImage, computerImage, this.win, this.lose);
-            this.computerScore++;
-        }
-    }
 
     private void setIcons(ImageView playerImage, ImageView computerImage, Image computerIcon, Image playerIcon) {
         Timeline timeline = new Timeline(
@@ -321,189 +234,73 @@ public class GameController implements Initializable {
         timeline.setCycleCount(1);
         timeline.play();
     }
-
-    private Animation createRotator(ImageView card, Image imageToSet) {
-
-        card.setImage(imageToSet);
-        RotateTransition rotator = new RotateTransition(Duration.millis(600), card);
-        rotator.setAxis(Rotate.Y_AXIS);
-        rotator.setFromAngle(360);
-        rotator.setToAngle(180);
-        rotator.setInterpolator(Interpolator.LINEAR);
-        rotator.setCycleCount(1);
-        Image front = new Image(
-                card.getImage().getUrl(),
-                false);
-        Timeline imageSwitcher = new Timeline(
-                new KeyFrame(Duration.ZERO,
-                        new KeyValue(card.imageProperty(), this.backOfCard, Interpolator.DISCRETE)),
-                new KeyFrame(Duration.millis(300),
-                        new KeyValue(card.imageProperty(), front, Interpolator.DISCRETE))
-        );
-        imageSwitcher.setCycleCount(1);
-        return new ParallelTransition(card, rotator, imageSwitcher);
-    }
-
-    private Animation createRotator360(ImageView card, Image imageToSet, Image currentImage) {
-
-        card.setImage(imageToSet);
-        RotateTransition rotator = new RotateTransition(Duration.millis(900), card);
-        rotator.setAxis(Rotate.Y_AXIS);
-        rotator.setFromAngle(180);
-        rotator.setToAngle(540);
-        rotator.setInterpolator(Interpolator.LINEAR);
-        rotator.setCycleCount(1);
-        Image front = new Image(
-                card.getImage().getUrl(),
-                false);
-        Timeline imageSwitcher = new Timeline(
-                new KeyFrame(Duration.ZERO,
-                        new KeyValue(card.imageProperty(), currentImage, Interpolator.DISCRETE)),
-                new KeyFrame(Duration.millis(300),
-                        new KeyValue(card.imageProperty(), this.backOfCard, Interpolator.DISCRETE)),
-                new KeyFrame(Duration.millis(600),
-                        new KeyValue(card.imageProperty(), front, Interpolator.DISCRETE))
-        );
-        imageSwitcher.setCycleCount(1);
-        return new ParallelTransition(card, rotator, imageSwitcher);
-    }
-
-
     @FXML
-    private void onFirstFightButtonClick() {
-        if (!this.playerImageView1.getImage().getUrl().equals(this.backOfCard.getUrl())) {
-            Animation flip = createRotator(this.computerImageView1, this.computerGeneratedCards.get(0));
-            flip.setCycleCount(1);
-            flip.play();
-            fightAction(this.playerImageView1, this.computerGeneratedCards.get(0), this.computerResultImage1, this.playerResultImage1, this.vsButton1);
-            this.playerImageView1.setOnMouseClicked(null);
-            removePulseAnimation(this.playerImageView1);
+    private void onFightButtonClick(ActionEvent actionEvent) {
+        switch (((Button) actionEvent.getSource()).getId()) {
+            case "vsButton1" ->
+                    fight(computerImageView1, playerImageView1, this.computerGeneratedCards.get(0), computerResultImage1, playerResultImage1, vsButton1);
+            case "vsButton2" ->
+                    fight(computerImageView2, playerImageView2, this.computerGeneratedCards.get(1), computerResultImage2, playerResultImage2, vsButton2);
+            case "vsButton3" ->
+                    fight(computerImageView3, playerImageView3, this.computerGeneratedCards.get(2), computerResultImage3, playerResultImage3, vsButton3);
+            default ->
+                    throw new IllegalStateException("Unexpected value: " + ((Button) actionEvent.getSource()).getText());
         }
     }
 
-    @FXML
-    private void onSecondFightButtonClick() {
-        if (!this.playerImageView2.getImage().getUrl().equals(this.backOfCard.getUrl())) {
-            Animation rotator = createRotator(this.computerImageView2, this.computerGeneratedCards.get(1));
+    private void fight(ImageView computerImageView, ImageView playerImageView, Image computerImageToSet, ImageView computerResultImageView, ImageView playerResultImageView, Button vsButton) {
+        if (!playerImageView.getImage().getUrl().equals(backOfCard.getUrl())) {
+            Animation rotator = AnimationsUtility.createRotator(computerImageView, computerImageToSet);
             rotator.setCycleCount(1);
             rotator.play();
-            fightAction(this.playerImageView2, this.computerGeneratedCards.get(1), this.computerResultImage2, this.playerResultImage2, this.vsButton2);
-            this.playerImageView2.setOnMouseClicked(null);
-            removePulseAnimation(this.playerImageView2);
-        }
-
-    }
-
-    @FXML
-    private void onThirdFightButtonClick() {
-        if (!this.playerImageView3.getImage().getUrl().equals(this.backOfCard.getUrl())) {
-            Animation rotator = createRotator(this.computerImageView3, this.computerGeneratedCards.get(2));
-            rotator.setCycleCount(1);
-            rotator.play();
-            fightAction(this.playerImageView3, this.computerGeneratedCards.get(2), this.computerResultImage3, this.playerResultImage3, this.vsButton3);
-            this.playerImageView3.setOnMouseClicked(null);
-            removePulseAnimation(this.playerImageView3);
+            checkScore(computerImageToSet, playerImageView, computerResultImageView, playerResultImageView);
+            AnimationsUtility.removePulseAnimation(playerImageView);
+            vsButton.setDisable(true);
+            playerImageView.setOnMouseClicked(null);
+            this.scoreLabel.setText("Player - %d : %d - Computer".formatted(this.playerScore, this.computerScore));
+            this.countFights.setValue(this.countFights.getValue() + 1);
         }
     }
 
-    private void fightAction(ImageView playerImageView, Image computerImage, ImageView fightResultPC, ImageView fightResultUser, Button vsButton) {
-        String userImageUrl = playerImageView.getImage().getUrl().substring(playerImageView.getImage().getUrl().lastIndexOf('/') + 1);
-        String pcImageUrl = computerImage.getUrl().substring(computerImage.getUrl().lastIndexOf('/') + 1);
-        checkScore(userImageUrl, pcImageUrl, fightResultPC, fightResultUser);
-        playerImageView.getParent().setOnMouseClicked(null);
-        vsButton.setDisable(true);
-        this.scoreLabel.setText("Player - %d : %d - Computer".formatted(this.playerScore, this.computerScore));
-        this.countFights.setValue(this.countFights.getValue() + 1);
+    private void checkScore(Image computerImageToSet, ImageView playerImageView , ImageView computerResultImageView, ImageView playerResultImageView) {
+        String computerImageUrl = computerImageToSet.getUrl().substring(computerImageToSet.getUrl().lastIndexOf('/') + 1);
+        String playerImageUrl = playerImageView.getImage().getUrl().substring(playerImageView.getImage().getUrl().lastIndexOf('/') + 1);
+        String waterElement = "WaterCard.png";
+        String fireElement = "FireCard.png";
+        String windElement = "WindCard.png";
+
+        checkWhoWon(playerImageUrl, computerImageUrl, playerResultImageView, computerResultImageView, waterElement, fireElement);
+        checkWhoWon(playerImageUrl, computerImageUrl, playerResultImageView, computerResultImageView, windElement, waterElement);
+        checkWhoWon(playerImageUrl, computerImageUrl, playerResultImageView, computerResultImageView, fireElement, windElement);
     }
 
-    @FXML
-    public void playAgain() {
-        resetGameSettings();
-        domputerWonRounds = 0;
-        playerWonRounds = 0;
-        computerScore = 0;
-        playerScore = 0;
-        countFights.set(0);
-        countRounds.set(1);
-        computerWonRoundsLabel.setText("Computer won rounds: " + 0);
-        playerWonRoundsLabel.setText("Player won rounds: " + 0);
+    private void checkWhoWon(String playerImageUrl, String computerImageUrl, ImageView playerImage, ImageView computerImage, String firstElement, String secondElement) {
+        if (playerImageUrl.equals(computerImageUrl)) {
+            setIcons(playerImage, computerImage, this.draw, this.draw);
+
+        } else if (playerImageUrl.equals(firstElement) && computerImageUrl.equals(secondElement)) {
+            setIcons(playerImage, computerImage, this.lose, this.win);
+            this.playerScore++;
+
+        } else if (playerImageUrl.equals(secondElement) && computerImageUrl.equals(firstElement)) {
+            setIcons(playerImage, computerImage, this.win, this.lose);
+            this.computerScore++;
+        }
     }
 
-    private void resetGameSettings() {
-        playerImageView1.setImage(null);
-        playerImageView2.setImage(null);
-        playerImageView3.setImage(null);
-        computerImageView1.setImage(null);
-        computerImageView2.setImage(null);
-        computerImageView3.setImage(null);
-        computerResultImage1.setImage(null);
-        computerResultImage2.setImage(null);
-        computerResultImage3.setImage(null);
-        playerResultImage1.setImage(null);
-        playerResultImage2.setImage(null);
-        playerResultImage3.setImage(null);
-        vsButton1.setDisable(false);
-        vsButton2.setDisable(false);
-        vsButton3.setDisable(false);
-        removeAllPulseAnimation();
-        computerGeneratedCards = new ArrayList<>();
-        currentPickedImageViews = new ArrayList<>();
-        currentPulsingAnimations = new HashSet<>();
-        generatePcCards();
-        setPlayerBackCard();
-        setCurrentImageViewOnClick();
-        scoreLabel.setText("Player - 0 : 0 - Computer");
-    }
 
-    private void setCurrentImageViewOnClick() {
+    private synchronized void setCurrentImageViewOnClick() {
         for (Node node : this.gridPanePlayer.getChildren()) {
             if (node instanceof ImageView imageView) {
                 imageView.setOnMouseClicked(e -> {
-                    this.currentImageView = imageView;
-                    if (!this.currentPickedImageViews.contains(this.currentImageView)) {
-                        this.currentPickedImageViews.add(this.currentImageView);
+                    currentImageView = imageView;
+                    if (!currentPickedImageViews.contains(currentImageView)) {
+                        currentPickedImageViews.add(currentImageView);
                     }
-                    setPulseAnimation();
+                    AnimationsUtility.setPulseAnimation();
 
                 });
             }
-        }
-    }
-
-
-    private void pulseAnimation(ImageView img) {
-        Pulse pulse = new Pulse(img);
-        this.currentPulsingAnimations.add(pulse);
-        pulse.setCycleCount(-1);
-        pulse.play();
-    }
-
-    public void removeAllPulseAnimation() {
-        this.currentPulsingAnimations.forEach(e -> {
-            e.stop();
-            e.setCycleCount(1);
-            e.play();
-        });
-    }
-
-    public void removePulseAnimation(ImageView playerImageView) {
-        this.currentPulsingAnimations.forEach(i -> {
-            if (i.getNode() == (playerImageView)) {
-                i.stop();
-                i.setCycleCount(1);
-                i.play();
-                this.currentPickedImageViews.remove(playerImageView);
-                this.currentImageView = null;
-            }
-        });
-        this.currentPulsingAnimations.removeIf(e -> e.getNode() == playerImageView);
-    }
-
-
-    private void setPulseAnimation() {
-        removePulseAnimation(this.currentImageView);
-        if (this.currentImageView != null) {
-            pulseAnimation(this.currentImageView);
         }
     }
 
@@ -520,6 +317,43 @@ public class GameController implements Initializable {
             throw new RuntimeException("Error while opening new Window");
         }
     }
+    @FXML
+    private void playAgain() {
+        resetGameSettings();
+        domputerWonRounds = 0;
+        playerWonRounds = 0;
+        computerScore = 0;
+        playerScore = 0;
+        countFights.set(0);
+        countRounds.set(1);
+        computerWonRoundsLabel.setText("Computer won rounds: " + 0);
+        playerWonRoundsLabel.setText("Player won rounds: " + 0);
+    }
 
+    private synchronized void resetGameSettings() {
+        playerImageView1.setImage(null);
+        playerImageView2.setImage(null);
+        playerImageView3.setImage(null);
+        computerImageView1.setImage(null);
+        computerImageView2.setImage(null);
+        computerImageView3.setImage(null);
+        computerResultImage1.setImage(null);
+        computerResultImage2.setImage(null);
+        computerResultImage3.setImage(null);
+        playerResultImage1.setImage(null);
+        playerResultImage2.setImage(null);
+        playerResultImage3.setImage(null);
+        vsButton1.setDisable(false);
+        vsButton2.setDisable(false);
+        vsButton3.setDisable(false);
+        AnimationsUtility.removeAllPulseAnimation();
+        computerGeneratedCards = new ArrayList<>();
+        currentPickedImageViews = new ArrayList<>();
+        AnimationsUtility.currentPulsingAnimations = new HashSet<>();
+        generatePcCards();
+        setPlayerBackCard();
+        setCurrentImageViewOnClick();
+        scoreLabel.setText("Player - 0 : 0 - Computer");
+    }
 }
 
