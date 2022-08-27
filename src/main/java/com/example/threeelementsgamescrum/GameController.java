@@ -123,7 +123,7 @@ public class GameController implements Initializable {
                 playerScore = 0;
                 countRounds.setValue(1);
             }
-            playAgain();
+            resetGameSettings();
         });
         countFights.addListener(event -> {
             if (countFights.getValue() == 3) {
