@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="733.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.threeelementsgamescrum.GameController">
-    <GridPane fx:id="gridPaneComputer" layoutX="24.0" layoutY="63.0" prefHeight="220.0" prefWidth="600.0">
+    <GridPane fx:id="gridPaneComputer" layoutX="24.0" layoutY="63.0" prefHeight="220.0" prefWidth="600.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0">
         <columnConstraints>
             <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -39,7 +39,7 @@
             </GridPane.margin>
         </ImageView>
     </GridPane>
-    <GridPane fx:id="gridPanePlayer" layoutX="20.0" layoutY="418.0" prefHeight="220.0" prefWidth="600.0">
+    <GridPane fx:id="gridPanePlayer" layoutX="20.0" layoutY="418.0" prefHeight="220.0" prefWidth="600.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0">
         <columnConstraints>
             <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="200.0" />
             <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="200.0" />

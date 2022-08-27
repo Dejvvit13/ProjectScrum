@@ -483,7 +483,7 @@ public class GameController implements Initializable {
                 i.stop();
                 i.setCycleCount(1);
                 i.play();
-                this.currentPickedImageViews.remove(i);
+                this.currentPickedImageViews.remove(playerImageView);
                 this.currentImageView = null;
             }
         });
