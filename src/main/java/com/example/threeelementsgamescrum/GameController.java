@@ -259,11 +259,11 @@ public class GameController implements Initializable {
             setIcons(playerImage, computerImage, this.draw, this.draw);
 
         } else if (playerImageUrl.equals(firstElement) && computerImageUrl.equals(secondElement)) {
-            setIcons(playerImage, computerImage, this.win, this.lose);
+            setIcons(playerImage, computerImage, this.lose, this.win);
             this.playerScore++;
 
         } else if (playerImageUrl.equals(secondElement) && computerImageUrl.equals(firstElement)) {
-            setIcons(playerImage, computerImage, this.lose, this.draw);
+            setIcons(playerImage, computerImage, this.win, this.lose);
             this.computerScore++;
         }
     }
@@ -398,6 +398,7 @@ public class GameController implements Initializable {
         vsButton2.setDisable(false);
         vsButton3.setDisable(false);
         pcGeneratedCards = new ArrayList<>();
+        currentPickedImageViews = new ArrayList<>();
         generatePcCards();
         setPlayerBackCard();
         setCurrentImageViewOnClick();

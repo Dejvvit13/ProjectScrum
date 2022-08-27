@@ -111,10 +111,10 @@
             </ImageView>
         </VBox>
     </HBox>
-    <Button layoutX="71.0" layoutY="648.0" mnemonicParsing="false" onAction="#onFireButtonClick" prefHeight="30.0" prefWidth="60.0" style="-fx-background-color: ECCCB2;" text="FIRE" />
-    <Button layoutX="296.0" layoutY="648.0" mnemonicParsing="false" onAction="#onWaterButtonClick" prefHeight="30.0" prefWidth="60.0" style="-fx-background-color: ECCCB2;" text="WATER" />
-    <Button layoutX="509.0" layoutY="648.0" mnemonicParsing="false" onAction="#onWindButtonClick" prefHeight="30.0" prefWidth="60.0" style="-fx-background-color: ECCCB2;" text="WIND" />
-    <Button layoutX="286.0" layoutY="693.0" mnemonicParsing="false" onAction="#playAgain" style="-fx-background-color: ECCCB2;" text="Reset Game" />
+    <Button layoutX="71.0" layoutY="648.0" mnemonicParsing="false" onAction="#onFireButtonClick" prefHeight="30.0" prefWidth="60.0" text="FIRE" />
+    <Button layoutX="296.0" layoutY="648.0" mnemonicParsing="false" onAction="#onWaterButtonClick" prefHeight="30.0" prefWidth="60.0" text="WATER" />
+    <Button layoutX="509.0" layoutY="648.0" mnemonicParsing="false" onAction="#onWindButtonClick" prefHeight="30.0" prefWidth="60.0" text="WIND" />
+    <Button layoutX="286.0" layoutY="693.0" mnemonicParsing="false" onAction="#playAgain" text="Reset Game" />
     <Label fx:id="scoreLabel" alignment="CENTER" layoutX="157.0" layoutY="17.0" prefHeight="32.0" prefWidth="358.0" text="Player - 0 : 0 - Computer">
         <font>
             <Font name="Webdings" size="19.0" />
