@@ -166,7 +166,6 @@ public class GameController implements Initializable {
                                     this.playerScore = 0;
                                     this.computerScore = 0;
                                     this.scoreLabel.setText("Player - 0 : 0 - Computer");
-
                                 }
                         ));
                 roundChange.setCycleCount(1);
@@ -256,7 +255,6 @@ public class GameController implements Initializable {
             });
             this.currentPulsingAnimations = new HashSet<>();
             for (ImageView currentPickedImageView : this.currentPickedImageViews) {
-
                 if (currentPickedImageView.getImage() == this.backOfCard) {
                     Animation rotator = createRotator(currentPickedImageView, this.windCard);
                     rotator.setCycleCount(1);
@@ -287,7 +285,6 @@ public class GameController implements Initializable {
     }
 
     private void checkWhoWon(ImageView playerImage, ImageView computerImage, String playerImageUrl, String computerImageUrl, String firstElement, String secondElement) {
-
 
         if (playerImageUrl.equals(computerImageUrl)) {
             setIcons(playerImage, computerImage, this.draw, this.draw);
@@ -440,7 +437,6 @@ public class GameController implements Initializable {
         vsButton2.setDisable(false);
         vsButton3.setDisable(false);
         removeAllPulseAnimation();
-
         computerGeneratedCards = new ArrayList<>();
         currentPickedImageViews = new ArrayList<>();
         currentPulsingAnimations = new HashSet<>();
@@ -482,7 +478,6 @@ public class GameController implements Initializable {
     }
 
     public void removePulseAnimation(ImageView playerImageView) {
-
         this.currentPulsingAnimations.forEach(i -> {
             if (i.getNode() == (playerImageView)) {
                 i.stop();
@@ -497,7 +492,7 @@ public class GameController implements Initializable {
 
 
     private void setPulseAnimation() {
-        removePulseAnimation(currentImageView);
+        removePulseAnimation(this.currentImageView);
         if (this.currentImageView != null) {
             pulseAnimation(this.currentImageView);
         }
