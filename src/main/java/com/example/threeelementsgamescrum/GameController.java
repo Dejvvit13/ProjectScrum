@@ -162,7 +162,11 @@ public class GameController implements Initializable {
     public void onFireButtonClick() {
         if (currentPickedImageViews != null) {
             Image image = new Image(String.valueOf(this.getClass().getResource("Images/FireCard.png")));
-            currentPulsingImages.forEach(e -> e.stop());
+            currentPulsingImages.forEach(e -> {
+                e.stop();
+                e.setCycleCount(1);
+                e.play();
+            });
             currentPulsingImages = new HashSet<>();
             for (ImageView currentPickedImageView : this.currentPickedImageViews) {
                 if (currentPickedImageView.getImage() == backOfCard) {
@@ -183,7 +187,11 @@ public class GameController implements Initializable {
     @FXML
     public void onWaterButtonClick() {
         if (currentPickedImageViews != null) {
-            currentPulsingImages.forEach(e -> e.stop());
+            currentPulsingImages.forEach(e -> {
+                e.stop();
+                e.setCycleCount(1);
+                e.play();
+            });
             currentPulsingImages = new HashSet<>();
 
             Image image = new Image(String.valueOf(this.getClass().getResource("Images/WaterCard.png")));
@@ -206,7 +214,11 @@ public class GameController implements Initializable {
     public void onWindButtonClick() {
         if (currentPickedImageViews != null) {
             Image image = new Image(String.valueOf(this.getClass().getResource("Images/WindCard.png")));
-            currentPulsingImages.forEach(e -> e.stop());
+            currentPulsingImages.forEach(e -> {
+                e.stop();
+                e.setCycleCount(1);
+                e.play();
+            });
             currentPulsingImages = new HashSet<>();
             for (ImageView currentPickedImageView : this.currentPickedImageViews) {
 
