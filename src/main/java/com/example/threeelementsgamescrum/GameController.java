@@ -29,8 +29,6 @@ public class GameController implements Initializable {
     //1- left image 2 - middle image 3 -  right image
     // Result image for PC
     @FXML
-    private AnchorPane anchorPane;
-    @FXML
     public ImageView computerResultImage3;
     @FXML
     public ImageView computerResultImage2;
@@ -105,7 +103,6 @@ public class GameController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        anchorPane.setStyle("-fx-background-color: #F5E8C7");
         generatePcCards();
         setCurrentImageViewOnClick();
         setPlayerBackCard();
@@ -401,7 +398,6 @@ public class GameController implements Initializable {
         vsButton2.setDisable(false);
         vsButton3.setDisable(false);
         pcGeneratedCards = new ArrayList<>();
-        gridPaneUser.getChildren().forEach(e -> e.setStyle("-fx-background-color: transparent"));
         generatePcCards();
         setPlayerBackCard();
         setCurrentImageViewOnClick();
