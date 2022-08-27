@@ -1,6 +1,7 @@
 package com.example.threeelementsgamescrum;
 
 
+import animatefx.animation.AnimationFX;
 import animatefx.animation.Pulse;
 import javafx.animation.*;
 import javafx.beans.property.IntegerProperty;
@@ -23,10 +24,7 @@ import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class GameController implements Initializable {
 
@@ -100,7 +98,6 @@ public class GameController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         anchorPane.setStyle("-fx-background-color: #F5E8C7");
         generatePcCards();
         setCurrentImageViewOnClick();
@@ -165,14 +162,15 @@ public class GameController implements Initializable {
     public void onFireButtonClick() {
         if (currentPickedImageViews != null) {
             Image image = new Image(String.valueOf(this.getClass().getResource("Images/FireCard.png")));
-
+            currentPulsingImages.forEach(e -> e.stop());
+            currentPulsingImages = new HashSet<>();
             for (ImageView currentPickedImageView : this.currentPickedImageViews) {
-                if(currentPickedImageView.getImage() == backOfCard){
+                if (currentPickedImageView.getImage() == backOfCard) {
                     Animation rotator = createRotator(currentPickedImageView, image);
                     rotator.setCycleCount(1);
                     rotator.play();
-                } else{
-                    Animation rotator = createRotator360(currentPickedImageView, image,currentPickedImageView.getImage());
+                } else {
+                    Animation rotator = createRotator360(currentPickedImageView, image, currentPickedImageView.getImage());
                     rotator.setCycleCount(1);
                     rotator.play();
                 }
@@ -184,15 +182,18 @@ public class GameController implements Initializable {
 
     @FXML
     public void onWaterButtonClick() {
-        if (currentImageView != null) {
+        if (currentPickedImageViews != null) {
+            currentPulsingImages.forEach(e -> e.stop());
+            currentPulsingImages = new HashSet<>();
+
             Image image = new Image(String.valueOf(this.getClass().getResource("Images/WaterCard.png")));
             for (ImageView currentPickedImageView : this.currentPickedImageViews) {
-                if(currentPickedImageView.getImage() == backOfCard){
+                if (currentPickedImageView.getImage() == backOfCard) {
                     Animation rotator = createRotator(currentPickedImageView, image);
                     rotator.setCycleCount(1);
                     rotator.play();
-                } else{
-                    Animation rotator = createRotator360(currentPickedImageView, image,currentPickedImageView.getImage());
+                } else {
+                    Animation rotator = createRotator360(currentPickedImageView, image, currentPickedImageView.getImage());
                     rotator.setCycleCount(1);
                     rotator.play();
                 }
@@ -203,16 +204,18 @@ public class GameController implements Initializable {
 
     @FXML
     public void onWindButtonClick() {
-        if (currentImageView != null) {
+        if (currentPickedImageViews != null) {
             Image image = new Image(String.valueOf(this.getClass().getResource("Images/WindCard.png")));
-
+            currentPulsingImages.forEach(e -> e.stop());
+            currentPulsingImages = new HashSet<>();
             for (ImageView currentPickedImageView : this.currentPickedImageViews) {
-                if(currentPickedImageView.getImage() == backOfCard){
+
+                if (currentPickedImageView.getImage() == backOfCard) {
                     Animation rotator = createRotator(currentPickedImageView, image);
                     rotator.setCycleCount(1);
                     rotator.play();
-                } else{
-                    Animation rotator = createRotator360(currentPickedImageView, image,currentPickedImageView.getImage());
+                } else {
+                    Animation rotator = createRotator360(currentPickedImageView, image, currentPickedImageView.getImage());
                     rotator.setCycleCount(1);
                     rotator.play();
                 }
@@ -245,22 +248,23 @@ public class GameController implements Initializable {
         Image lose = new Image(String.valueOf(this.getClass().getResource("Images/lose.png")));
 
         if (playerImageUrl.equals(computerImageUrl)) {
-            setIcons(playerImage, computerImage, draw,draw);
+            setIcons(playerImage, computerImage, draw, draw);
 
         } else if (playerImageUrl.equals(firstElement) && computerImageUrl.equals(secondElement)) {
-            setIcons(playerImage, computerImage, win,lose);
+            setIcons(playerImage, computerImage, win, lose);
             this.playerScore++;
 
         } else if (playerImageUrl.equals(secondElement) && computerImageUrl.equals(firstElement)) {
-            setIcons(playerImage, computerImage, lose,draw);
+            setIcons(playerImage, computerImage, lose, draw);
             this.computerScore++;
         }
     }
-    private void setIcons(ImageView playerImage, ImageView computerImage, Image computerIcon, Image playerIcon){
+
+    private void setIcons(ImageView playerImage, ImageView computerImage, Image computerIcon, Image playerIcon) {
         Timeline timeline = new Timeline(
                 new KeyFrame(
                         Duration.millis(300),
-                        e->{
+                        e -> {
                             playerImage.setImage(playerIcon);
                             computerImage.setImage(computerIcon);
                         }
@@ -397,21 +401,37 @@ public class GameController implements Initializable {
         for (Node node : gridPaneUser.getChildren()) {
             if (node instanceof Pane pane) {
                 pane.setOnMouseClicked(e -> {
-                    pane.setStyle("-fx-background-color: #FFFF");
                     currentImageView = (ImageView) pane.getChildren().get(0);
-                    currentPickedImageViews.add(currentImageView);
-                    if (currentImageView.getImage() != null) {
-                        pushAnimation(currentImageView);
+                    if (!currentPickedImageViews.contains(currentImageView)) {
+                        currentPickedImageViews.add(currentImageView);
                     }
-                    pane.setStyle("-fx-background-color: #ECCCB2");
+
+                    currentPulsingImages.forEach(i -> {
+                        if (i.getNode().equals(currentImageView)) {
+                            currentPickedImageViews.remove(currentImageView);
+                            i.stop();
+                            currentPulsingImages.remove(i);
+
+                            currentImageView = null;
+                        }
+                    });
+
+                    if (currentImageView != null) {
+                        pulseAnimation(currentImageView);
+                    }
+
                 });
             }
         }
     }
 
-    private void pushAnimation(ImageView img) {
-        Pulse pulse = new Pulse(img);
-        pulse.setCycleCount(3);
+    Pulse pulse;
+    Set<Pulse> currentPulsingImages = new HashSet<>();
+
+    private void pulseAnimation(ImageView img) {
+        pulse = new Pulse(img);
+        currentPulsingImages.add(pulse);
+        pulse.setCycleCount(-1);
         pulse.play();
     }
 
