@@ -250,15 +250,17 @@ public class GameController implements Initializable {
 
     private void fight(ImageView computerImageView, ImageView playerImageView, Image computerImageToSet, ImageView computerResultImageView, ImageView playerResultImageView, Button vsButton) {
         if (!playerImageView.getImage().getUrl().equals(backOfCard.getUrl())) {
-            Animation rotator = AnimationsUtility.createRotator(computerImageView, computerImageToSet);
-            rotator.setCycleCount(1);
-            rotator.play();
-            checkScore(computerImageToSet, playerImageView, computerResultImageView, playerResultImageView);
             AnimationsUtility.removePulseAnimation(playerImageView);
             vsButton.setDisable(true);
             playerImageView.setOnMouseClicked(null);
             this.scoreLabel.setText("Player - %d : %d - Computer".formatted(this.playerScore, this.computerScore));
             this.countFights.setValue(this.countFights.getValue() + 1);
+
+            Animation rotator = AnimationsUtility.createRotator(computerImageView, computerImageToSet);
+            rotator.setCycleCount(1);
+            rotator.play();
+
+            checkScore(computerImageToSet, playerImageView, computerResultImageView, playerResultImageView);
         }
     }
 
