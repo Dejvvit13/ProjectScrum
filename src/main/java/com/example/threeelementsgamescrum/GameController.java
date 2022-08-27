@@ -25,7 +25,9 @@ import java.util.*;
 
 public class GameController implements Initializable {
 
+    @FXML
     private Label computerWonRoundsLabel;
+    @FXML
     private Label playerWonRoundsLabel;
     //1- left image 2 - middle image 3 -  right image
     // Result image for PC
@@ -36,7 +38,7 @@ public class GameController implements Initializable {
     @FXML
     private ImageView computerResultImage1;
 
-    // Result image for User
+    // Result image for player
     @FXML
     private ImageView playerResultImage3;
     @FXML
@@ -52,30 +54,30 @@ public class GameController implements Initializable {
     @FXML
     private Button vsButton3;
     @FXML
-    private GridPane gridPanePC; // pc cards container
+    private GridPane gridPaneComputer; // pc cards container
     @FXML
-    private GridPane gridPaneUser; // user cards container
+    private GridPane gridPanePlayer; // player cards container
 
-    // user images
+    // player imageViews
     @FXML
-    private ImageView playerImage1;
+    private ImageView playerImageView1;
     @FXML
-    private ImageView playerImage2;
+    private ImageView playerImageView2;
     @FXML
-    private ImageView playerImage3;
-    @FXML
-    private ImageView computerImage1;
+    private ImageView playerImageView3;
 
-    // pc images
+    // pc imageViews
     @FXML
-    private ImageView computerImage2;
+    private ImageView computerImageView1;
     @FXML
-    private ImageView computerImage3;
+    private ImageView computerImageView2;
+    @FXML
+    private ImageView computerImageView3;
 
     @FXML
     private Label scoreLabel; // score text
     @FXML
-    private Label roundDisplayLabel; // round text
+    private Label roundLabel; // round text
 
     private final List<String> pathsToGameImages = new ArrayList<>(List.of(
             String.valueOf(this.getClass().getResource("Images/FireCard.png")),
@@ -84,14 +86,14 @@ public class GameController implements Initializable {
     ));
     private ImageView currentImageView; //currently picked card slot
     private List<ImageView> currentPickedImageViews = new ArrayList<>();
-    private List<Image> pcGeneratedCards = new ArrayList<>();
+    private List<Image> computerGeneratedCards = new ArrayList<>();
+    private final Random random = new Random();
     private int playerScore;
     private int computerScore;
-    private final Random random = new Random();
     private final IntegerProperty countFights = new SimpleIntegerProperty(0);
     private final IntegerProperty countRounds = new SimpleIntegerProperty(1);
-    private  int countPlayerWonRounds = 0;
-    private  int countComputerWonRounds = 0;
+    private int playerWonRounds;
+    private int domputerWonRounds;
     private final Image backOfCard = new Image(String.valueOf(this.getClass().getResource("Images/BackOfCard.png")));
     private final Image windCard = new Image(String.valueOf(this.getClass().getResource("Images/WindCard.png")));
     private final Image fireCard = new Image(String.valueOf(this.getClass().getResource("Images/FireCard.png")));
@@ -108,69 +110,61 @@ public class GameController implements Initializable {
         generatePcCards();
         setCurrentImageViewOnClick();
         setPlayerBackCard();
-        setCountingSystem();
+        setRoundsSystem();
+        setScoreSystem();
     }
-    private void setCountingSystem(){
-        countRounds.addListener(event -> {
-            roundDisplayLabel.setText("Round " + countRounds.getValue());
 
-            if(this.computerScore > this.playerScore){
-                this.countComputerWonRounds++;
+    private void setRoundsSystem() {
+        this.countRounds.addListener(event -> {
+            this.roundLabel.setText("Round " + this.countRounds.getValue());
+
+            if (this.computerScore > this.playerScore) {
+                this.domputerWonRounds++;
+                this.computerWonRoundsLabel.setText("Computer won rounds: " + this.domputerWonRounds);
             }
-            if(this.computerScore < this.playerScore){
-                this.countPlayerWonRounds++;
+            if (this.computerScore < this.playerScore) {
+                this.playerWonRounds++;
+                this.playerWonRoundsLabel.setText("Player won rounds: " + this.playerWonRounds);
             }
 
-            this.computerWonRoundsLabel.setText("Computer won rounds: " + this.countComputerWonRounds);
-            this.playerWonRoundsLabel.setText("Player won rounds: " + this.countPlayerWonRounds);
-
-
-            if(countPlayerWonRounds == 2){
-                openAlertStage("Player Won1");
+            if (this.playerWonRounds == 2) {
+                openAlertStage("Player Won");
                 playAgain();
-                return;
-            }
-            else if(countComputerWonRounds ==2){
-                openAlertStage("Computer Won1");
-                playAgain();
-                return;
-            }
-            if (countRounds.getValue() > 3) {
-                if (countPlayerWonRounds < countComputerWonRounds) {
-                    openAlertStage("Computer Won2");
-                    playAgain();
-                    return;
-                }else if(countPlayerWonRounds > countComputerWonRounds){
-                    openAlertStage("Player Won2");
-                    playAgain();
-                    return;
 
-                } else if(countPlayerWonRounds == countComputerWonRounds){
+            } else if (this.domputerWonRounds == 2) {
+                openAlertStage("Computer Won");
+                playAgain();
+            }
+
+            if (this.countRounds.getValue() > 3) {
+                if (this.playerWonRounds == this.domputerWonRounds && this.countRounds.getValue() > 3) {
                     openAlertStage("It's DRAW");
                     playAgain();
-                    return;
-
+                } else if (this.playerWonRounds > this.domputerWonRounds) {
+                    openAlertStage("Player Won");
+                    playAgain();
+                } else {
+                    openAlertStage("Computer Won");
+                    playAgain();
                 }
-
-
-                roundDisplayLabel.setText("Round 1");
-                computerScore = 0;
-                playerScore = 0;
-                countRounds.setValue(1);
             }
             resetGameSettings();
         });
-        countFights.addListener(event -> {
-            if (countFights.getValue() == 3) {
+
+    }
+    private void setScoreSystem(){
+
+        this.countFights.addListener(event -> {
+            if (this.countFights.getValue() == 3) {
                 Timeline roundChange = new Timeline(
                         new KeyFrame(
                                 Duration.millis(2000),
                                 e -> {
-                                    countRounds.setValue(countRounds.getValue() + 1);
-                                    countFights.set(0);
+                                    this.countRounds.setValue(this.countRounds.getValue() + 1);
+                                    this.countFights.set(0);
                                     this.playerScore = 0;
-                                    this.computerScore =0;
-                                    scoreLabel.setText("Player - %d : %d - Computer".formatted(playerScore, computerScore));
+                                    this.computerScore = 0;
+                                    this.scoreLabel.setText("Player - 0 : 0 - Computer");
 
                                 }
                         ));
@@ -181,22 +175,22 @@ public class GameController implements Initializable {
     }
 
     private void setPlayerBackCard() {
-        this.playerImage1.setImage(this.backOfCard);
-        this.playerImage2.setImage(this.backOfCard);
-        this.playerImage3.setImage(this.backOfCard);
-        playerImage1.setRotate(0);
-        playerImage2.setRotate(0);
-        playerImage3.setRotate(0);
+        this.playerImageView1.setImage(this.backOfCard);
+        this.playerImageView2.setImage(this.backOfCard);
+        this.playerImageView3.setImage(this.backOfCard);
+        this.playerImageView1.setRotate(0);
+        this.playerImageView2.setRotate(0);
+        this.playerImageView3.setRotate(0);
 
     }
 
     private void generatePcCards() {
-        for (Node node : this.gridPanePC.getChildren()) {
+        for (Node node : this.gridPaneComputer.getChildren()) {
             if (node instanceof ImageView imageView) {
                 Image image = new Image(this.pathsToGameImages.get(random.nextInt(0, 3)));
                 imageView.setRotate(0);
-                this.pcGeneratedCards.add(image);
                 imageView.setImage(this.backOfCard);
+                this.computerGeneratedCards.add(image);
             }
         }
     }
@@ -221,7 +215,7 @@ public class GameController implements Initializable {
                     rotator.play();
                 }
             }
-            setUserImage(fireCard);
+            setPlayerImage(this.fireCard);
 
         }
     }
@@ -247,7 +241,7 @@ public class GameController implements Initializable {
                     rotator.play();
                 }
             }
-            setUserImage(this.waterCard);
+            setPlayerImage(this.waterCard);
         }
     }
 
@@ -272,11 +266,11 @@ public class GameController implements Initializable {
                     rotator.play();
                 }
             }
-            setUserImage(this.windCard);
+            setPlayerImage(this.windCard);
         }
     }
 
-    private void setUserImage(Image image) {
+    private void setPlayerImage(Image image) {
         this.currentPickedImageViews.forEach(e -> e.setImage(image));
         this.currentPickedImageViews = new ArrayList<>();
     }
@@ -370,68 +364,71 @@ public class GameController implements Initializable {
 
     @FXML
     private void onFirstFightButtonClick() {
-        if (!this.playerImage1.getImage().getUrl().equals(this.backOfCard.getUrl())) {
-            Animation flip = createRotator(this.computerImage1, this.pcGeneratedCards.get(0));
-            flip.setAutoReverse(true);
+        if (!this.playerImageView1.getImage().getUrl().equals(this.backOfCard.getUrl())) {
+            Animation flip = createRotator(this.computerImageView1, this.computerGeneratedCards.get(0));
             flip.setCycleCount(1);
             flip.play();
-
-            fightAction(this.playerImage1, this.pcGeneratedCards.get(0), this.computerResultImage1, this.playerResultImage1, this.vsButton1);
+            fightAction(this.playerImageView1, this.computerGeneratedCards.get(0), this.computerResultImage1, this.playerResultImage1, this.vsButton1);
+            this.playerImageView1.setOnMouseClicked(null);
+            removePulseAnimation();
         }
     }
 
     @FXML
     private void onSecondFightButtonClick() {
-        if (!this.playerImage2.getImage().getUrl().equals(this.backOfCard.getUrl())) {
-            Animation rotator = createRotator(this.computerImage2, this.pcGeneratedCards.get(1));
+        if (!this.playerImageView2.getImage().getUrl().equals(this.backOfCard.getUrl())) {
+            Animation rotator = createRotator(this.computerImageView2, this.computerGeneratedCards.get(1));
             rotator.setCycleCount(1);
             rotator.play();
-            fightAction(this.playerImage2, this.pcGeneratedCards.get(1), this.computerResultImage2, this.playerResultImage2, this.vsButton2);
+            fightAction(this.playerImageView2, this.computerGeneratedCards.get(1), this.computerResultImage2, this.playerResultImage2, this.vsButton2);
+            this.playerImageView2.setOnMouseClicked(null);
+            removePulseAnimation();
         }
+
     }
 
     @FXML
     private void onThirdFightButtonClick() {
-
-        if (!this.playerImage3.getImage().getUrl().equals(this.backOfCard.getUrl())) {
-            Animation rotator = createRotator(this.computerImage3, this.pcGeneratedCards.get(2));
+        if (!this.playerImageView3.getImage().getUrl().equals(this.backOfCard.getUrl())) {
+            Animation rotator = createRotator(this.computerImageView3, this.computerGeneratedCards.get(2));
             rotator.setCycleCount(1);
             rotator.play();
-
-            fightAction(this.playerImage3, this.pcGeneratedCards.get(2), this.computerResultImage3, this.playerResultImage3, this.vsButton3);
+            fightAction(this.playerImageView3, this.computerGeneratedCards.get(2), this.computerResultImage3, this.playerResultImage3, this.vsButton3);
+            this.playerImageView3.setOnMouseClicked(null);
+            removePulseAnimation();
         }
     }
 
-    private void fightAction(ImageView imageUser, Image imagePC, ImageView fightResultPC, ImageView fightResultUser, Button vsButton) {
-        String userImageUrl = imageUser.getImage().getUrl().substring(imageUser.getImage().getUrl().lastIndexOf('/') + 1);
-        String pcImageUrl = imagePC.getUrl().substring(imageUser.getImage().getUrl().lastIndexOf('/') + 1);
+    private void fightAction(ImageView playerImageView, Image computerImage, ImageView fightResultPC, ImageView fightResultUser, Button vsButton) {
+        String userImageUrl = playerImageView.getImage().getUrl().substring(playerImageView.getImage().getUrl().lastIndexOf('/') + 1);
+        String pcImageUrl = computerImage.getUrl().substring(computerImage.getUrl().lastIndexOf('/') + 1);
         checkScore(userImageUrl, pcImageUrl, fightResultPC, fightResultUser);
-        imageUser.getParent().setOnMouseClicked(null);
+        playerImageView.getParent().setOnMouseClicked(null);
         vsButton.setDisable(true);
-        scoreLabel.setText("Player - %d : %d - Computer".formatted(playerScore, computerScore));
-        countFights.setValue(countFights.getValue() + 1);
+        this.scoreLabel.setText("Player - %d : %d - Computer".formatted(this.playerScore, this.computerScore));
+        this.countFights.setValue(this.countFights.getValue() + 1);
     }
 
     @FXML
     public void playAgain() {
         resetGameSettings();
-        countComputerWonRounds =0;
-        countPlayerWonRounds = 0;
+        domputerWonRounds = 0;
+        playerWonRounds = 0;
         computerScore = 0;
         playerScore = 0;
         countFights.set(0);
         countRounds.set(1);
-        this.computerWonRoundsLabel.setText("Computer won rounds: " + 0);
-        this.playerWonRoundsLabel.setText("Player won rounds: " + 0);
+        computerWonRoundsLabel.setText("Computer won rounds: " + 0);
+        playerWonRoundsLabel.setText("Player won rounds: " + 0);
     }
 
     private void resetGameSettings() {
-        playerImage1.setImage(null);
-        playerImage2.setImage(null);
-        playerImage3.setImage(null);
-        computerImage1.setImage(null);
-        computerImage2.setImage(null);
-        computerImage3.setImage(null);
+        playerImageView1.setImage(null);
+        playerImageView2.setImage(null);
+        playerImageView3.setImage(null);
+        computerImageView1.setImage(null);
+        computerImageView2.setImage(null);
+        computerImageView3.setImage(null);
         computerResultImage1.setImage(null);
         computerResultImage2.setImage(null);
         computerResultImage3.setImage(null);
@@ -441,17 +438,16 @@ public class GameController implements Initializable {
         vsButton1.setDisable(false);
         vsButton2.setDisable(false);
         vsButton3.setDisable(false);
-        pcGeneratedCards = new ArrayList<>();
+        computerGeneratedCards = new ArrayList<>();
         currentPickedImageViews = new ArrayList<>();
-
         generatePcCards();
         setPlayerBackCard();
         setCurrentImageViewOnClick();
-        scoreLabel.setText("Player - %d : %d - Computer".formatted(playerScore, computerScore));
+        scoreLabel.setText("Player - 0 : 0 - Computer");
     }
 
     private void setCurrentImageViewOnClick() {
-        for (Node node : this.gridPaneUser.getChildren()) {
+        for (Node node : this.gridPanePlayer.getChildren()) {
             if (node instanceof ImageView imageView) {
                 imageView.setOnMouseClicked(e -> {
                     this.currentImageView = imageView;
@@ -472,7 +468,8 @@ public class GameController implements Initializable {
         pulse.setCycleCount(-1);
         pulse.play();
     }
-    private void setPulseAnimation(){
+
+    public void removePulseAnimation(){
         this.currentPulsingAnimations.forEach(i -> {
             if (i.getNode().equals(this.currentImageView)) {
                 this.currentPickedImageViews.remove(this.currentImageView);
@@ -483,9 +480,12 @@ public class GameController implements Initializable {
                 this.currentImageView = null;
             }
         });
-
+    }
+    private void setPulseAnimation() {
         if (this.currentImageView != null) {
             pulseAnimation(this.currentImageView);
+        } else{
+            removePulseAnimation();
         }
 
     }
