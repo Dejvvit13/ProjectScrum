@@ -205,6 +205,9 @@ public class GameController implements Initializable {
             });
             this.currentPulsingAnimations = new HashSet<>();
             for (ImageView currentPickedImageView : this.currentPickedImageViews) {
+                if(currentPickedImageView.getImage().getUrl().equals(this.fireCard.getUrl())){
+                    continue;
+                }
                 if (currentPickedImageView.getImage() == this.backOfCard) {
                     Animation rotator = createRotator(currentPickedImageView, this.fireCard);
                     rotator.setCycleCount(1);
@@ -231,6 +234,9 @@ public class GameController implements Initializable {
             this.currentPulsingAnimations = new HashSet<>();
 
             for (ImageView currentPickedImageView : this.currentPickedImageViews) {
+                if(currentPickedImageView.getImage().getUrl().equals(this.waterCard.getUrl())){
+                    continue;
+                }
                 if (currentPickedImageView.getImage() == this.backOfCard) {
                     Animation rotator = createRotator(currentPickedImageView, this.waterCard);
                     rotator.setCycleCount(1);
@@ -255,6 +261,9 @@ public class GameController implements Initializable {
             });
             this.currentPulsingAnimations = new HashSet<>();
             for (ImageView currentPickedImageView : this.currentPickedImageViews) {
+                if(currentPickedImageView.getImage().getUrl().equals(this.windCard.getUrl())){
+                    continue;
+                }
                 if (currentPickedImageView.getImage() == this.backOfCard) {
                     Animation rotator = createRotator(currentPickedImageView, this.windCard);
                     rotator.setCycleCount(1);
