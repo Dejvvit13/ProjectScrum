@@ -9,19 +9,22 @@ import javafx.util.Duration;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class AnimationsUtility {
     protected static Set<Pulse> currentPulsingAnimations = new HashSet<>();
 
-    private AnimationsUtility(){}
-    public static void pulseAnimation(ImageView img) {
+    private AnimationsUtility() {
+    }
+
+    public static void playPulseAnimation(ImageView img) {
         Pulse pulse = new Pulse(img);
         currentPulsingAnimations.add(pulse);
         pulse.setCycleCount(-1);
         pulse.play();
     }
 
-    public static void removeAllPulseAnimation() {
+    public static void stopAllPulseAnimation() {
         currentPulsingAnimations.forEach(e -> {
             e.stop();
             e.setCycleCount(1);
@@ -30,24 +33,26 @@ public class AnimationsUtility {
         currentPulsingAnimations = new HashSet<>();
     }
 
-    public static void removePulseAnimation(ImageView playerImageView) {
+    public static void stopPulseAnimation(ImageView playerImageView) {
         currentPulsingAnimations.forEach(i -> {
             if (i.getNode() == (playerImageView)) {
                 i.stop();
                 i.setCycleCount(1);
                 i.play();
-                GameController.currentPickedImageViews.remove(playerImageView);
-                GameController.currentImageView = null;
             }
         });
         currentPulsingAnimations.removeIf(e -> e.getNode() == playerImageView);
     }
 
-    public static void setPulseAnimation() {
-        removePulseAnimation(GameController.currentImageView);
-        if (GameController.currentImageView != null) {
-            pulseAnimation(GameController.currentImageView);
-        }
+
+    public static AtomicBoolean isPulsing(ImageView currentImageView) {
+        AtomicBoolean result = new AtomicBoolean(false);
+        currentPulsingAnimations.forEach(e -> {
+            if (e.getNode() == currentImageView) {
+                result.set(true);
+            }
+        });
+        return result;
     }
 
     public static Animation createRotator(ImageView card, Image imageToSet) {

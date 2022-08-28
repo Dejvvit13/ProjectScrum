@@ -17,6 +17,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
@@ -82,8 +83,8 @@ public class GameController implements Initializable {
             String.valueOf(this.getClass().getResource("Images/WaterCard.png")),
             String.valueOf(this.getClass().getResource("Images/WindCard.png"))
     ));
-    protected static ImageView currentImageView; //currently picked card slot
-    protected static List<ImageView> currentPickedImageViews = new ArrayList<>();
+    private ImageView currentImageView; //currently picked card slot
+    private List<ImageView> currentPickedImageViews = new ArrayList<>();
     private List<Image> computerGeneratedCards = new ArrayList<>();
     private final Random random = new Random();
     private int playerScore;
@@ -191,7 +192,7 @@ public class GameController implements Initializable {
     @FXML
     private synchronized void onElementButtonClick(ActionEvent actionEvent) {
         if (currentPickedImageViews != null) {
-            AnimationsUtility.removeAllPulseAnimation();
+            AnimationsUtility.stopAllPulseAnimation();
             switch (((Button) actionEvent.getSource()).getText()) {
                 case "FIRE" -> playRotationAnimation(this.fireCard);
                 case "WATER" -> playRotationAnimation(this.waterCard);
@@ -234,6 +235,7 @@ public class GameController implements Initializable {
         timeline.setCycleCount(1);
         timeline.play();
     }
+
     @FXML
     private void onFightButtonClick(ActionEvent actionEvent) {
         switch (((Button) actionEvent.getSource()).getId()) {
@@ -250,7 +252,8 @@ public class GameController implements Initializable {
 
     private void fight(ImageView computerImageView, ImageView playerImageView, Image computerImageToSet, ImageView computerResultImageView, ImageView playerResultImageView, Button vsButton) {
         if (!playerImageView.getImage().getUrl().equals(backOfCard.getUrl())) {
-            AnimationsUtility.removePulseAnimation(playerImageView);
+            AnimationsUtility.stopPulseAnimation(playerImageView);
+            currentPickedImageViews.remove(playerImageView);
             vsButton.setDisable(true);
             playerImageView.setOnMouseClicked(null);
             this.scoreLabel.setText("Player - %d : %d - Computer".formatted(this.playerScore, this.computerScore));
@@ -264,7 +267,7 @@ public class GameController implements Initializable {
         }
     }
 
-    private void checkScore(Image computerImageToSet, ImageView playerImageView , ImageView computerResultImageView, ImageView playerResultImageView) {
+    private void checkScore(Image computerImageToSet, ImageView playerImageView, ImageView computerResultImageView, ImageView playerResultImageView) {
         String computerImageUrl = computerImageToSet.getUrl().substring(computerImageToSet.getUrl().lastIndexOf('/') + 1);
         String playerImageUrl = playerImageView.getImage().getUrl().substring(playerImageView.getImage().getUrl().lastIndexOf('/') + 1);
         String waterElement = "WaterCard.png";
@@ -291,15 +294,24 @@ public class GameController implements Initializable {
     }
 
 
-    private synchronized void setCurrentImageViewOnClick() {
+    private void setCurrentImageViewOnClick() {
         for (Node node : this.gridPanePlayer.getChildren()) {
             if (node instanceof ImageView imageView) {
                 imageView.setOnMouseClicked(e -> {
                     currentImageView = imageView;
+
                     if (!currentPickedImageViews.contains(currentImageView)) {
                         currentPickedImageViews.add(currentImageView);
                     }
-                    AnimationsUtility.setPulseAnimation();
+
+                    if (AnimationsUtility.isPulsing(currentImageView).get()) {
+                        AnimationsUtility.stopPulseAnimation(currentImageView);
+                        currentPickedImageViews.remove(currentImageView);
+                        currentImageView = null;
+
+                    } else {
+                        AnimationsUtility.playPulseAnimation(currentImageView);
+                    }
 
                 });
             }
@@ -319,6 +331,7 @@ public class GameController implements Initializable {
             throw new RuntimeException("Error while opening new Window");
         }
     }
+
     @FXML
     private void playAgain() {
         resetGameSettings();
@@ -332,7 +345,7 @@ public class GameController implements Initializable {
         playerWonRoundsLabel.setText("Player won rounds: " + 0);
     }
 
-    private synchronized void resetGameSettings() {
+    private void resetGameSettings() {
         playerImageView1.setImage(null);
         playerImageView2.setImage(null);
         playerImageView3.setImage(null);
@@ -348,10 +361,9 @@ public class GameController implements Initializable {
         vsButton1.setDisable(false);
         vsButton2.setDisable(false);
         vsButton3.setDisable(false);
-        AnimationsUtility.removeAllPulseAnimation();
+        AnimationsUtility.stopAllPulseAnimation();
         computerGeneratedCards = new ArrayList<>();
         currentPickedImageViews = new ArrayList<>();
-        AnimationsUtility.currentPulsingAnimations = new HashSet<>();
         generatePcCards();
         setPlayerBackCard();
         setCurrentImageViewOnClick();
