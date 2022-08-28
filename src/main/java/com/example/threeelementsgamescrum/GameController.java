@@ -252,12 +252,18 @@ public class GameController implements Initializable {
     @FXML
     private void onFightButtonClick(ActionEvent actionEvent) {
         switch (((Button) actionEvent.getSource()).getId()) {
-            case "vsButton1" ->
-                    fight(computerImageView1, playerImageView1, this.computerGeneratedCards.get(0), computerResultImage1, playerResultImage1, vsButton1);
-            case "vsButton2" ->
-                    fight(computerImageView2, playerImageView2, this.computerGeneratedCards.get(1), computerResultImage2, playerResultImage2, vsButton2);
-            case "vsButton3" ->
-                    fight(computerImageView3, playerImageView3, this.computerGeneratedCards.get(2), computerResultImage3, playerResultImage3, vsButton3);
+            case "vsButton1" ->{
+                fight(computerImageView1, playerImageView1, this.computerGeneratedCards.get(0), computerResultImage1, playerResultImage1, vsButton1);
+                playerImageView1.setDisable(true);
+            }
+            case "vsButton2" ->{
+                fight(computerImageView2, playerImageView2, this.computerGeneratedCards.get(1), computerResultImage2, playerResultImage2, vsButton2);
+                playerImageView2.setDisable(true);
+            }
+            case "vsButton3" ->{
+                fight(computerImageView3, playerImageView3, this.computerGeneratedCards.get(2), computerResultImage3, playerResultImage3, vsButton3);
+                playerImageView3.setDisable(true);
+            }
             default ->
                     throw new IllegalStateException("Unexpected value: " + ((Button) actionEvent.getSource()).getText());
         }
@@ -295,7 +301,6 @@ public class GameController implements Initializable {
     private void checkWhoWon(String playerImageUrl, String computerImageUrl, ImageView playerImage, ImageView computerImage, String firstElement, String secondElement) {
         if (playerImageUrl.equals(computerImageUrl)) {
             setIcons(playerImage, computerImage, this.draw, this.draw);
-
         } else if (playerImageUrl.equals(firstElement) && computerImageUrl.equals(secondElement)) {
             setIcons(playerImage, computerImage, this.lose, this.win);
             this.playerScore++;
@@ -305,23 +310,18 @@ public class GameController implements Initializable {
             this.computerScore++;
         }
     }
-
-
     private void setCurrentImageViewOnClick() {
         for (Node node : this.gridPanePlayer.getChildren()) {
             if (node instanceof ImageView imageView) {
                 imageView.setOnMouseClicked(e -> {
                     currentImageView = imageView;
-
                     if (!currentPickedImageViews.contains(currentImageView)) {
                         currentPickedImageViews.add(currentImageView);
                     }
-
                     if (AnimationsUtility.isPulsing(currentImageView).get()) {
                         AnimationsUtility.stopPulseAnimation(currentImageView);
                         currentPickedImageViews.remove(currentImageView);
                         currentImageView = null;
-
                     } else {
                         AnimationsUtility.playPulseAnimation(currentImageView);
                     }
@@ -362,6 +362,9 @@ public class GameController implements Initializable {
         playerImageView1.setImage(null);
         playerImageView2.setImage(null);
         playerImageView3.setImage(null);
+        playerImageView1.setDisable(false);
+        playerImageView2.setDisable(false);
+        playerImageView3.setDisable(false);
         computerImageView1.setImage(null);
         computerImageView2.setImage(null);
         computerImageView3.setImage(null);
@@ -383,4 +386,3 @@ public class GameController implements Initializable {
         scoreLabel.setText("Player - 0 : 0 - Computer");
     }
 }
-

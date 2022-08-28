@@ -23,17 +23,17 @@
         <rowConstraints>
             <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
         </rowConstraints>
-        <ImageView id="imageWindow" fx:id="computerImageView1" fitHeight="220.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+        <ImageView fx:id="computerImageView1" fitHeight="220.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
             <GridPane.margin>
                 <Insets />
             </GridPane.margin>
         </ImageView>
-        <ImageView id="imageWindow" fx:id="computerImageView2" fitHeight="220.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
+        <ImageView fx:id="computerImageView2" fitHeight="220.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
             <GridPane.margin>
                 <Insets />
             </GridPane.margin>
         </ImageView>
-        <ImageView id="imageWindow" fx:id="computerImageView3" fitHeight="220.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2">
+        <ImageView fx:id="computerImageView3" fitHeight="220.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2">
             <GridPane.margin>
                 <Insets />
             </GridPane.margin>
