@@ -116,11 +116,11 @@ public class GameController implements Initializable {
 
             if (this.computerScore > this.playerScore) {
                 this.domputerWonRounds++;
-                this.computerWonRoundsLabel.setText("Computer won rounds: " + this.domputerWonRounds);
+                this.computerWonRoundsLabel.setText("Computer rounds: " + this.domputerWonRounds);
             }
             if (this.computerScore < this.playerScore) {
                 this.playerWonRounds++;
-                this.playerWonRoundsLabel.setText("Player won rounds: " + this.playerWonRounds);
+                this.playerWonRoundsLabel.setText("Player rounds: " + this.playerWonRounds);
             }
 
             if (this.playerWonRounds == 2) {
@@ -341,8 +341,8 @@ public class GameController implements Initializable {
         playerScore = 0;
         countFights.set(0);
         countRounds.set(1);
-        computerWonRoundsLabel.setText("Computer won rounds: " + 0);
-        playerWonRoundsLabel.setText("Player won rounds: " + 0);
+        computerWonRoundsLabel.setText("Computer rounds: " + 0);
+        playerWonRoundsLabel.setText("Player rounds: " + 0);
     }
 
     private void resetGameSettings() {

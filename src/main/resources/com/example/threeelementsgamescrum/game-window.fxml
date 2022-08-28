@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="733.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.threeelementsgamescrum.GameController">
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="650.0" stylesheets="@css.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.threeelementsgamescrum.GameController">
     <GridPane fx:id="gridPaneComputer" layoutX="24.0" layoutY="63.0" prefHeight="220.0" prefWidth="600.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0">
         <columnConstraints>
             <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -23,17 +23,17 @@
         <rowConstraints>
             <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
         </rowConstraints>
-        <ImageView fx:id="computerImageView1" fitHeight="220.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+        <ImageView id="imageWindow" fx:id="computerImageView1" fitHeight="220.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
             <GridPane.margin>
                 <Insets />
             </GridPane.margin>
         </ImageView>
-        <ImageView fx:id="computerImageView2" fitHeight="220.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
+        <ImageView id="imageWindow" fx:id="computerImageView2" fitHeight="220.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
             <GridPane.margin>
                 <Insets />
             </GridPane.margin>
         </ImageView>
-        <ImageView fx:id="computerImageView3" fitHeight="220.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2">
+        <ImageView id="imageWindow" fx:id="computerImageView3" fitHeight="220.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2">
             <GridPane.margin>
                 <Insets />
             </GridPane.margin>
@@ -48,12 +48,12 @@
         <rowConstraints>
             <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
         </rowConstraints>
-         <ImageView id="imageWindow" fx:id="playerImageView1" fitHeight="220.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
-         <ImageView id="imageWindow" fx:id="playerImageView2" fitHeight="220.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
-         <ImageView id="imageWindow" fx:id="playerImageView3" fitHeight="220.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" />
+         <ImageView id="imageWindow" fx:id="playerImageView1" fitHeight="220.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" styleClass="imageWindow" />
+         <ImageView id="imageWindow" fx:id="playerImageView2" fitHeight="220.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" styleClass="imageWindow" GridPane.columnIndex="1" />
+         <ImageView id="imageWindow" fx:id="playerImageView3" fitHeight="220.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" styleClass="imageWindow" GridPane.columnIndex="2" />
     </GridPane>
-    <HBox alignment="CENTER" layoutX="26.0" layoutY="296.0" prefHeight="100.0" prefWidth="600.0">
-        <VBox alignment="CENTER" prefHeight="83.0" prefWidth="200.0">
+    <HBox alignment="CENTER" layoutX="1.0" layoutY="296.0" prefHeight="105.0" prefWidth="650.0">
+        <VBox alignment="CENTER" prefHeight="105.0" prefWidth="215.0">
             <ImageView fx:id="computerResultImage1" fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                 <VBox.margin>
                     <Insets />
@@ -72,7 +72,7 @@
                 </VBox.margin>
             </ImageView>
         </VBox>
-        <VBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="96.0" prefWidth="200.0">
+        <VBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="105.0" prefWidth="215.0">
             <ImageView fx:id="computerResultImage2" fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                 <VBox.margin>
                     <Insets />
@@ -91,7 +91,7 @@
                 </VBox.margin>
             </ImageView>
         </VBox>
-        <VBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="200.0">
+        <VBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="105.0" prefWidth="215.0">
             <ImageView fx:id="computerResultImage3" fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                 <VBox.margin>
                     <Insets />
@@ -111,27 +111,39 @@
             </ImageView>
         </VBox>
     </HBox>
-    <Button layoutX="71.0" layoutY="648.0" mnemonicParsing="false" onAction="#onElementButtonClick" prefHeight="30.0" prefWidth="60.0" text="FIRE" />
-    <Button layoutX="296.0" layoutY="648.0" mnemonicParsing="false" onAction="#onElementButtonClick" prefHeight="30.0" prefWidth="60.0" text="WATER" />
-    <Button layoutX="509.0" layoutY="648.0" mnemonicParsing="false" onAction="#onElementButtonClick" prefHeight="30.0" prefWidth="60.0" text="WIND" />
-    <Button layoutX="286.0" layoutY="693.0" mnemonicParsing="false" onAction="#playAgain" text="Reset Game" />
-    <Label fx:id="scoreLabel" alignment="CENTER" layoutX="159.0" layoutY="18.0" prefHeight="32.0" prefWidth="358.0" text="Player - 0 : 0 - Computer">
-        <font>
-            <Font name="Webdings" size="19.0" />
-        </font>
-    </Label>
-    <Label fx:id="roundLabel" layoutX="281.0" layoutY="-4.0" prefWidth="90.0" text="Round 1">
-        <font>
-            <Font size="24.0" />
-        </font>
-    </Label>
-   <Label fx:id="computerWonRoundsLabel" layoutX="52.0" layoutY="24.0" text="Computer won rounds: 0" AnchorPane.leftAnchor="30.0">
+    <Button layoutX="100.0" layoutY="650.0" mnemonicParsing="false" onAction="#onElementButtonClick" prefHeight="35.0" prefWidth="65.0" text="FIRE" textFill="RED">
       <font>
-         <Font size="14.0" />
+         <Font name="OCR A Extended" size="12.179104804992676" />
+      </font></Button>
+    <Button layoutX="295.0" layoutY="650.0" mnemonicParsing="false" onAction="#onElementButtonClick" prefHeight="35.0" prefWidth="65.0" text="WATER" textFill="#0011ff">
+      <font>
+         <Font name="OCR A Extended" size="12.179104804992676" />
+      </font></Button>
+    <Button layoutX="470.0" layoutY="650.0" mnemonicParsing="false" onAction="#onElementButtonClick" prefHeight="35.0" prefWidth="65.0" text="WIND" textFill="WHITE">
+      <font>
+         <Font name="OCR A Extended" size="12.179104804992676" />
+      </font></Button>
+    <Button layoutX="283.0" layoutY="700.0" mnemonicParsing="false" onAction="#playAgain" text="Reset Game">
+      <font>
+         <Font name="OCR A Extended" size="12.179104804992676" />
+      </font></Button>
+    <Label fx:id="scoreLabel" alignment="CENTER" layoutX="143.0" layoutY="18.0" prefHeight="54.0" prefWidth="384.0" text="Player - 0 : 0 - Computer">
+        <font>
+            <Font name="OCR A Extended" size="19.0" />
+        </font>
+    </Label>
+    <Label fx:id="roundLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="264.0" layoutY="-1.0" prefHeight="37.0" prefWidth="123.0" text="Round 1">
+        <font>
+            <Font name="OCR A Extended" size="26.0" />
+        </font>
+    </Label>
+   <Label fx:id="computerWonRoundsLabel" layoutX="6.0" layoutY="-1.0" prefHeight="38.0" prefWidth="164.0" text="Computer rounds: 0" AnchorPane.leftAnchor="6.0">
+      <font>
+         <Font name="OCR A Extended" size="13.0" />
       </font></Label>
-   <Label fx:id="playerWonRoundsLabel" layoutX="500.0" layoutY="24.0" text="Player won rounds: 0" AnchorPane.rightAnchor="30.0">
+   <Label fx:id="playerWonRoundsLabel" layoutX="526.0" layoutY="-1.0" prefHeight="39.0" prefWidth="133.0" text="Player rounds: 0" AnchorPane.rightAnchor="3.0">
       <font>
-         <Font size="14.0" />
+         <Font name="OCR A Extended" size="13.0" />
       </font></Label>
    <opaqueInsets>
       <Insets />
