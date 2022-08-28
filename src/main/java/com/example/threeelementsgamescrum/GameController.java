@@ -252,18 +252,12 @@ public class GameController implements Initializable {
     @FXML
     private void onFightButtonClick(ActionEvent actionEvent) {
         switch (((Button) actionEvent.getSource()).getId()) {
-            case "vsButton1" ->{
-                fight(computerImageView1, playerImageView1, this.computerGeneratedCards.get(0), computerResultImage1, playerResultImage1, vsButton1);
-                playerImageView1.setDisable(true);
-            }
-            case "vsButton2" ->{
-                fight(computerImageView2, playerImageView2, this.computerGeneratedCards.get(1), computerResultImage2, playerResultImage2, vsButton2);
-                playerImageView2.setDisable(true);
-            }
-            case "vsButton3" ->{
-                fight(computerImageView3, playerImageView3, this.computerGeneratedCards.get(2), computerResultImage3, playerResultImage3, vsButton3);
-                playerImageView3.setDisable(true);
-            }
+            case "vsButton1" ->
+                    fight(computerImageView1, playerImageView1, this.computerGeneratedCards.get(0), computerResultImage1, playerResultImage1, vsButton1);
+            case "vsButton2" ->
+                    fight(computerImageView2, playerImageView2, this.computerGeneratedCards.get(1), computerResultImage2, playerResultImage2, vsButton2);
+            case "vsButton3" ->
+                    fight(computerImageView3, playerImageView3, this.computerGeneratedCards.get(2), computerResultImage3, playerResultImage3, vsButton3);
             default ->
                     throw new IllegalStateException("Unexpected value: " + ((Button) actionEvent.getSource()).getText());
         }
@@ -274,7 +268,7 @@ public class GameController implements Initializable {
             AnimationsUtility.stopPulseAnimation(playerImageView);
             currentPickedImageViews.remove(playerImageView);
             vsButton.setDisable(true);
-            playerImageView.setOnMouseClicked(null);
+            playerImageView.setDisable(true);
             this.scoreLabel.setText("Player - %d : %d - Computer".formatted(this.playerScore, this.computerScore));
             this.countFights.setValue(this.countFights.getValue() + 1);
 
@@ -310,6 +304,7 @@ public class GameController implements Initializable {
             this.computerScore++;
         }
     }
+
     private void setCurrentImageViewOnClick() {
         for (Node node : this.gridPanePlayer.getChildren()) {
             if (node instanceof ImageView imageView) {
