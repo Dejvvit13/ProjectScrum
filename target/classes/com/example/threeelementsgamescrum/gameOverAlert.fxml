@@ -18,7 +18,7 @@
         <Font name="OCR A Extended" size="11.0" />
         </font>
     </Button>
-    <Button id="exitButton" fx:id="exitButton" layoutX="190.0" layoutY="125.0" mnemonicParsing="false" onAction="#exitGame" prefHeight="45.0" prefWidth="85.0" text="Exit">
+    <Button id="exitButton"  layoutX="190.0" layoutY="125.0" mnemonicParsing="false" onAction="#exitGame" prefHeight="45.0" prefWidth="85.0" text="Exit">
         <font>
         <Font name="OCR A Extended" size="13.0" />
         </font>
