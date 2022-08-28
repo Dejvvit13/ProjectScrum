@@ -73,6 +73,18 @@ public class GameController implements Initializable {
     @FXML
     private ImageView computerImageView3;
 
+    // Element Choose Buttons
+    @FXML
+    private Button fireButton;
+    @FXML
+    private Button windButton;
+    @FXML
+    private Button waterButton;
+
+    // reset button
+    @FXML
+    private Button resetButton;
+
     @FXML
     private Label scoreLabel; // score text
     @FXML
@@ -103,6 +115,7 @@ public class GameController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         generateComputerCards();
         setCurrentImageViewOnClick();
         setPlayerBackCard();
@@ -193,12 +206,12 @@ public class GameController implements Initializable {
     private void onElementButtonClick(ActionEvent actionEvent) {
         if (currentPickedImageViews != null) {
             AnimationsUtility.stopAllPulseAnimation();
-            switch (((Button) actionEvent.getSource()).getText()) {
-                case "FIRE" -> playRotationAnimation(this.fireCard);
-                case "WATER" -> playRotationAnimation(this.waterCard);
-                case "WIND" -> playRotationAnimation(this.windCard);
+            switch (((Button) actionEvent.getSource()).getId()) {
+                case "fireButton" -> playRotationAnimation(this.fireCard);
+                case "waterButton" -> playRotationAnimation(this.waterCard);
+                case "windButton" -> playRotationAnimation(this.windCard);
                 default ->
-                        throw new IllegalStateException("Unexpected value: " + ((Button) actionEvent.getSource()).getText());
+                        throw new IllegalStateException("Unexpected value: " + ((Button) actionEvent.getSource()).getId());
             }
             currentPickedImageViews = new ArrayList<>();
         }

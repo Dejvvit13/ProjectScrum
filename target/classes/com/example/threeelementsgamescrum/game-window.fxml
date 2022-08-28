@@ -111,22 +111,50 @@
             </ImageView>
         </VBox>
     </HBox>
-    <Button layoutX="100.0" layoutY="650.0" mnemonicParsing="false" onAction="#onElementButtonClick" prefHeight="35.0" prefWidth="65.0" text="FIRE" textFill="RED">
+    <Button id="fireButton" fx:id="fireButton" alignment="CENTER" contentDisplay="CENTER" layoutX="100.0" layoutY="640.0" mnemonicParsing="false" onAction="#onElementButtonClick" prefHeight="50.0" prefWidth="50.0" textFill="RED">
       <font>
          <Font name="OCR A Extended" size="12.179104804992676" />
-      </font></Button>
-    <Button layoutX="295.0" layoutY="650.0" mnemonicParsing="false" onAction="#onElementButtonClick" prefHeight="35.0" prefWidth="65.0" text="WATER" textFill="#0011ff">
+      </font>
+      <graphic>
+         <ImageView id="fireButton" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@Images/fireButtonImg.png" />
+            </image>
+         </ImageView>
+      </graphic></Button>
+    <Button fx:id="waterButton" contentDisplay="CENTER" layoutX="295.0" layoutY="640.0" mnemonicParsing="false" onAction="#onElementButtonClick" prefHeight="50.0" prefWidth="50.0" textFill="#0011ff">
       <font>
          <Font name="OCR A Extended" size="12.179104804992676" />
-      </font></Button>
-    <Button layoutX="470.0" layoutY="650.0" mnemonicParsing="false" onAction="#onElementButtonClick" prefHeight="35.0" prefWidth="65.0" text="WIND" textFill="WHITE">
+      </font>
+      <graphic>
+         <ImageView id="waterButton" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@Images/waterButtonImg.png" />
+            </image>
+         </ImageView>
+      </graphic></Button>
+    <Button fx:id="windButton" contentDisplay="CENTER" layoutX="470.0" layoutY="640.0" mnemonicParsing="false" onAction="#onElementButtonClick" prefHeight="50.0" prefWidth="50.0" textFill="WHITE">
       <font>
          <Font name="OCR A Extended" size="12.179104804992676" />
-      </font></Button>
-    <Button layoutX="283.0" layoutY="700.0" mnemonicParsing="false" onAction="#playAgain" text="Reset Game">
+      </font>
+      <graphic>
+         <ImageView id="windButton" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@Images/windButtonImg.png" />
+            </image>
+         </ImageView>
+      </graphic></Button>
+    <Button fx:id="resetButton" layoutX="301.0" layoutY="705.0" mnemonicParsing="false" onAction="#playAgain" prefHeight="17.0" prefWidth="0.0">
       <font>
          <Font name="OCR A Extended" size="12.179104804992676" />
-      </font></Button>
+      </font>
+      <graphic>
+         <ImageView id="resetButton" fitHeight="35.0" fitWidth="35.0" layoutX="315.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@Images/resetButtonImg.png" />
+            </image>
+         </ImageView>
+      </graphic></Button>
     <Label fx:id="scoreLabel" alignment="CENTER" layoutX="143.0" layoutY="18.0" prefHeight="54.0" prefWidth="384.0" text="Player - 0 : 0 - Computer">
         <font>
             <Font name="OCR A Extended" size="19.0" />
