@@ -103,7 +103,7 @@ public class GameController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        generatePcCards();
+        generateComputerCards();
         setCurrentImageViewOnClick();
         setPlayerBackCard();
         setRoundsSystem();
@@ -178,7 +178,7 @@ public class GameController implements Initializable {
         this.playerImageView3.setRotate(0);
     }
 
-    private void generatePcCards() {
+    private void generateComputerCards() {
         for (Node node : this.gridPaneComputer.getChildren()) {
             if (node instanceof ImageView imageView) {
                 Image image = new Image(this.pathsToGameImages.get(random.nextInt(0, 3)));
@@ -190,7 +190,7 @@ public class GameController implements Initializable {
     }
 
     @FXML
-    private synchronized void onElementButtonClick(ActionEvent actionEvent) {
+    private void onElementButtonClick(ActionEvent actionEvent) {
         if (currentPickedImageViews != null) {
             AnimationsUtility.stopAllPulseAnimation();
             switch (((Button) actionEvent.getSource()).getText()) {
@@ -364,7 +364,7 @@ public class GameController implements Initializable {
         AnimationsUtility.stopAllPulseAnimation();
         computerGeneratedCards = new ArrayList<>();
         currentPickedImageViews = new ArrayList<>();
-        generatePcCards();
+        generateComputerCards();
         setPlayerBackCard();
         setCurrentImageViewOnClick();
         scoreLabel.setText("Player - 0 : 0 - Computer");
