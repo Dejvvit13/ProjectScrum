@@ -45,7 +45,7 @@ public class AnimationsUtility {
     }
 
 
-    public static AtomicBoolean isPulsing(ImageView currentImageView) {
+    public static AtomicBoolean isCardPulsing(ImageView currentImageView) {
         AtomicBoolean result = new AtomicBoolean(false);
         currentPulsingAnimations.forEach(e -> {
             if (e.getNode() == currentImageView) {

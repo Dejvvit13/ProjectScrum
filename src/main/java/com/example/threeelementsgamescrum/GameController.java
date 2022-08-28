@@ -96,8 +96,8 @@ public class GameController implements Initializable {
             String.valueOf(this.getClass().getResource("Images/WindCard.png"))
     ));
     private ImageView currentImageView; //currently picked card slot
-    private List<ImageView> currentPickedImageViews = new ArrayList<>();
-    private List<Image> computerGeneratedCards = new ArrayList<>();
+    private List<ImageView> currentPickedImageViews;
+    private List<Image> computerGeneratedCards;
     private final Random random = new Random();
     private int playerScore;
     private int computerScore;
@@ -115,7 +115,6 @@ public class GameController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         generateComputerCards();
         setCurrentImageViewOnClick();
         setPlayerBackCard();
@@ -138,28 +137,27 @@ public class GameController implements Initializable {
 
             if (this.playerWonRounds == 2) {
                 openAlertStage("Player Won");
-                playAgain();
+                resetGameSettings();
 
             } else if (this.domputerWonRounds == 2) {
                 openAlertStage("Computer Won");
-                playAgain();
+                resetGameSettings();
             }
 
             if (this.countRounds.getValue() > 3) {
                 if (this.playerWonRounds == this.domputerWonRounds && this.countRounds.getValue() > 3) {
                     openAlertStage("It's DRAW");
-                    playAgain();
+                    resetGameSettings();
                 } else if (this.playerWonRounds > this.domputerWonRounds) {
                     openAlertStage("Player Won");
-                    playAgain();
+                    resetGameSettings();
                 } else {
                     openAlertStage("Computer Won");
-                    playAgain();
+                    resetGameSettings();
                 }
             }
-            resetGameSettings();
+            resetRoundSettings();
         });
-
     }
 
     private void setScoreSystem() {
@@ -183,6 +181,7 @@ public class GameController implements Initializable {
     }
 
     private void setPlayerBackCard() {
+        this.currentPickedImageViews = new ArrayList<>();
         this.playerImageView1.setImage(backOfCard);
         this.playerImageView2.setImage(backOfCard);
         this.playerImageView3.setImage(backOfCard);
@@ -192,6 +191,7 @@ public class GameController implements Initializable {
     }
 
     private void generateComputerCards() {
+        computerGeneratedCards = new ArrayList<>();
         for (Node node : this.gridPaneComputer.getChildren()) {
             if (node instanceof ImageView imageView) {
                 Image image = new Image(this.pathsToGameImages.get(random.nextInt(0, 3)));
@@ -204,7 +204,7 @@ public class GameController implements Initializable {
 
     @FXML
     private void onElementButtonClick(ActionEvent actionEvent) {
-        if (currentPickedImageViews != null) {
+        if (!currentPickedImageViews.isEmpty()) {
             AnimationsUtility.stopAllPulseAnimation();
             switch (((Button) actionEvent.getSource()).getId()) {
                 case "fireButton" -> playRotationAnimation(this.fireCard);
@@ -235,13 +235,13 @@ public class GameController implements Initializable {
     }
 
 
-    private void setIcons(ImageView playerImage, ImageView computerImage, Image computerIcon, Image playerIcon) {
+    private void setIcons(ImageView playerImageView, ImageView computerImageView, Image computerIconToSet, Image playerIconToSet) {
         Timeline timeline = new Timeline(
                 new KeyFrame(
                         Duration.millis(300),
                         e -> {
-                            playerImage.setImage(playerIcon);
-                            computerImage.setImage(computerIcon);
+                            playerImageView.setImage(playerIconToSet);
+                            computerImageView.setImage(computerIconToSet);
                         }
                 )
         );
@@ -269,8 +269,6 @@ public class GameController implements Initializable {
             currentPickedImageViews.remove(playerImageView);
             vsButton.setDisable(true);
             playerImageView.setDisable(true);
-            this.scoreLabel.setText("Player - %d : %d - Computer".formatted(this.playerScore, this.computerScore));
-            this.countFights.setValue(this.countFights.getValue() + 1);
 
             Animation rotator = AnimationsUtility.createRotator(computerImageView, computerImageToSet);
             rotator.setCycleCount(1);
@@ -290,6 +288,9 @@ public class GameController implements Initializable {
         checkWhoWon(playerImageUrl, computerImageUrl, playerResultImageView, computerResultImageView, waterElement, fireElement);
         checkWhoWon(playerImageUrl, computerImageUrl, playerResultImageView, computerResultImageView, windElement, waterElement);
         checkWhoWon(playerImageUrl, computerImageUrl, playerResultImageView, computerResultImageView, fireElement, windElement);
+
+        this.scoreLabel.setText("Player - %d : %d - Computer".formatted(this.playerScore, this.computerScore));
+        this.countFights.setValue(this.countFights.getValue() + 1);
     }
 
     private void checkWhoWon(String playerImageUrl, String computerImageUrl, ImageView playerImage, ImageView computerImage, String firstElement, String secondElement) {
@@ -309,18 +310,18 @@ public class GameController implements Initializable {
         for (Node node : this.gridPanePlayer.getChildren()) {
             if (node instanceof ImageView imageView) {
                 imageView.setOnMouseClicked(e -> {
+
                     currentImageView = imageView;
-                    if (!currentPickedImageViews.contains(currentImageView)) {
+                    if(!currentPickedImageViews.contains(currentImageView)) {
                         currentPickedImageViews.add(currentImageView);
                     }
-                    if (AnimationsUtility.isPulsing(currentImageView).get()) {
+                    if(AnimationsUtility.isCardPulsing(currentImageView).get()) {
                         AnimationsUtility.stopPulseAnimation(currentImageView);
                         currentPickedImageViews.remove(currentImageView);
                         currentImageView = null;
                     } else {
                         AnimationsUtility.playPulseAnimation(currentImageView);
                     }
-
                 });
             }
         }
@@ -341,8 +342,9 @@ public class GameController implements Initializable {
     }
 
     @FXML
-    private void playAgain() {
-        resetGameSettings();
+    private void resetGameSettings() {
+        resetRoundSettings();
+        AnimationsUtility.stopAllPulseAnimation();
         domputerWonRounds = 0;
         playerWonRounds = 0;
         computerScore = 0;
@@ -353,16 +355,10 @@ public class GameController implements Initializable {
         playerWonRoundsLabel.setText("Player rounds: " + 0);
     }
 
-    private void resetGameSettings() {
-        playerImageView1.setImage(null);
-        playerImageView2.setImage(null);
-        playerImageView3.setImage(null);
+    private void resetRoundSettings() {
         playerImageView1.setDisable(false);
         playerImageView2.setDisable(false);
         playerImageView3.setDisable(false);
-        computerImageView1.setImage(null);
-        computerImageView2.setImage(null);
-        computerImageView3.setImage(null);
         computerResultImage1.setImage(null);
         computerResultImage2.setImage(null);
         computerResultImage3.setImage(null);
@@ -372,9 +368,6 @@ public class GameController implements Initializable {
         vsButton1.setDisable(false);
         vsButton2.setDisable(false);
         vsButton3.setDisable(false);
-        AnimationsUtility.stopAllPulseAnimation();
-        computerGeneratedCards = new ArrayList<>();
-        currentPickedImageViews = new ArrayList<>();
         generateComputerCards();
         setPlayerBackCard();
         setCurrentImageViewOnClick();

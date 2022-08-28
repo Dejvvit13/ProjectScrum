@@ -11,8 +11,6 @@ public class EndGameController {
     @FXML
     private Button playAgainButton;
     @FXML
-    private Button exitButton;
-    @FXML
     private Label winnerLabel;
 
 
