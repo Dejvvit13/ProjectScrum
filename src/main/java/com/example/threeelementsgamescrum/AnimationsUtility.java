@@ -56,46 +56,34 @@ public class AnimationsUtility {
     }
 
     public static Animation createRotator(ImageView card, Image imageToSet) {
-        card.setImage(imageToSet);
-        RotateTransition rotator = new RotateTransition(Duration.millis(600), card);
+        RotateTransition rotator = new RotateTransition(Duration.millis(500), card);
         rotator.setAxis(Rotate.Y_AXIS);
         rotator.setFromAngle(360);
         rotator.setToAngle(180);
         rotator.setInterpolator(Interpolator.LINEAR);
         rotator.setCycleCount(1);
 
-        Image front = new Image(
-                card.getImage().getUrl(),
-                false);
         Timeline imageSwitcher = new Timeline(
-                new KeyFrame(Duration.ZERO,
-                        new KeyValue(card.imageProperty(), GameController.backOfCard, Interpolator.DISCRETE)),
-                new KeyFrame(Duration.millis(300),
-                        new KeyValue(card.imageProperty(), front, Interpolator.DISCRETE))
+                new KeyFrame(Duration.millis(250),
+                        new KeyValue(card.imageProperty(), imageToSet, Interpolator.DISCRETE))
         );
         imageSwitcher.setCycleCount(1);
         return new ParallelTransition(card, rotator, imageSwitcher);
     }
 
-    public static Animation createRotator360(ImageView card, Image imageToSet, Image currentImage) {
-        card.setImage(imageToSet);
-        RotateTransition rotator = new RotateTransition(Duration.millis(900), card);
+    public static Animation createRotator360(ImageView card, Image imageToSet) {
+        RotateTransition rotator = new RotateTransition(Duration.millis(800), card);
         rotator.setAxis(Rotate.Y_AXIS);
         rotator.setFromAngle(180);
         rotator.setToAngle(540);
         rotator.setInterpolator(Interpolator.LINEAR);
         rotator.setCycleCount(1);
 
-        Image front = new Image(
-                card.getImage().getUrl(),
-                false);
         Timeline imageSwitcher = new Timeline(
-                new KeyFrame(Duration.ZERO,
-                        new KeyValue(card.imageProperty(), currentImage, Interpolator.DISCRETE)),
-                new KeyFrame(Duration.millis(300),
+                new KeyFrame(Duration.millis(200),
                         new KeyValue(card.imageProperty(), GameController.backOfCard, Interpolator.DISCRETE)),
                 new KeyFrame(Duration.millis(600),
-                        new KeyValue(card.imageProperty(), front, Interpolator.DISCRETE))
+                        new KeyValue(card.imageProperty(), imageToSet, Interpolator.DISCRETE))
         );
         imageSwitcher.setCycleCount(1);
         return new ParallelTransition(card, rotator, imageSwitcher);

@@ -293,7 +293,7 @@ public class GameController implements Initializable {
                 rotator.setCycleCount(1);
                 rotator.play();
             } else {
-                Animation rotator = AnimationsUtility.createRotator360(currentPickedImageView, imageToSet, currentPickedImageView.getImage());
+                Animation rotator = AnimationsUtility.createRotator360(currentPickedImageView, imageToSet);
                 rotator.setCycleCount(1);
                 rotator.play();
             }
