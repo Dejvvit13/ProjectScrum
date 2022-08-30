@@ -179,7 +179,7 @@ public class GameController implements Initializable {
                 resetGameSettings();
             }
 
-            if (this.countRounds.getValue() > 0) {
+            if (this.countRounds.getValue() > 3) {
                 if (this.playerWonRounds == this.computerWonRounds && this.countRounds.getValue() > 3) {
                     openAlertStage("It's DRAW");
                     resetGameSettings();
