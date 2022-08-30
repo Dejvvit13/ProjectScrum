@@ -14,7 +14,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -24,6 +26,8 @@ import java.util.*;
 
 public class GameController implements Initializable {
 
+    @FXML
+    private AnchorPane rootPane;
     @FXML
     private Label computerWonRoundsLabel;
     @FXML
@@ -175,7 +179,7 @@ public class GameController implements Initializable {
                 resetGameSettings();
             }
 
-            if (this.countRounds.getValue() > 3) {
+            if (this.countRounds.getValue() > 0) {
                 if (this.playerWonRounds == this.computerWonRounds && this.countRounds.getValue() > 3) {
                     openAlertStage("It's DRAW");
                     resetGameSettings();
@@ -349,13 +353,19 @@ public class GameController implements Initializable {
     }
 
     private void openAlertStage(String text) {
-        FXMLLoader fxmlLoader = new FXMLLoader(GameOverAlert.class.getResource("gameOverAlert.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("gameOverAlert.fxml"));
         try {
             Scene scene = new Scene(fxmlLoader.load());
             Stage stage = new Stage();
             stage.setScene(scene);
             EndGameController endGameController = fxmlLoader.getController();
             endGameController.displayWinner(text);
+            stage.setResizable(false);
+            stage.getIcons().add(new Image(String.valueOf(this.getClass().getResource("Images/vs.png"))));
+            stage.setAlwaysOnTop(true);
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.initOwner((rootPane.getScene().getWindow()));
+            stage.setResizable(false);
             stage.show();
         } catch (IOException e) {
             throw new RuntimeException("Error while opening new Window");
