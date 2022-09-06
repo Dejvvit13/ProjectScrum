@@ -135,7 +135,7 @@ public class GameController implements Initializable {
                     if (!currentPickedImageViews.contains(currentImageView)) {
                         currentPickedImageViews.add(currentImageView);
                     }
-                    if (AnimationsUtility.isCardPulsing(currentImageView).get()) {
+                    if (AnimationsUtility.isCardPulsing(currentImageView)) {
                         AnimationsUtility.stopPulseAnimation(currentImageView);
                         currentPickedImageViews.remove(currentImageView);
                         currentImageView = null;

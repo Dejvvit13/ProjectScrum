@@ -9,7 +9,6 @@ import javafx.util.Duration;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class AnimationsUtility {
     protected static Set<Pulse> currentPulsingAnimations = new HashSet<>();
@@ -45,14 +44,9 @@ public class AnimationsUtility {
     }
 
 
-    public static AtomicBoolean isCardPulsing(ImageView currentImageView) {
-        AtomicBoolean result = new AtomicBoolean(false);
-        currentPulsingAnimations.forEach(e -> {
-            if (e.getNode() == currentImageView) {
-                result.set(true);
-            }
-        });
-        return result;
+    public static boolean isCardPulsing(ImageView currentImageView) {
+        return currentPulsingAnimations.stream()
+                .anyMatch(e-> e.getNode().equals(currentImageView));
     }
 
     public static Animation createRotator(ImageView card, Image imageToSet) {
