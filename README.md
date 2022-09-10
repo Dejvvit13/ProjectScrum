@@ -1,6 +1,6 @@
 
 # The Elements Game
-Team project made by using Agile Scrum metodology by three creative Junior Developers in Java
+Team project made by using Agile Scrum methodology by three creative Junior Developers in Java
 
 
 
